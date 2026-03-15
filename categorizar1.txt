@@ -1,0 +1,14 @@
+dataanalyst data analysis, data manipulation, data processing, data cleansing, data validation, data integrity, database management, data reporting, big data analytics, 
+dataanalyst business intelligence, data visualization, data mining, machine learning, statistics, excel, sql, python, r, tableau, hadoop, spark, aws, healthcare, finance,
+dataanalyst marketing, supply chain management, project management, critical thinking, problem-solving, detail-oriented, strong communication skills, team player
+InformationSecurityDataAnalyst cyber security, data analysis, machine learning, big data, malware analysis, threat hunting, insider threat, vulnerability management
+InformationSecurityDataAnalyst threat intelligence, SIEM usage, python, statistical modeling, data validation, data science automation
+LeadDataEngineer data engineering, etl, data pipeline, cloud computing, aws, gcp, azure, big data, data warehousing, sql, nosql, hadoop, spark, kafka, python, java
+LeadDataEngineer microservices architecture, machine learning, data governance, data modeling, data integration, data security, data analytics, agile methodologies
+LeadDataEngineer devops, software development, leadership, mentoring, team management, scala, restful api
+BigDataEngineer technologies and tools, distributed systems experience, data processing skills, programming languages, database and data modeling experience
+BigDataEngineer communication and collaboration skills, big data processing, data pipelines, distributed systems, cloud computing
+BigDataEngineer machine learning, data modeling, etl, data warehousing, cloud infrastructure, big data.
+MarketingDataAnalyst marketing, data analysis, business intelligence, analytics, strategy, SQL, excel, visualization, e-commerce, online travel, forecasting
+MarketingDataAnalyst market research, ROI, insights, automation, problem solving, communication, teamwork, flexibility, adaptability, critical thinking, statistical analysis
+unclassifed hola, adios, a, sumary, overview, summary, description, â,€,™, *, :), hi, bad bunny, bye, benefits, Â­, 

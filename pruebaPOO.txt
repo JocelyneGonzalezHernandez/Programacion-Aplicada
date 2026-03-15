@@ -1,0 +1,88 @@
+unclassifed *** hola. 
+unclassifed *** adios. 
+unclassifed *** a. 
+unclassifed *** sumary. 
+unclassifed *** overview. 
+unclassifed *** summary. 
+unclassifed *** description. â.
+unclassifed *** €.
+unclassifed *** ™.
+unclassifed ***  *. 
+unclassifed *** :). 
+unclassifed *** hi. 
+unclassifed *** bad bunny. 
+unclassifed *** bye. 
+unclassifed *** benefits. 
+unclassifed *** Â­. 
+unclassifed *** hello. 
+unclassifed *** with. 
+unclassifed *** the. 
+unclassifed *** in. 
+unclassifed *** 1. 2. 3. 4. 5 .6.7. 8.9.0.
+unclassifed *** Soy juan
+unclassifed *** me gusta la pizza
+unclassifed *** perrp
+BigDataEngineer *** Big Data Engineer.Design and build data pipelines
+BigDataEngineer *** Expertise in data modeling, ETL development, and data warehousing
+BigDataEngineer *** Experience with distributed systems and scalable data architectures
+BigDataEngineer *** Proficient in programming languages like Python and Java
+BigDataEngineer *** Experience with cloud platforms like AWS, Google Cloud Platform, or Azure
+BigDataEngineer *** Ability to work with large datasets and knowledge of data cleaning/wrangling
+BigDataEngineer ***  Understanding of data visualization and reporting tools
+BigDataEngineer ***  Experience with DevOps and containerization technologies like Kubernetes and Docker
+BigDataEngineer ***  Strong problem-solving and analytical skills
+BigDataEngineer ***  Knowledge of SQL and NoSQL databases
+unclassifed ***  Experience with real-time streaming applications
+BigDataEngineer ***  Familiarity with machine learning algorithms and frameworks
+BigDataEngineer ***  Excellent communication and collaboration skills
+BigDataEngineer ***  Create data tools for analytics and data scientist team members that assist them in building and optimizing our product into an innovative industry.
+BigDataEngineer ***  Collect, clean, and analyze large datasets to identify trends and insights
+MarketingDataAnalyst ***  Expertise in SQL and data visualization tools like Tableau or Power BI
+BigDataEngineer ***  Experience with statistical analysis and modeling techniques
+dataanalyst ***  Ability to communicate complex data findings to non-technical stakeholders
+BigDataEngineer ***  Strong attention to detail and ability to identify data quality issues
+BigDataEngineer ***  Familiarity with data warehousing and ETL processes
+BigDataEngineer ***  Experience with programming languages like R or Python
+BigDataEngineer ***  Ability to work independently and manage multiple projects simultaneously
+MarketingDataAnalyst ***  Understanding of business operations and key performance indicators (KPIs)
+BigDataEngineer ***  Experience with A/B testing and experiment design
+dataanalyst. ***  Ability to work with stakeholders to define project requirements and deliverables
+BigDataEngineer ***  Strong critical thinking and problem-solving skills. analista de datos. analisis.
+dataanalyst ***  data analysis. data manipulation. data processing. data cleansing. data validation. data integrity. database management. data reporting. analytics. 
+dataanalyst ***  business intelligence. data visualization. data mining. machine learning. statistics. excel. sql. python. r. tableau. hadoop. spark. aws. healthcare. finance.
+dataanalyst. ***  supply chain management. project management. critical thinking. problem-solving. detail-oriented. strong communication skills.
+MarketingDataAnalyst ***  Experience in cyber security or machine learning
+MarketingDataAnalyst ***  Practical experience in analytics, machine learning, mathematics/statistical background
+BigDataEngineer ***  Strong written and verbal communication skills. Data security
+unclassifed ***  Highly creative, motivated self-starter
+BigDataEngineer ***  Strong sense of ownership and driven to manage tasks to completion
+MarketingDataAnalyst ***  Experience in data analysis and manipulation using scripting languages like Python
+InformationSecurityDataAnalyst ***  Familiarity with malware, host forensics, or network traffic analysis
+InformationSecurityDataAnalyst ***  Ability to create UBA/UEBA models to identify insider risk
+BigDataEngineer ***  Knowledge of threat vectors and attack methodologies focusing on both internal and external actors
+InformationSecurityDataAnalyst ***  Experience with SIEM usage
+BigDataEngineer ***  Database knowledge (SQL and/or document databases)
+InformationSecurityDataAnalyst ***  Proficiency in statistics such as distributions, predictive modeling, data validation, statistical testing, regression
+MarketingDataAnalyst ***  Graduate degree in Computer Science or Engineering, with a strong quantitative background
+BigDataEngineer ***  Experience with scalable distributed data processing, management, and visualization tools (e.g. Hadoop, Apache Spark)
+unclassifed ***  Expert knowledge of Python
+BigDataEngineer ***  Manage the pipelines that move our data from multiple source systems to the Data Warehouse.
+BigDataEngineer ***  Productionizing of Machine Learning models for both batch mode and also hosts Model-as-a-Service as RESTful services
+MarketingDataAnalyst ***  Manage and build monitoring of technology platform components and measure metric deviations & build a culture of observability within the team
+BigDataEngineer ***  Oversee the release, support production deployment, and build and scale API stack to serve ML model results.
+BigDataEngineer ***  overseeing the development and maintenance of complex data pipelines and infrastructure. 
+LeadDataEngineer ***  senior-level role that involves managing a team of data engineers.
+LeadDataEngineer ***  Represents other Data Engineers. 
+dataanalyst. ***  Build strong partnership with Data Science to understand tools and infrastructure that can be built for model pipelines
+BigDataEngineer ***  Manage predictive model data in the warehouse including tools and infrastructure. Lead data engineer.
+MarketingDataAnalyst ***  Derive insights from large amounts of customer and transactional data to develop segmentations, strategies, visualizations, reports
+MarketingDataAnalyst ***  recommendations for various marketing purposes.marketing. data analysis. business intelligence. market research. marketing data analyst
+MarketingDataAnalyst ***  Develop queries in SAS that create marketing campaigns to optimize profit and produce multi-channel campaign outputs.
+BigDataEngineer ***  Design and evaluate various tests and optimizations of campaigns. marketing methodologies and systems such as segmentation modeling.
+BigDataEngineer ***  Provide campaign analytics to extended team, including insights and recommendations to improve message effectiveness and campaign performance
+BigDataEngineer ***  Delivery and implementation of data strategy, data layer design and tagging plans
+MarketingDataAnalyst ***  Providing general guidance and expertise to our clients as a trusted advisor. Marketing
+MarketingDataAnalyst ***  Experience in a consulting or client services environment
+MarketingDataAnalyst ***  Marketing Automation (Marketo, Pardot, Episerver)
+MarketingDataAnalyst ***  digital marketing space. channel strategies spanning web, email, social and mobile
+MarketingDataAnalyst ***  facebook. instagram. telegram. email. twitter. website. customer.

@@ -1,0 +1,197 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+//Tarea, implementar funcion guardar y leer
+typedef struct def_alumno
+{
+  char nombre[200];
+  float cal1,cal2,cal3,prom;
+  struct def_alumno *sig; //Se apunta a la direccion de la memoria de su misma estructura para no perder la informacion
+
+}tipoalumno;
+
+void Inserta(tipoalumno **Inicio, char nombre[],float cal1,float cal2,float cal3); //**Inicio es doble apuntador por que es parametro tanto de entrada como de salida, si solo se pone un * seria de entrada y cuando termine se pierden los datos capturados lo que manda basura o segmentation fault
+void Imprime(tipoalumno *Inicio); //Solo es de salida
+void borra(tipoalumno **Inicio);
+void calculaprom(tipoalumno *Inicio);//salida, me dara los valores de las calificaiones
+void guardar(tipoalumno *Inicio);
+void leer(tipoalumno **Inicio);
+
+void menu(void);
+
+int main(void)
+{
+  tipoalumno *primero=NULL;
+  int opcion;
+  float c1,c2,c3;
+  char nombre[200];
+  do
+    {
+      menu();
+      scanf("%d",&opcion);
+      switch(opcion)
+        {
+        case 1:
+          {
+            printf("Nombre del alumno: ");
+            __fpurge(stdin);
+            gets(nombre);
+            printf("Dame las calificaciones separadas por comas: ");
+            scanf("%f,%f,%f",&c1,&c2,&c3);
+            Inserta(&primero,nombre,c1,c2,c3);
+          }
+            break;
+          case 2:
+            {
+              Imprime(primero);
+            }
+            break;
+        case 3:
+          {
+            calculaprom(primero);
+          }
+          break;
+        case 4:
+          {
+            guardar(primero);
+          }
+          break;
+        case 5:
+          {
+            leer(&primero);
+          }
+          break;
+        }
+    }while(opcion!=6);
+  borra(&primero);
+}
+void Inserta(tipoalumno **Inicio, char nombre[],float cal1,float cal2,float cal3)
+{
+  tipoalumno *temp;
+  temp=(tipoalumno *)malloc(sizeof(tipoalumno)); //crea el espacion de memoria
+  strcpy((*temp).nombre,nombre);//copia nombre a donde apunta temp con direccion de nombre
+  (*temp).cal1=cal1;
+  (*temp).cal2=cal2;
+  (*temp).cal3=cal3;
+  (*temp).prom=0;
+  *Inicio=temp;  //donde apunta inicio sera temp
+}
+void Imprime(tipoalumno *Inicio)
+{
+  tipoalumno *temp;
+  temp=Inicio;
+  while(temp != NULL)
+    {
+      puts((*temp).nombre);
+      printf("%.2f,%.2f,%.2f promedio: %.2f",(*temp).cal1,(*temp).cal2,(*temp).cal3,(*temp).prom);
+      temp=(*temp).sig;
+    }
+}
+void borra(tipoalumno **Inicio)
+{
+  tipoalumno *temp;
+  temp=*Inicio;
+  while(temp!=NULL)
+    {
+      *Inicio=(*temp).sig;
+      free(temp);
+      temp=*Inicio;
+    }
+}
+void calculaprom(tipoalumno *Inicio)
+{
+  tipoalumno *temp;
+  temp=Inicio;
+  while(temp!=NULL)
+    {
+      (*temp).prom=(*temp).cal1+(*temp).cal2+(*temp).cal3/3;
+      temp=(*temp).sig;
+    }
+}
+void guardar(tipoalumno *Inicio)
+{
+  FILE *archivo;
+  tipoalumno *temp;
+  char nombre_ar[20];
+  int x;
+
+  printf("Como quieres guardar el archivo: ");
+  __fpurge(stdin);
+  gets(nombre_ar);
+  archivo=fopen(nombre_ar,"wt");
+  temp=Inicio;
+  while(temp!=NULL)
+    {
+      fprintf(archivo,"Nombre: %s \n",(*temp).nombre);
+      fprintf(archivo,"\nNombre:%s  Cal 1:%.2f  cal 2:%.2f  cal3:%.2f   promedio:%.2f\n ",(*temp).nombre,(*temp).cal1,(*temp).cal2,(*temp).cal3,(*temp).prom);
+      temp=(*temp).sig;
+    }
+  fclose(archivo);
+}
+void leer(tipoalumno **Inicio)
+{
+  FILE *archivo;
+  char nombre[20],nombreAlu[200];
+  float calA,calB,calC;
+
+  printf("Que archivo buscas: ");
+  __fpurge(stdin);
+  gets(nombre);
+  archivo=fopen(nombre,"rt");
+  while(fgets(nombre,198,archivo)!=NULL)
+    {
+      nombreA(strlen(nombreA)-1='\0';
+      fscanf(archivo,"Nombre: %s\n",nombreAlu);
+      fscanf(archivo,"\nCal 1:%f  cal 2:%f  cal3:%f\n ",&calA,&calB,&calC);
+      Inserta(Inicio,nombreAlu,calA,calB,calC);
+      fclose(archivo);
+    }
+
+}
+void guardarBin(tipoalumno *Inicio)
+{
+  FILE *archivo;
+  char nombre_arch[20];
+  tipoalumno *temp;
+
+  printf("Como quieres guardar el archivo.bin: ");
+  __fpurge(stind);
+  gets(nombre_arch);
+  archivo=fopen(nombre_arch,"wb");
+  temp=Inicio;
+
+  while(temp!=NULL)
+    {
+      fwrite((*temp).nombre,sizeof(char),200,archivo);
+      fwrite((&temp).cal1,sizeof(float),1,archivo);
+      fwrite((&temp).cal2,sizeof(float),1,archivo);
+      fwrite((&temp).cal1,sizeof(float),1,archivo);
+    }
+  fclose(archivo);
+}
+void leerBin(tipoalumno *Inicio)
+{
+  FILE *archivo;
+  char nombreA[200],nombrearchivo[50];
+  float cal1A,cal2A,cal3A;
+
+  printf("Que archivo quieres leer: ");
+  __fpurge(stdin);
+  gets(nombrearchivo);
+  archivo=fopen(nombrearchivo,"rb");
+  while(fgets(nombreA,198,archivo)!=NULL)
+    {
+      nombreA(strlen(nombreA)-1)='\0';
+      fseek(archivo,"%f,%f,%f",&cal1A,&cal2A,&cal3A);
+    }
+}
+void menu(void)
+{
+  printf("1.- Inserta calificaciones\n");
+  printf("2.- Imprime calificaciones\n");
+  printf("3.- Calcula promedios\n");
+  printf("4.- Guardar archivo\n");
+  printf("5.- Leer archivo\n");
+  printf("6.- Salir\n");
+}

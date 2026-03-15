@@ -1,0 +1,99 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define F(t) (pow(t, (3-t)))
+
+void trapecio(float a, float b, float n);
+void punto_medio(float a, float b, float n);
+void punto_izq(float a, float b, float n);
+void punto_der(float a, float b, float n);
+void simpson_1(float a, float b, float n);
+void simpson_2(float a, float b, float n);
+
+int main(void)
+{
+  float A=0.0, B=0.0, N=0.0;
+  printf("\nIngresa el valor del limite 'a': ");
+  scanf("%f", &A);
+  printf("Ingresa el valor del limite 'b': ");
+  scanf("%f", &B);
+  printf("Ingresa el valor de 'n': ");
+  scanf("%f", &N);
+  printf("\n");
+
+  trapecio(A, B, N);
+  punto_medio(A, B, N);
+  punto_izq(A, B, N);
+  punto_der(A, B, N);
+  simpson_1(A, B, N);
+  simpson_2(A, B, N);
+  return 0;
+}
+
+void trapecio(float a, float b, float n)
+{
+  float resultado=0.0, i, difX, x, N2, N3, N4;
+
+  difX=(b-a)/n;
+  for(i=a; i<=(b-difX); i=i+difX)
+    resultado=resultado+((0.5)*(difX)*((F(i))+F((i+difX))));
+  printf("\nTrapecio \tR: %f",resultado);
+}
+
+void punto_medio(float a, float b, float n)
+{
+  float resultado=0.0, i, difX;
+
+  difX=(b-a)/n;
+  for(i=(a+(difX/2)); i<b; i=i+difX)
+    resultado=resultado+((F(i))*difX);
+  printf("\nPunto_Medio \tR: %f",resultado);
+}
+
+void punto_izq(float a, float b, float n)
+{
+  float resultado=0.0, i, difX;
+
+  difX=(b-a)/n;
+  for(i=a; i<b; i=i+difX)
+    resultado=resultado+((F(i))*difX);
+  printf("\nPunto_izq \tR: %f",resultado);
+}
+
+void punto_der(float a, float b, float n)
+{
+  float resultado=0.0, i, difX;
+
+  difX=(b-a)/4;
+  for(i=(a+difX); i<=b; i=i+difX)
+    resultado=resultado+((F(i))*difX);
+  printf("\nPunto_der \tR: %f",resultado);
+}
+
+void simpson_1(float a, float b, float n)
+{
+  float resultado=0.0, i, difX;
+
+  difX=(b-a)/2;
+
+  resultado=F(a);
+  resultado=resultado+(F(b));
+  resultado=resultado+(4*(F((a+b)/2)));
+  resultado=resultado*(difX/3);
+  printf("\nSimpson_1/3 \tR: %f",resultado);
+}
+
+void simpson_2(float a, float b, float n)
+{
+  float resultado=0.0, i, difX;
+
+  difX=(b-a)/3;
+
+  resultado=F(a);
+  resultado=resultado+(F(b));
+  resultado=resultado+(3*(F(((2*a)+b)/3)));
+  resultado=resultado+(3*(F((a+(2*b))/3)));
+  resultado=resultado*((3*difX)/8);
+  printf("\nSimpson_3/8 \tR: %f\n",resultado);
+}

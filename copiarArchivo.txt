@@ -1,0 +1,48 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct datos{
+  int numCarac;
+  int numEspacios;
+  int numVocales;
+  int numCons;
+  int tamArch;
+}DATO;
+
+int contarConsonantes(char *archivo1);
+int contarVocales(char *archivo1);
+int contarCaracteres(char *archivo1);
+int contarEspacios(char *archivo1);
+
+int main (int argc, char *argv[])
+{
+   FILE *fp;
+   FILE *fp2;
+  int i=1;
+  char ch;
+  char opcion;
+  int resultado=0;
+  fp2=fopen("archivo2.txt", "w");
+  fp=fopen("texto.txt","r");
+  if (argv[1][i] == 'n')
+    {
+      //Copia el contenido del archivo caracter a caracter
+    ch = fgetc(fp);
+    while (ch != EOF)
+    {
+        /* Lo escribe en el de destino */
+        fputc(ch, fp2);
+
+        /* Lee el siguiente caracter del archivo destino*/
+        ch = fgetc(fp);
+    }
+    resultado=ch;
+    fprintf(fp2, "El archivo se ha copiado!!\n");    //printf("%d\n", resultado);
+    }
+    /* Se cierran los archivos*/
+    fclose(fp);
+    fclose(fp2);
+
+    
+}

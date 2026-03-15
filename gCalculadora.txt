@@ -1,0 +1,717 @@
+#Makefile del programa
+gCalculadora: principal.o archivo.o herramientas.o ayuda.o
+        gcc -Wall -o gCalculadora principal.o archivo.o herramientas.o ayuda.o  `pkg-config --libs gtk+-2.0`
+
+principal.o: principal.c
+        gcc -g -c principal.c `pkg-config --cflags gtk+-2.0`
+
+archivo.o: archivo.c
+        gcc -g -c archivo.c `pkg-config --cflags gtk+-2.0`
+
+herramientas.o: herramientas.c
+        gcc -g -c herramientas.c `pkg-config --cflags gtk+-2.0`
+
+ayuda.o: ayuda.c
+        gcc -g -c ayuda.c `pkg-config --cflags gtk+-2.0`
+
+clean:
+        rm *.o
+
+
+/*********************local.h***********************/
+/******************************************************************************
+ *
+ * Modulo local.h
+ * Engloba todas las librerias y estructura a utilizar en todo el
+ * programa
+ *
+ *****************************************************************************/
+#include<gtk/gtk.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<time.h>
+typedef struct node{
+  GtkWidget *entrybox;
+  float Numero;
+  char Operacion [3];
+} Nodo;
+
+/**************************************************************principal.h**************************************/
+
+/***************************************************************************************
+ *
+ * PROYECTO FINAL
+ * El programa es una calculadora en GTK que raliza diversas operaciones y funciones
+ * Autores: Alonso Cabezut / Isaac Gutierrez / Monica Vergara
+ * Universidad Iberoamericana
+ * Programacion Aplicada
+ * Otono 2020
+ *
+ ***************************************************************************************/
+#include "local.h"
+extern void abrir(GtkWidget *widget, gpointer user_data);
+extern void cerrar(GtkWidget *widget, gpointer user_data);
+extern void salir(GtkWidget *object, gpointer user_data);
+extern void factorial(GtkWidget *widget, gpointer user_data);
+extern void potencia(GtkWidget *widget, gpointer user_data);
+extern void ayuda(GtkWidget *widget, gpointer user_data);
+extern void acercaDe(GtkWidget *widget, gpointer user_data);
+void operaciones(GtkButton *button, gpointer data);
+void Clickboton(GtkButton *button, gpointer data);
+void salir(GtkWidget *object, gpointer user_data);
+void DetenerApp (GtkWidget *window, gpointer data);
+GtkWidget *AgregarBoton (GtkWidget *theBox, const gchar *buttonText, gpointer CallBackFunction, GtkWidget *EntryBox);
+GtkWidget *AgregarBotonNaranja (GtkWidget *theBox, const gchar *buttonText, gpointer CallBackFunction, GtkWidget *EntryBox);
+GtkWidget *AgregarBotonGris(GtkWidget *theBox, const gchar *buttonText, gpointer CallBackFunction, GtkWidget *EntryBox);
+void ClickNumero (GtkButton *button, gpointer data);
+void ClickOperacion(GtkButton *button, gpointer data);
+void ClickCE(GtkButton *button, gpointer data);
+void ClickC(GtkButton *button, gpointer data);
+void ClickMS(GtkButton *button, gpointer data);
+void ClickM_mas(GtkButton *button, gpointer data);
+void ClickM_menos(GtkButton *button, gpointer data);
+void ClickMR(GtkButton *button, gpointer data);
+void ClickMC(GtkButton *button, gpointer data);
+void ClickResultado(GtkButton *button, gpointer data);
+void HacerNada (GtkToggleButton *button, gpointer data);
+void memoria(gchar *nueva);
+//inicio del programa
+gint main ( gint argc, gchar *argv[])
+{
+  //declaro variables necesarias a utilizar para ventanas y pestanyas
+  GtkWidget *ventana;
+  GtkWidget *boton;
+  GtkWidget *cajah, *subcajah, *grancajah;
+  GtkWidget *cajav, *cajav2, *grancajav;
+  GtkWidget *cajae;
+  GtkWidget *root_menu;
+  GtkWidget *menu_bar;
+  GtkWidget *op1, *op2, *op3;
+  GtkWidget *menu;
+  GtkWidget *rb1, *rb2;
+  GtkWidget *label;
+  //Inicialización del ambiente
+  gtk_init(&argc, &argv);
+  //Definir variables
+  ventana = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_container_border_width(GTK_CONTAINER(ventana), 0);
+
+  grancajah = gtk_hbox_new (FALSE, 0);
+  grancajav = gtk_vbox_new (FALSE, 0);
+  cajav = gtk_vbox_new(TRUE,0);
+  cajav2 = gtk_vbox_new(FALSE,0);
+
+  cajae = gtk_entry_new();
+
+  menu_bar = gtk_menu_bar_new ();
+  //Opciones de la primera pestaña
+  menu = gtk_menu_new ();
+  op1 = gtk_menu_item_new_with_label ("Abrir");
+  op2 = gtk_menu_item_new_with_label ("Cerrar");
+  op3 = gtk_menu_item_new_with_label ("Salir");
+
+  //Se anyaden a la barra de menu
+  gtk_menu_append (GTK_MENU (menu), op1);
+  gtk_menu_append (GTK_MENU (menu), op2);
+  gtk_menu_append (GTK_MENU (menu), op3);
+
+  //Conectar opciones a las funciones
+  gtk_signal_connect (GTK_OBJECT (op1), "activate", GTK_SIGNAL_FUNC (abrir), cajae);
+  gtk_signal_connect (GTK_OBJECT (op2), "activate", GTK_SIGNAL_FUNC (cerrar), NULL);
+  gtk_signal_connect (GTK_OBJECT (op3), "activate", GTK_SIGNAL_FUNC (salir), NULL);
+
+  root_menu = gtk_menu_item_new_with_label ("Archivo");//Pestaña 1
+
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (root_menu), menu);
+
+  gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), root_menu);
+
+  //Opciones de la segunda pestanya
+  menu = gtk_menu_new ();
+  op1 = gtk_menu_item_new_with_label ("Factorial");
+  op2 = gtk_menu_item_new_with_label ("Potencia");
+
+  //Conectar opciones a las funciones
+  gtk_signal_connect (GTK_OBJECT (op1), "activate", GTK_SIGNAL_FUNC (factorial), NULL);
+  gtk_signal_connect (GTK_OBJECT (op2), "activate", GTK_SIGNAL_FUNC (potencia), NULL);
+
+  //Se anyaden a la barra de menu
+  gtk_menu_append (GTK_MENU (menu), op1);
+  gtk_menu_append (GTK_MENU (menu), op2);
+
+  root_menu = gtk_menu_item_new_with_label ("Herramientas"); //Pestanya 2
+
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (root_menu), menu);
+
+  gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), root_menu);
+
+  //Opciones de pestanya 3
+  menu = gtk_menu_new ();
+  op1 = gtk_menu_item_new_with_label ("Ayuda");
+  op2 = gtk_menu_item_new_with_label ("Acerca de");
+
+  //Conectar opciones a las funciones
+  gtk_signal_connect (GTK_OBJECT (op1), "activate", GTK_SIGNAL_FUNC (ayuda), NULL);
+  gtk_signal_connect (GTK_OBJECT (op2), "activate", GTK_SIGNAL_FUNC (acercaDe), NULL);
+
+  //Se anyaden a la barra de menu
+  gtk_menu_append (GTK_MENU (menu), op1);
+  gtk_menu_append (GTK_MENU (menu), op2);
+
+  root_menu = gtk_menu_item_new_with_label ("Ayuda"); //Pestanya 3
+
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (root_menu), menu);
+
+  gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), root_menu);
+
+  gtk_box_pack_start(GTK_BOX(grancajav),menu_bar,FALSE,FALSE,0);
+
+  gtk_box_pack_start(GTK_BOX(cajav),cajae,TRUE,TRUE,5);
+
+  //Se establecen botones de la primera fila
+  cajah = gtk_hbox_new(TRUE,5);
+  boton = AgregarBotonNaranja (cajah, "M+", ClickM_mas, cajae);
+  boton = AgregarBotonNaranja (cajah, "!", ClickOperacion, cajae);
+  boton = AgregarBotonNaranja (cajah, "P", ClickOperacion, cajae);
+  gtk_box_pack_start(GTK_BOX(cajav),cajah,TRUE,TRUE,5);
+
+  //Se establecen botones de la segunda fila
+  cajah = gtk_hbox_new(TRUE,5);
+  boton = AgregarBotonNaranja (cajah, "M-", ClickM_menos, cajae);
+  boton = AgregarBoton (cajah, "7", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "8", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "9", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "/", ClickOperacion, cajae);
+  gtk_box_pack_start(GTK_BOX(cajav),cajah,TRUE,TRUE,5);
+
+  //Se establecen botones de la tercera fila
+  cajah = gtk_hbox_new(TRUE,5);
+  boton = AgregarBotonNaranja (cajah, "MR", ClickMR, cajae);
+  boton = AgregarBoton (cajah, "4", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "5", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "6", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "*", ClickOperacion, cajae);
+  gtk_box_pack_start(GTK_BOX(cajav),cajah,TRUE,TRUE,5);
+
+  //Se establecen botones de la cuarta fila
+  cajah = gtk_hbox_new(TRUE,5);
+  boton = AgregarBotonNaranja (cajah, "MS", ClickMS, cajae);
+  boton = AgregarBoton (cajah, "1", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "2", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "3", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "-", ClickOperacion, cajae);
+  gtk_box_pack_start(GTK_BOX(cajav),cajah,TRUE,TRUE,5);
+
+  //Se establecen botones de la quinta fila
+  cajah = gtk_hbox_new(TRUE,5);
+  boton = AgregarBotonNaranja (cajah, "MC", ClickMC, cajae);
+  boton = AgregarBoton (cajah, "0", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, ".", ClickNumero, cajae);
+  boton = AgregarBoton (cajah, "+", ClickOperacion, cajae);
+  boton = AgregarBoton (cajah, "=", ClickResultado, cajae);
+  gtk_box_pack_start(GTK_BOX(cajav),cajah,TRUE,TRUE,5);
+
+  gtk_box_pack_start (GTK_BOX (grancajah), cajav, TRUE, TRUE, 10);
+
+  gtk_box_pack_start (GTK_BOX (grancajah), cajav2, TRUE, TRUE, 15);
+
+  gtk_box_pack_start (GTK_BOX (grancajav), grancajah, TRUE, TRUE, 5);
+
+  gtk_signal_connect(GTK_OBJECT(ventana),"destroy",GTK_SIGNAL_FUNC(DetenerApp),NULL);
+
+  gtk_container_add(GTK_CONTAINER(ventana), grancajav);
+
+  //Se muestran los elemntos de la ventana general
+  gtk_widget_show_all(ventana);
+  gtk_main();
+  return 0;
+}
+/******************************************************************************
+ *
+ * Funcion Detener App
+ * Se cierra la ventana para salir
+ *
+ *****************************************************************************/
+void DetenerApp(GtkWidget *window, gpointer data)
+{
+  gtk_main_quit();
+}
+/******************************************************************************
+ *
+ * Funcion Agregar boton
+ * Configurar los botones para que funcionen al dar click
+ *
+ *****************************************************************************/
+GtkWidget *AgregarBoton(GtkWidget *theBox, const gchar *buttonText, gpointer CallBackFunction, GtkWidget *EntryBox)
+{
+  GtkWidget *button;
+  button = gtk_button_new_with_label(buttonText);
+  gtk_box_pack_start(GTK_BOX(theBox),button,FALSE,TRUE,0);
+  gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(CallBackFunction),EntryBox);
+  gtk_widget_show(button);
+  return button;
+}
+/******************************************************************************
+ *
+ * Funcion AgregarBotonNaranja
+ * Configurar los botones que sean de color naranja
+ *
+ *****************************************************************************/
+GtkWidget *AgregarBotonNaranja(GtkWidget *theBox, const gchar *buttonText, gpointer CallBackFunction, GtkWidget *EntryBox)
+{
+  GtkWidget *button;
+  GdkColor color;
+  gdk_color_parse ("#F19936", &color);
+  button = gtk_button_new_with_label(buttonText);
+  gtk_widget_modify_bg (button, GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg (button, GTK_STATE_PRELIGHT, &color);
+  gtk_box_pack_start(GTK_BOX(theBox),button,FALSE,TRUE,0);
+  gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(CallBackFunction),EntryBox);
+  gtk_widget_show(button);
+  return button;
+}
+/******************************************************************************
+ *
+ * Funcion AgregarBotonGris
+ * Configurar los botones que sean de color gris
+ *
+ *****************************************************************************/
+GtkWidget *AgregarBotonGris(GtkWidget *theBox, const gchar *buttonText, gpointer CallBackFunction, GtkWidget *EntryBox)
+{
+  GtkWidget *button;
+  GdkColor color;
+  gdk_color_parse ("#727272", &color);
+  button = gtk_button_new_with_label(buttonText);
+  gtk_widget_modify_bg (button, GTK_STATE_NORMAL, &color);
+  gtk_widget_modify_bg (button, GTK_STATE_PRELIGHT, &color);
+  gtk_box_pack_start(GTK_BOX(theBox),button,FALSE,TRUE,0);
+  gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(CallBackFunction),EntryBox);
+  gtk_widget_show(button);
+  return button;
+}
+/******************************************************************************
+ *
+ * Funcion ClickNumero
+ * Configurar los botones que se meusren en la pantalla de la
+ * calculadora al dar click
+ *
+ *****************************************************************************/
+void ClickNumero(GtkButton *button, gpointer data)
+{
+  char Numero[3];
+  strcpy (Numero, gtk_button_get_label (button));
+  gtk_entry_append_text(GTK_ENTRY(data), Numero);
+}
+/******************************************************************************
+ *
+ * Funcion ClickOperacion
+ * Acoplar los botones de signos de operaciones a la calculadora para
+ * realizar la operacion correspondiente
+ *
+ *****************************************************************************/
+void ClickOperacion(GtkButton *button, gpointer data)
+{
+  Nodo *datos=(Nodo *)data;
+  char Numero [10];
+  const gchar *Entrada;
+  Entrada = gtk_entry_get_text (GTK_ENTRY (data));
+  strcpy (Numero, Entrada);
+  datos -> Numero = atof (Numero);
+  strcpy (datos -> Operacion, gtk_button_get_label (button));
+  gtk_entry_set_text(GTK_ENTRY(data), "");
+}
+/******************************************************************************
+ *
+ * Funcion ClickCE
+ * Configurar la entrada de la calculadora para que sea posible
+ * ingresar numeros y signos
+ *
+ *****************************************************************************/
+void ClickCE(GtkButton *button, gpointer data)
+{
+  gtk_entry_set_text(GTK_ENTRY(data), "");
+}
+/******************************************************************************
+ *
+ * Funcion ClickC
+ * Esta función sirve para ingresar los numeros a la calculadora y
+ * sobre todo, se muestren en la pantalla de ésta
+ *
+ *****************************************************************************/
+void ClickC(GtkButton *button, gpointer data)
+{
+  char NuevaEntrada [50];
+  const gchar *Entrada;
+  Entrada = gtk_entry_get_text (GTK_ENTRY (data));
+  strcpy (NuevaEntrada, Entrada);
+  NuevaEntrada [strlen (NuevaEntrada) - 1] = '\0';
+  gtk_entry_set_text (GTK_ENTRY (data), NuevaEntrada);
+}
+/**********************************************************************************************
+ *
+ * Funcion ClickResultado
+ * Esta función realiza los cuatro tipos e operacion(suma, resta, multilicacion, division),
+ * acorde a lo que el usuario teclee
+ *
+ *********************************************************************************************/
+void ClickResultado(GtkButton *button, gpointer data)
+{
+  Nodo *datos=(Nodo *)data;
+  float Numero2, Resultado;
+  int i,Num1, Num2;
+  float exp;
+  char CadenaResultado [20], TempEntrada [20];
+  const gchar *Entrada;
+  FILE *fp;
+  time_t t;
+  struct tm *tm;
+  char fecha_hora[50];
+  Entrada = gtk_entry_get_text (GTK_ENTRY (data));
+  strcpy (TempEntrada, Entrada);
+  Numero2 = atof (TempEntrada);
+  switch (datos -> Operacion [0])
+  {
+    case '+':
+    Resultado = datos -> Numero + Numero2;
+    break;
+    case '-':
+    Resultado = datos -> Numero - Numero2;
+    break;
+    case '/':
+    Resultado = datos -> Numero / Numero2;
+    break;
+    case '*':
+    Resultado = datos -> Numero * Numero2;
+    break;
+    case '!':
+      Resultado=1;
+      for(i=1; i<=datos->Numero; ++i)
+      {
+        Resultado = Resultado*i;
+      }
+    break;
+    case 'P':
+      Resultado=1;
+      for(exp=Numero2; exp>0; exp--)
+      {
+        Resultado=Resultado*(datos->Numero);
+      }
+    break;
+  }
+  sprintf (CadenaResultado, "%.2f", Resultado);
+  gtk_entry_set_text (GTK_ENTRY (data), CadenaResultado);
+        fp=fopen("operaciones.txt", "a");
+
+  t=time(NULL);
+  tm=localtime(&t);
+  strftime(fecha_hora, 50, "%d/%m/%Y-%I:%M:%S", tm);
+
+        fprintf(fp,"\n%f %s %f = %.3f %s", datos->Numero, datos->Operacion, Numero2, Resultado,fecha_hora);
+        fclose(fp);
+}
+/******************************************************************************
+ *
+ * Funcion ClickMS
+ * Esta funcion establece que el boton MS almacene en la memoria
+ * el numero que se tecleo en la calculadora
+ *
+ *****************************************************************************/
+void ClickMS(GtkButton *button, gpointer data)
+{
+    Nodo *datos=(Nodo *)data;
+    const gchar *original;
+    gchar nueva[100];
+    original = gtk_entry_get_text(GTK_ENTRY(data));
+    strcpy(nueva, original);
+    memoria(nueva);
+
+}
+/******************************************************************************
+ *
+ * Funcion ClickM_mas
+ * Esta funcion establece que el boton M+ sume el numero almacenado
+ * en la memoria
+ *
+ *****************************************************************************/
+void ClickM_mas(GtkButton *button, gpointer data)
+{
+    Nodo *datos=(Nodo *)data;
+    const gchar *original;
+    gchar nueva[100], lectura[100], operacion[100];
+    gfloat res,org,resultado;
+    original = gtk_entry_get_text(GTK_ENTRY(data));
+    strcpy(nueva, original);
+    FILE *fp;
+    fp=fopen("memoria.txt","r");
+    if(fp==NULL){
+        memoria(nueva);
+    }
+    else{
+        fgets(lectura,100,fp);
+        res=atof(lectura);
+        org=atof(original);
+        resultado=res+org;
+        sprintf(lectura,"%f",resultado);
+        sprintf(operacion, "%f+%f",res,org);
+        gtk_entry_set_text(GTK_ENTRY(data),lectura);
+        memoria(lectura);
+        fclose(fp);
+    }
+    return;
+}
+/******************************************************************************
+ *
+ * Funcion ClickM_menos
+ * Esta funcion establece que el boton M- reste el numero almacenado
+ * en la memoria
+ *
+ *****************************************************************************/
+void ClickM_menos(GtkButton *button, gpointer data)
+{
+    Nodo *datos=(Nodo *)data;
+    const gchar *original;
+    gchar nueva[100], lectura[100], operacion[100];
+    gfloat res,org,resultado;
+    original = gtk_entry_get_text(GTK_ENTRY(data));
+    strcpy(nueva, original);
+    FILE *fp;
+    fp=fopen("memoria.txt","r");
+    if(fp==NULL){
+        memoria(nueva);
+    }
+    else{
+        fgets(lectura,100,fp);
+        res=atof(lectura);
+        org=atof(original);
+        resultado=res-org;
+        sprintf(lectura,"%f",resultado);
+        sprintf(operacion, "%f-%f",res,org);
+        gtk_entry_set_text(GTK_ENTRY(data),lectura);
+        memoria(lectura);
+        fclose(fp);
+    }
+    return;
+}
+/******************************************************************************
+ *
+ * Funcion ClickMR
+ * Esta funcion establece que el boton MR limpie la pantalla
+ * de la calculadora
+ *
+ *****************************************************************************/
+void ClickMR(GtkButton *button, gpointer data)
+{
+    Nodo *datos=(Nodo *)data;
+    gchar lectura[100],nueva[100];
+    FILE *fp;
+    fp=fopen("memoria.txt","r");
+    if(fp==NULL){
+        memoria(nueva);
+    }
+    else{
+        fgets(lectura,100,fp);
+        gtk_entry_set_text(GTK_ENTRY(data), lectura);
+        fclose(fp);
+    }
+    return;
+}
+/******************************************************************************
+ *
+ * Funcion ClickMC
+ * Esta funcion establece que el boton MC elimine todo lo que se almaceno
+ * en la memoria
+ *
+ *****************************************************************************/
+void ClickMC(GtkButton *button, gpointer data)
+{
+  if(remove("memoria.txt")==0){
+        printf("Archivo eliminado\n");
+    }
+    else{
+        printf("NO es posible eliminar el archivo\n");
+    }
+    return;
+}
+/******************************************************************************
+ *
+ * Funcion memoria
+ * Esta funcion sirve para cerar el archivo donde se almacenan
+ * los operadores con el boton MS
+ *
+ *****************************************************************************/
+void memoria(gchar *nueva){
+    FILE *fp;
+    fp = fopen("memoria.txt","w");
+    fputs(nueva,fp);
+    fclose(fp);
+}
+void HacerNada (GtkToggleButton *button, gpointer data)
+{
+}
+
+/********************************************************************************************************herramientas.c****************************************/
+#include "local.h"
+/*****************************************************************************
+ *
+ * Funcion factorial
+ * Realiza el factorial de un número
+ * Recibe: button y data
+ * Regresa: no regresa ningún valor
+ *
+ ****************************************************************************/
+void factorial(GtkButton *button, gpointer data)
+{
+
+}
+/*****************************************************************************
+ *
+ * Funcion potencia
+ * Realiza la potencia de un número ingresando base y exponente
+ * Recibe: button y data
+ * Regresa: no regresa ningún valor
+ *
+ ****************************************************************************/
+void potencia(GtkWidget *widget, gpointer user_data)
+{
+
+}
+
+/***************************************************************************ayuda.c*******************************************************/
+#include "local.h"
+/******************************************************************************
+ *
+ * Funcion ayuda
+ * Muestra en una ventana nueva manual de ayuda sobre cómo usar la calculadora
+ * Recibe: widget y user_data
+ * Regresa: no regresa ningún valor
+ *
+ *****************************************************************************/
+void ayuda(GtkWidget *widget, gpointer user_data)
+{
+  GtkWidget *caja_ayuda, *label_ayuda, *ventana_ayuda;
+
+  ventana_ayuda=gtk_dialog_new();
+
+  caja_ayuda=gtk_vbox_new(FALSE, 10);
+
+  label_ayuda=gtk_label_new("Bienvenid@ al manual de usuario\n"
+                            "Para realizar una operaciones, ingresa los datos en el siguiente orden:\n"
+                            "   1. Primer número\n"
+                            "   2. Signo de operación a realizar\n"
+                            "   3. Segundo número\n"
+                            "   4. Signo de igual\n"
+                            "Si deseas limpiar la pantalla de la calculadora, dale click en el botón CE\n"
+                            "Si deseas guardar un numero en pantalla, dale click en el botón MS\n"
+                            "Si deseas sumar un número al número almacenado en la memoria, dale click en el botón M+ e ingresa el siguiente número\n"
+                            "Si deseas restar un número al número almacenado en la memoria, dale click en el botón M- e ingresa el siguiente número\n"
+                            "Si deseas limpiar la memoria, dale click en el botón MC\n"
+                            "Si deseas imprimir el número en la memoria, dale click en MR\n"
+                            "Para abrir el archivo de texto con todas las operaciones registradas, dirígete a la pestaña Archivo y dale click en Abrir\n"
+                            "Para salir del programa, dirígete a la pestaña Archivo y dale click en Salir o dale click directamente en la cruz roja de la ventana\n"
+                            "Para abrir la información acerca de los programadores, dirígete a la pestaña Ayuda y dale click en Acerca de\n"
+                            "Para obtener el factorial de un número:\n"
+                            "   1. Teclea UN SOLO NUMERO\n"
+                            "   2. Teclea la tecla de !\n"
+                            "   3. Teclea el signo de =\n"
+                            "Para obtener la potencia de un número:\n"
+                            "   1. Teclea la base\n"
+                            "   2. Teclea la tecla de P\n"
+                            "   3. Teclea el exponente\n"
+                            "   4. Teclea el signo de =\n");
+
+
+  gtk_widget_set_usize(ventana_ayuda, 500, 500);
+  gtk_window_set_title(GTK_WINDOW(ventana_ayuda), "Ayuda");
+  gtk_window_set_modal(GTK_WINDOW(ventana_ayuda), TRUE);
+
+
+  gtk_box_pack_start_defaults(GTK_BOX(caja_ayuda), label_ayuda);
+  gtk_box_pack_start_defaults(GTK_BOX(GTK_DIALOG(ventana_ayuda)->vbox), caja_ayuda);
+
+  gtk_widget_show_all(ventana_ayuda);
+
+}
+/******************************************************************************
+ *
+ * Funcion acerdaDe
+ * Muestra en una ventana nueva infromacion sobre los programadores
+ * Recibe: widget y user_data
+ * Regresa: no regresa ningún valor
+ *
+ *****************************************************************************/
+void acercaDe(GtkWidget *widget, gpointer user_data)
+{
+  GtkWidget *caja_acercaDe, *label_acercaDe, *ventana_acercaDe;
+
+  ventana_acercaDe=gtk_dialog_new();
+
+  caja_acercaDe=gtk_vbox_new(FALSE, 10);
+
+  label_acercaDe=gtk_label_new("Este programa ha sido desarrollado por:\n\nCabezut Portilla Alonso\nGutierrez Mendez Isaac\nVergara Mendoza Monica Ivette\n\nSemestre: 3°\nCarrera: Ingeniería en tecnologías de cómputo y telecomunicaciones\n\nAsignatura: Programación Aplicada\nAsignatura impartida por: Andrés Tortolero Baena\n\nUniversidad Iberoamericana\nOtoño 2020");
+
+  gtk_widget_set_usize(ventana_acercaDe, 400, 400);
+  gtk_window_set_title(GTK_WINDOW(ventana_acercaDe), "Acerca De");
+  gtk_window_set_modal(GTK_WINDOW(ventana_acercaDe), TRUE);
+
+
+  gtk_box_pack_start_defaults(GTK_BOX(caja_acercaDe), label_acercaDe);
+  gtk_box_pack_start_defaults(GTK_BOX(GTK_DIALOG(ventana_acercaDe)->vbox), caja_acercaDe);
+
+  gtk_widget_show_all(ventana_acercaDe);
+}
+/*********************************************************************************archivo.c******************************************************************/
+#include "local.h"
+/*****************************************************************************
+ *
+ * Funcion abrir
+ * Abre el archivo de texto con operacione registradas en una nueva ventana
+ * Recibe: widget y user_data
+ * Regresa: no regresa ningún valor
+ *
+ ****************************************************************************/
+void abrir(GtkWidget *widget, gpointer user_data)
+{
+    GtkWidget *ventanaRegistro,*etiqueta1,*vBox;
+
+    ventanaRegistro = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    vBox = gtk_vbox_new(TRUE, 2);
+    FILE *fp;
+    char cadena[100];
+    fp= fopen("operaciones.txt","r");
+    while(fgets(cadena,100,fp)!=NULL){
+        etiqueta1 = gtk_label_new(cadena);
+        gtk_window_set_title(GTK_WINDOW(ventanaRegistro), "Registro de Operaciones");
+        gtk_widget_set_usize(ventanaRegistro, 400, 400);
+        gtk_box_pack_start_defaults(GTK_BOX(vBox), etiqueta1);
+    }
+    fclose(fp);
+    gtk_container_add(GTK_CONTAINER(ventanaRegistro), vBox);
+    gtk_widget_show_all(ventanaRegistro);
+}
+/********************************************************************************
+ *
+ * Funcion cerrar
+ * Cierra el archivo de texto con operacione registradas en una nueva ventana
+ * Recibe: widget y user_data
+ * Regresa: no regresa ningún valor
+ *
+ *******************************************************************************/
+void cerrar(GtkWidget *widget, gpointer user_data)
+{
+    FILE *fp;
+    fp=fopen("operaciones.txt", "r");
+    fclose(fp);
+}
+/********************************************************************
+ *
+ * Funcion salir
+ * Se sale completamente del programa
+ * Recibe: widget y user_data
+ * Regresa: no regresa ningún valor
+ *
+ *********************************************************************/
+void salir(GtkWidget *widget, gpointer user_data)
+{
+    gtk_main_quit();
+}

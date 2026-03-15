@@ -1,0 +1,1403 @@
+
+// 1 derivada
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+//#define F(t) (pow((((3*(t))-1)/(((t)*(t))+3)),2))
+#define F(t) (2*pow((t), 5))
+
+double dPro(double x, double h)
+{
+  float res;
+  res=((F(x+h))-(F(x)))/(h);
+  return res;
+}
+
+double dCen(double x, double h)
+{
+  float res;
+  res=((F(x+h))-(F(x-h)))/(2*h);
+  return res;
+}
+
+double dReg(double x, double h)
+{
+  float res;
+  res=((F(x))-(F(x-h)))/(h);
+  return res;
+}
+
+
+int main()
+{
+  double a=2;
+  double h= 0.001;
+
+  cout<<"Progresiva\t x=2: "<<dPro(a,h)<<endl;
+  cout<<"Regresiva\t x=2: "<<dReg(a,h)<<endl;
+  cout<<"Cenral   \t x=2: "<<dCen(a,h)<<endl;
+
+  return 0;
+}
+
+
+
+
+// 2da derivada
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+//#define F(t) (pow((((3*(t))-1)/(((t)*(t))+3)),2))
+#define F(t) (2*pow((t), 5))
+
+
+double dPro(double x, double h)
+{
+  float res;
+  res=((F(x+h+h))-(2*(F(x+h)))+(F(x)))/(h*h);
+  return res;
+}
+
+double dCen(double x, double h)
+{
+  float res;
+  res=((F(x+h+h))-(2*(F(x)))+(F(x-h-h)))/(4*h*h);
+  return res;
+}
+
+double dReg(double x, double h)
+{
+  float res;
+  res=((F(x))-(2*(F(x-h)))+(F(x-h-h)))/(h*h);
+  return res;
+}
+
+
+int main()
+{
+  double a=2;
+  double h= 0.001;
+  cout<<"Progresiva\t x=2: "<<dPro(a,h)<<endl;
+  cout<<"Regresiva\t x=2: "<<dReg(a,h)<<endl;
+  cout<<"Cenral   \t x=2: "<<dCen(a,h)<<endl;
+
+  return 0;
+}
+
+
+
+// DerivadasFORM
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define F(t) (2*(pow((t), 5)))
+
+double f1(double x, double h);
+double f2(double x, double h);
+double f3(double x, double h);
+
+int main()
+{
+  double a=2;
+  double h= 0.001;
+  cout<<"1D Cenral   \t x=2: "<<f1(a,h)<<endl;
+  cout<<"2D Cenral   \t x=2: "<<f2(a,h)<<endl;
+  cout<<"3D Cenral   \t x=2: "<<f3(a,h)<<endl;
+
+  return 0;
+}
+
+double f1(double x, double h)
+{
+  float res;
+  res=((F(x+h))-(F(x-h)))/(2*h);
+  return res;
+}
+double f2(double x, double h)
+{
+  float res;
+  res=((F(x+h+h))-(2*(F(x)))+(F(x-h-h)))/(4*h*h);
+  return res;
+}
+double f3(double x, double h)
+{
+  double res;
+  res=((F(x+h+h+h))-(3*(F(x+h)))+(3*(F(x-h)))-(F(x-h-h-h)))/(8*h*h*h);
+  return res;
+}
+
+
+
+// DerivadasFunc
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define F(t) (2*(pow((t), 5)))
+
+double f1(double x, double h);
+double f2(double x, double h);
+double f3(double x, double h);
+double f4(double x, double h);
+double f5(double x, double h);
+
+int main()
+{
+  double a=2;
+  double h= 0.006;
+  cout<<"1D Central   \t x=2: "<<f1(a,h)<<endl;
+  cout<<"2D Central   \t x=2: "<<f2(a,h)<<endl;
+  cout<<"3D Central   \t x=2: "<<f3(a,h)<<endl;
+  cout<<"4D Central   \t x=2: "<<f4(a,h)<<endl;
+  cout<<"5D Central   \t x=2: "<<f5(a,h)<<endl;
+  return 0;
+}
+
+double f1(double x, double h)
+{
+  double res;
+  res=((F(x+h))-(F(x-h)))/(2*h);
+  return res;
+}
+double f2(double x, double h)
+{
+  double res;
+  res=(f1(x+h, h)-f1(x-h, h))/(2*h);
+  return res;
+}
+double f3(double x, double h)
+{
+  double res;
+  res=(f2(x+h, h)-f2(x-h, h))/(2*h);
+  return res;
+}
+double f4(double x, double h)
+{
+  double res;
+  res=(f3(x+h, h)-f3(x-h, h))/(2*h);
+  return res;
+}
+double f5(double x, double h)
+{
+  double res;
+  res=(f4(x+h, h)-f4(x-h, h))/(2*h);
+  return res;
+}
+
+
+
+// DerivadasRECU
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define F(t) (cos(t))
+
+double f(double x, double h, int der);
+
+int main()
+{
+  double a=(3.14159/4);
+  //0.006
+  double h= 0.006;
+  int der;
+  cout<<"Indica cúal derivada desea encontrar: "<<endl;
+  scanf("%d", &der);
+  cout<<"D"<<der<<" Cenral   \t = : "<<f(a,h, der)<<endl;
+  return 0;
+}
+
+double f(double x, double h, int der)
+{
+  double res;
+  if(der==1)
+    {
+      res=((F(x+h))-(F(x-h)))/(2*h);
+      return res;
+    }
+  else
+    {
+      res=(f(x+h, h, der-1)-f(x-h, h, der-1))/(2*h);
+      return res;
+    }
+}
+
+
+
+// DerParcial
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define h 0.006
+
+double F(double x, double y);
+double fx(double x, double y);
+double fy(double x, double y);
+
+int main()
+{
+  double x=1, y=1;
+  cout<<"D fx: "<<fx(x, y)<<endl;
+  cout<<"D fy: "<<fx(x, y)<<endl;
+  return 0;
+}
+
+double fx(double x, double y)
+{
+  double res;
+  res=F(x+h, y);
+  res=res-(F(x-h, y));
+  res=res/(2*h);
+  return res;
+}
+double fy(double x, double y)
+{
+  double res;
+  res=F(x, y+h);
+  res=res-(F(x, y-h));
+  res=res/(2*h);
+  return res;
+}
+
+double F(double x, double y)
+{
+  return ((x*x)+(x*y)+(y*y));
+}
+
+
+// EXAMEN 2 ////////////////////
+
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 1
+
+double F(double x, double y);/*Funcion derivada*/
+double Euler(double h);/*Funcion*/
+
+int main(void)
+{
+  Euler(0.1);
+  Euler(0.05);
+}
+
+double F(double x, double y)
+{
+  //return (x+(2*x*y));
+  return (((-2)*y*y)+(x*y)+(x*x));
+}
+double Euler(double h)
+{
+  double Xo, Yo, X1, Yp, Yc, i;
+  Xo=Xi;
+  Yo=Yi;
+  cout<<setprecision(5);
+  cout<<Xi<<"\t"<<Yi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      Xo=i;
+      Yp=Yo+(h*(F(Xo, Yo)));
+      X1=Xo+h;
+      Yc=Yo+((h/2)*((F(Xo, Yo))+F(X1, Yp)));
+      Yo=Yc;
+      cout<<i+h<<"\t"<<Yp<<"\t"<<Yc<<endl;
+    }
+  cout<<"\n\n"<<endl;
+  return 0;
+}
+
+
+
+// Dif2orden
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+/*h es mi tamaño de paso*/
+#define h 0.1
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 0
+#define Zi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 0.3
+
+double Y(double x, double y, double z);
+double Z(double x, double y, double z);
+
+int main(void)
+{
+  double i, x, y, z, resY, resZ, x1, y1, x2, y2;
+  double k1, k2, k3;
+
+  resY=Yi;
+  resZ=Zi;
+  x=Xi;
+  y=resY;
+  z=Zi;
+
+  cout<<"X"<<"\t"<<"Y"<<"\t"<<"Z"<<"\t"<<endl;
+  cout<<Xi<<"\t"<<Yi<<"\t"<<Zi<<"\t"<<endl;
+
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      k1=Y(x, y, z);//K1
+      k2=Y(x+(h/2), y+((k1*h)/2), z);//K2
+      k3=Y(x+h, y-(k1*h)+(2*k2*h), z);//K3
+      resY=y+((h/6)*(k1+(4*k2)+k3));
+
+      k1=Z(x, resY, z);//K1
+      k2=Z(x+(h/2), z+((k1*h)/2), z);//K2
+      k3=Z(x+h,z-(k1*h)+(2*k2*h), z);//K3
+      resZ=z+((h/6)*(k1+(4*k2)+k3));
+
+
+      cout<<i+h<<"\t"<<resY<<"\t"<<resZ<<"\t"<<endl;
+
+      x=i+h;
+      y=resY;
+      z=resZ;
+    }
+}
+
+double Y(double x, double y, double z)
+{
+  return (z);
+}
+double Z(double x, double y, double z)
+{
+  return ((3*y)-(x));
+}
+
+
+
+// Dif
+
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+
+#define pre 5
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 1
+
+double F(double x, double y);/*Funcion derivada*/
+void Y(double h);
+void Euler(double h);
+void Euler_Gauss(double h);
+void Punto_Medio(double h);
+void Ranita(double h);
+void RK3(double h);
+void RK4(double h);
+
+int main(void)
+{
+  double H=0.5;
+  Euler(H);
+  Euler_Gauss(H);
+  Punto_Medio(H);
+  Ranita(H);
+  RK3(H);
+  RK4(H);
+  Y(H);
+}
+
+double F(double x, double y)
+{
+  //return (x+(2*x*y));
+  //return (((-2)*y*y)+(x*y)+(x*x));
+  return (((-2)*x*x*x)+(12*x*x)-(20*x)+(8.5));
+}
+void Y(double h)
+{
+  double x, y, i;
+  cout<<"X:"<<"\t"<<"Yverdadera"<<endl;
+  for(i=Inicio; i<=Fin; i=i+h)
+    {
+      x=i;
+      y=((((-0.5)*x*x*x*x))+(4*x*x*x)-(10*x*x)+(8.5*x)+(1));
+      cout<<i<<"\t"<<y<<endl;
+    }
+}
+void Euler(double h)
+{
+  double Xo, Yo, Yp, i;
+  Xo=Xi;
+  Yo=Yi;
+  cout<<setprecision(pre);
+  cout<<"X:"<<"\t"<<"Yeuler"<<endl;
+  cout<<Xi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i+h<=Fin; i=i+h)
+    {
+      Xo=i;
+      Yp=Yo+(h*(F(Xo, Yo)));
+      Yo=Yp;
+      cout<<i+h<<"\t"<<Yp<<endl;
+    }
+  cout<<endl;
+}
+void Euler_Gauss(double h)
+{
+  double Xo, Yo, X1, Yp, Yc, i;
+  Xo=Xi;
+  Yo=Yi;
+  cout<<setprecision(pre);
+  cout<<"X:"<<"\t"<<"Yeuler-gauss"<<endl;
+  cout<<Xi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i+h<=Fin; i=i+h)
+    {
+      Xo=i;
+      Yp=Yo+(h*(F(Xo, Yo)));
+      X1=Xo+h;
+      Yc=Yo+((h/2)*((F(Xo, Yo))+F(X1, Yp)));
+      Yo=Yc;
+      cout<<i+h<<"\t"<<Yc<<endl;
+    }
+  cout<<endl;
+}
+void Punto_Medio(double h)
+{
+  double Xo, Yo, X1, Y1, X2, Y2, Yc, i;
+  Xo=Xi;
+  Yo=Yi;
+  cout<<setprecision(pre);
+  cout<<"X:"<<"\t"<<"Ypunto-medio"<<endl;
+  cout<<Xi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i+h<=Fin; i=i+h)
+    {
+      Xo=i;
+      X1=Xo+h;
+      Y1=Yo+((F(Xo, Yo))*h);
+      Y2=Yo+((h/2)*((F(Xo,Yo))+(F(X1,Y1))));
+      X2=Xo+(h/2);
+      Yc=Yo+(h*(F(X2,Y2)));
+      Yo=Yc;
+      cout<<i+h<<"\t"<<Yc<<endl;
+    }
+  cout<<endl;
+}
+void Ranita(double h)
+{
+  double Xo, Yo, X1, Yp, Yc, i;
+  Xo=Xi;
+  Yo=Yi;
+  cout<<setprecision(pre);
+  cout<<"X:"<<"\t"<<"Yranita"<<endl;
+  cout<<Xi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i+h<=Fin; i=i+h)
+    {
+      Xo=i;
+      Yp=Yo+((h/2)*(F(Xo, Yo)));
+      X1=Xo+(h/2);
+      Yc=Yo+((h)*((F(X1, Yp))));
+      Yo=Yc;
+      cout<<i+h<<"\t"<<Yc<<endl;
+    }
+  cout<<endl;
+}
+void RK3(double h)
+{
+  double Xo, Yo, X1, Y1, X2, Y2, Yc, i;
+  double k1, k2, k3;
+  Xo=Xi;
+  Yo=Yi;
+  cout<<setprecision(pre);
+  cout<<"X:"<<"\t"<<"Yrungekutta-3"<<endl;
+  cout<<Xi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i+h<=Fin; i=i+h)
+    {
+      Xo=i;
+      k1=F(Xo,Yo);
+      k2=F((Xo+(h/2)),(Yo+((k1*h)/2)));
+      k3=F(Xo+h, Yo-(k1*h)+(2*k2*h));
+      Yc=Yo+((h/6)*(k1+(4*k2)+k3));
+      Yo=Yc;
+      cout<<i+h<<"\t"<<Yc<<endl;
+    }
+  cout<<endl;
+}
+void RK4(double h)
+{
+  double Xo, Yo, X1, Y1, X2, Y2, Yc, i;
+  double k1, k2, k3, k4;
+  Xo=Xi;
+  Yo=Yi;
+  cout<<setprecision(pre);
+  cout<<"X:"<<"\t"<<"Yrungekutta-4"<<endl;
+  cout<<Xi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i+h<=Fin; i=i+h)
+    {
+      Xo=i;
+      k1=F(Xo,Yo);
+      k2=F((Xo+(h/2)),(Yo+((k1*h)/2)));
+      k3=F((Xo+(h/2)),(Yo+((k2*h)/2)));
+      k4=F(Xo+h, Yo+(k3+h));
+      Yc=Yo+((h/6)*(k1+(2*k2)+(2*k3)+k4));
+      Yo=Yc;
+      cout<<i+h<<"\t"<<Yc<<endl;
+    }
+  cout<<endl;
+}
+
+
+// Fehlberg
+
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+
+//#define h 0.1
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 6
+
+double F(double x, double y);/*Funcion derivada*/
+double Y(double x);/*Funcion*/
+
+int main(void)
+{
+  long double i, h=0.7, x, y, y4, y5, error, E, n;
+  long double k1, k2, k3, k4, k5, k6;
+  long double H;
+  cout<<setprecision(5);
+
+  x=Xi;
+  y=Yi;
+  n = (Yi/h);
+  cout<<"x"<<"\t"<<"y4"<<"\t"<<"y5"<<"\t"<<"E"<<"\t"<<"error"<<"\t"<<"H"<<endl;
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      k1=F(x, y);//K1
+      k2=F(x+(h/5), y+((k1*h)/5));//K2
+      k3=F(x+((3*h)/10), y+((3*k1*h)/40)+((9*h*k2)/40));//K3
+      k4=F(x+((3*h)/5), y+((3*k1*h)/10)-((9*k2*h)/10)+((6*k3*h)/5));//K4
+      k5=F(x+h, y-((11*k1*h)/54)+((5*k2*h)/2)-((70*k3*h)/27)+((35*k4*h)/27));
+      k6=F(x+((7*h)/8), y+((1631*k1*h)/55296)+((175*k2*h)/512)+((575*k3*h)/13824)-((44275*k4*h)/110592)+((253*k5*h)/4096));
+
+      y4=y+((h)*(((37*k1)/378)+((250*k3)/621)+((125*k4)/594)+((512*k6)/1771)));
+      y5=y+((h)*(((2825*k1)/27648)+((18575*k3)/48384)+((13525*k4)/55296)+((277*k5)/14336)+((k6)/4)));
+
+      E=(((227/64512)*k1*h)+((-0.01866858609)*k3*h)+((0.03415502683)*k4*h)+((227/14336)*k5*h)+((-0.03910220215)*k6*h));
+      //error=(y5-y4);
+      H=h*(pow((E/(y5-y4)), 0.225));//0.0225   n
+      cout<<x<<"\t"<<y4<<"\t"<<y5<<"\t"<<E<<"\t"<<error<<"\t"<<H<<endl;
+
+      x=i+h;
+      y=y4;
+    }
+}
+
+double F(double x, double y)
+{
+  return ((-2*x*x*x)+(12*x*x)-(20*x)+(8.5));
+}
+double Y(double x)
+{
+  return (((-0.5)*x*x*x*x)+(4*x*x*x)-(10*x*x)+(8.5*x)+(1));
+}
+
+
+
+// Heun
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define e 2.71828
+/*h es mi tamaño de paso*/
+#define h 0.5
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 4
+
+double F(double x, double y);/*Funcion derivada*/
+double Y(double x);/*Funcion*/
+
+int main(void)
+{
+  double i, x, x1, y1, res[100];
+  int cont=1;
+
+  res[0]=Yi;
+  cout<<Xi<<"\t"<<Yi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      y1=(res[cont-1])+(h*(F(i,(res[cont-1]))));
+      res[cont]=res[cont-1]+((h/2)*((F(i, (res[cont-1])))+(F(i+h, y1))));
+      //cout<<i+h<<"\t"<<y1<<"\t"<<res[cont]<<endl;
+      cont++;
+    }
+
+  /*Código para imprimir bonito los datos*/
+  i=cont;
+  x=Xi;
+  cout<<"X\tYeuler\t\tY\t\tError%"<<endl;
+  for(cont=0; cont<i; cont++)
+    {
+      cout<<x<<"\t"<<res[cont]<<"\t\t"<<Y(x)<<"\t\t"<<(((res[cont])-(Y(x)))/(Y(x)))*100<<endl;
+      x=x+h;
+    }
+}
+
+double F(double x, double y)
+{
+  return (((-2)*x*x*x)+(12*x*x)-(20*x)+(8.5));
+  //return ((x)+(2*x*y));
+  //return (((-2)*y)+(x*x*x*(pow(e, ((-2)*x)))));
+}
+double Y(double x)
+{
+  return ((((-0.5)*x*x*x*x))+(4*x*x*x)-(10*x*x)+(8.5*x)+(1));
+  //return (((x*x*x*x)+4)*((pow(e, ((-2)*x)))/4));
+}
+
+
+// Heun
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define e 2.71828
+/*h es mi tamaño de paso*/
+#define h 0.5
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 4
+
+double F(double x, double y);/*Funcion derivada*/
+double Y(double x);/*Funcion*/
+
+int main(void)
+{
+  double i, x, x1, y1, res[100];
+  int cont=1;
+
+  res[0]=Yi;
+  cout<<Xi<<"\t"<<Yi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      y1=(res[cont-1])+(h*(F(i,(res[cont-1]))));
+      res[cont]=res[cont-1]+((h/2)*((F(i, (res[cont-1])))+(F(i+h, y1))));
+      //cout<<i+h<<"\t"<<y1<<"\t"<<res[cont]<<endl;
+      cont++;
+    }
+
+  /*Código para imprimir bonito los datos*/
+  i=cont;
+  x=Xi;
+  cout<<"X\tYeuler\t\tY\t\tError%"<<endl;
+  for(cont=0; cont<i; cont++)
+    {
+      cout<<x<<"\t"<<res[cont]<<"\t\t"<<Y(x)<<"\t\t"<<(((res[cont])-(Y(x)))/(Y(x)))*100<<endl;
+      x=x+h;
+    }
+}
+
+double F(double x, double y)
+{
+  return (((-2)*x*x*x)+(12*x*x)-(20*x)+(8.5));
+  //return ((x)+(2*x*y));
+  //return (((-2)*y)+(x*x*x*(pow(e, ((-2)*x)))));
+}
+double Y(double x)
+{
+  return ((((-0.5)*x*x*x*x))+(4*x*x*x)-(10*x*x)+(8.5*x)+(1));
+  //return (((x*x*x*x)+4)*((pow(e, ((-2)*x)))/4));
+}
+
+
+
+// Lorenz
+
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+
+/*h es mi tamaño de paso*/
+#define h 0.1
+
+/*a, b y c son mis constantes donde (a+b+c)>0 */
+#define a 10
+#define b 28
+#define c (8/3)
+
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 3
+#define Yi 0
+#define Zi 0
+#define ti 0
+
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 40
+
+void RK(double X[]);
+double fX(double X[]);
+double fY(double X[]);
+double fZ(double X[]);
+
+int main(void)
+{
+  double i;
+  double k1, k2, k3, k4;
+  double X[3];
+
+
+  //cout<<setprecision(5);
+  X[0]=Xi;//x[0] siempre contiene el valor de X
+  X[1]=Yi;//x[1] contiene el valor de Y
+  X[2]=Zi;//x[2] contiene el valor de Z
+  cout<<"X"<<"\t"<<"Y"<<"\t"<<"Z"<<endl;
+  cout<<X[0]<<"\t"<<X[1]<<"\t"<<X[2]<<endl;//imprime los valores de x,y,z
+
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      RK(X);//hace un loop para calcular runge kutta 3 para x, y, z
+    }
+}
+
+void RK(double X[])
+{
+  double k1[3], k2[3], k3[3], k4[3], X1[3];
+  double x, y, z;
+
+  //cout<<setprecision(5);
+
+  k1[0]= h*(fX(X));//calcula runge kutta 1 con la funcion de x
+  k1[1]= h*(fY(X));//... con la funcion de y
+  k1[2]= h*(fZ(X));//... con la funcion de  z
+
+  X1[0]=(X[0])+(0.5*(k1[0]));//calcula el resultado de x lo cual se guarda en x1[0], x[0] es la posicion inicial y k1 es runge kutta de orden 1 para x
+  X1[1]=(X[1])+(0.5*(k1[1]));//resultado de y se guarda en x1[1], x[1] es el valor inicial de y, k1 es rk1 para y
+  X1[2]=(X[2])+(0.5*(k1[2]));//resultado de z se guarda en x1[2], x[2] valor inicial de z, k1 es rk1 para z
+  k2[0]= h*(fX(X1));//runge kutta 2 con la funcion de x, evaluando la funcion con el valor que nos dio x1
+  k2[1]= h*(fY(X1));//rk2 con la funcion de y ...
+  k2[2]= h*(fZ(X1));//rk2 con la funcion de z ...
+  //cout<<"X0: "<<X1[0]<<"\t"<<"X1: "<<X1[1]<<"\t"<<"X2: "<<X1[2]<<endl;
+  //cout<<"k2: "<<k2[0]<<"\t"<<"k2: "<<k2[1]<<"\t"<<"k2: "<<k2[2]<<endl;
+
+  X1[0]=(X[0])+(0.5*(k2[0]));//guarda el resultado de rk2 de x, y se ponene los otros valores de la formula
+  X1[1]=(X[1])+(0.5*(k2[1]));
+  X1[2]=(X[2])+(0.5*(k2[2]));
+  k3[0]= h*(fX(X1));//calcula runge kutta 3 para x
+  k3[1]= h*(fY(X1));
+  k3[2]= h*(fZ(X1));
+  //cout<<"X0: "<<X1[0]<<"\t"<<"X1: "<<X1[1]<<"\t"<<"X2: "<<X1[2]<<endl;
+  //cout<<"k3: "<<k3[0]<<"\t"<<"k3: "<<k3[1]<<"\t"<<"k3: "<<k3[2]<<endl;
+
+  X1[0]=(X[0])+(k3[0]);//formula para obtener el resultado de x
+  X1[1]=(X[1])+(k3[1]);
+  X1[2]=(X[2])+(k3[2]);
+  k4[0]= h*(fX(X1));//runge kutta 4
+  k4[1]= h*(fY(X1));
+  k4[2]= h*(fZ(X1));
+  //cout<<"X0: "<<X1[0]<<"\t"<<"X1: "<<X1[1]<<"\t"<<"X2: "<<X1[2]<<endl;
+  //cout<<"k4: "<<k4[0]<<"\t"<<"k4: "<<k4[1]<<"\t"<<"k4: "<<k4[2]<<endl;
+
+  x=(k1[0])+(2*(k2[0]))+(2*(k3[0]))+(k4[0]);//formula para obtener el resultado de rk de x
+  y=(k1[1])+(2*(k2[1]))+(2*(k3[1]))+(k4[1]);//obtner resultado de y
+  z=(k1[2])+(2*(k2[2]))+(2*(k3[2]))+(k4[2]);//obtener resultado de z
+  //cout<<"x: "<<x<<"\t"<<"y: "<<y<<"\t"<<"z: "<<z<<endl;
+  x=(x/6);//a x, y, z les asignamos el valor de el resultado de la formula anterior entre 6
+  y=(y/6);
+  z=(z/6);
+  //cout<<"x: "<<x<<"\t"<<"y: "<<y<<"\t"<<"z: "<<z<<endl;
+  X[0]=(X[0])+(x);//se cambia la posicion inicial de x, y, z a la cual solo se le suma el valor del resultado de todos los rk
+  X[1]=(X[1])+(y);
+  X[2]=(X[2])+(z);
+
+  cout<<X[0]<<"\t"<<X[1]<<"\t"<<X[2]<<endl;//imprimimos los resultados de x, y, z
+}
+
+double fX(double X[])
+{
+  return (a*(X[1]-X[0]));//funcion de x
+}
+double fY(double X[])
+{
+  return ((X[0]*(b-X[2]))-X[1]);//funcion de y
+}
+double fZ(double X[])
+{
+  return ((X[0]*X[1])-(c*X[2]));//funcion de z
+}
+
+
+
+// RK3
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+/*h es mi tamaño de paso*/
+#define h 0.1
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 1
+
+double F(double x, double y);/*Funcion derivada*/
+double Y(double x);/*Funcion*/
+
+int main(void)
+{
+  double i, x, y, res[100], x1, y1, x2, y2;
+  double k1, k2, k3;
+  int cont=1;
+
+  res[0]=Yi;
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      /*Punto 1*/
+      x=i;
+      y=res[cont-1];
+      k1=F(x, y);//K1
+      k2=F(x+(h/2), y+((k1*h)/2));//K2
+      k3=F(x+h, y-(k1*h)+(2*k2*h));//K3
+
+      res[cont]=y+((h/6)*(k1+(4*k2)+k3));
+      cont++;
+    }
+
+  /*Código para imprimir bonito los datos*/
+  i=cont;
+  x=Xi;
+  cout<<"X\tYrk3\t\tY\t\tError%"<<endl;
+  for(cont=0; cont<i; cont++)
+    {
+      //cout<<x<<"\t"<<res[cont]<<endl;
+      cout<<x<<"\t"<<res[cont]<<"\t\t"<<Y(x)<<"\t\t"<<(((res[cont])-(Y(x)))/(Y(x)))*100<<endl;
+      x=x+h;
+    }
+}
+
+double F(double x, double y)
+{
+  //return ((-2*y*y)+(x*y)+(x*x));
+  //return ((x)+(2*x*y));
+  return ((-2*x*x*x)+(12*x*x)-(20*x)+(8.5));
+}
+double Y(double x)
+{
+  return (((-0.5)*x*x*x*x)+(4*x*x*x)-(10*x*x)+(8.5*x)+(1));
+}
+
+
+
+// Rossler
+
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+
+/*h es mi tamaño de paso*/
+#define h 0.1
+
+/*a, b y c son mis constantes donde (a+b+c)>0 */
+#define a 0.2
+#define b 0.2
+#define c 5.7
+
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 3
+#define Yi 0
+#define Zi 0
+#define ti 0
+
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 40
+
+void RK(double X[]);
+double fX(double X[]);
+double fY(double X[]);
+double fZ(double X[]);
+
+int main(void)
+{
+  double i;
+  double k1, k2, k3, k4;
+  double X[3];
+
+
+  cout<<setprecision(5);
+  X[0]=Xi;//x[0] siempre contiene el valor de X
+  X[1]=Yi;//x[1] contiene el valor de Y
+  X[2]=Zi;//x[2] contiene el valor de Z
+  cout<<"X"<<"\t"<<"Y"<<"\t"<<"Z"<<endl;
+  cout<<X[0]<<"\t"<<X[1]<<"\t"<<X[2]<<endl;//imprime los valores de x,y,z
+
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      RK(X);//hace un loop para calcular runge kutta 3 para x, y, z
+    }
+}
+
+void RK(double X[])
+{
+  double k1[3], k2[3], k3[3], k4[3], X1[3];
+  double x, y, z;
+
+  cout<<setprecision(5);
+
+  k1[0]= h*(fX(X));//calcula runge kutta 1 con la funcion de x
+  k1[1]= h*(fY(X));//... con la funcion de y
+  k1[2]= h*(fZ(X));//... con la funcion de  z
+
+  X1[0]=(X[0])+(0.5*(k1[0]));//calcula el resultado de x lo cual se guarda en x1[0], x[0] es la posicion inicial y k1 es runge kutta de orden 1 para x
+  X1[1]=(X[1])+(0.5*(k1[1]));//resultado de y se guarda en x1[1], x[1] es el valor inicial de y, k1 es rk1 para y
+  X1[2]=(X[2])+(0.5*(k1[2]));//resultado de z se guarda en x1[2], x[2] valor inicial de z, k1 es rk1 para z
+  k2[0]= h*(fX(X1));//runge kutta 2 con la funcion de x, evaluando la funcion con el valor que nos dio x1
+  k2[1]= h*(fY(X1));//rk2 con la funcion de y ...
+  k2[2]= h*(fZ(X1));//rk2 con la funcion de z ...
+  //cout<<"X0: "<<X1[0]<<"\t"<<"X1: "<<X1[1]<<"\t"<<"X2: "<<X1[2]<<endl;
+  //cout<<"k2: "<<k2[0]<<"\t"<<"k2: "<<k2[1]<<"\t"<<"k2: "<<k2[2]<<endl;
+
+  X1[0]=(X[0])+(0.5*(k2[0]));//guarda el resultado de rk2 de x, y se ponene los otros valores de la formula
+  X1[1]=(X[1])+(0.5*(k2[1]));
+  X1[2]=(X[2])+(0.5*(k2[2]));
+  k3[0]= h*(fX(X1));//calcula runge kutta 3 para x
+  k3[1]= h*(fY(X1));
+  k3[2]= h*(fZ(X1));
+  //cout<<"X0: "<<X1[0]<<"\t"<<"X1: "<<X1[1]<<"\t"<<"X2: "<<X1[2]<<endl;
+  //cout<<"k3: "<<k3[0]<<"\t"<<"k3: "<<k3[1]<<"\t"<<"k3: "<<k3[2]<<endl;
+
+  X1[0]=(X[0])+(k3[0]);//formula para obtener el resultado de x
+  X1[1]=(X[1])+(k3[1]);
+  X1[2]=(X[2])+(k3[2]);
+  k4[0]= h*(fX(X1));//runge kutta 4
+  k4[1]= h*(fY(X1));
+  k4[2]= h*(fZ(X1));
+  //cout<<"X0: "<<X1[0]<<"\t"<<"X1: "<<X1[1]<<"\t"<<"X2: "<<X1[2]<<endl;
+  //cout<<"k4: "<<k4[0]<<"\t"<<"k4: "<<k4[1]<<"\t"<<"k4: "<<k4[2]<<endl;
+
+  x=(k1[0])+(2*(k2[0]))+(2*(k3[0]))+(k4[0]);//formula para obtener el resultado de rk de x
+  y=(k1[1])+(2*(k2[1]))+(2*(k3[1]))+(k4[1]);//obtner resultado de y
+  z=(k1[2])+(2*(k2[2]))+(2*(k3[2]))+(k4[2]);//obtener resultado de z
+  //cout<<"x: "<<x<<"\t"<<"y: "<<y<<"\t"<<"z: "<<z<<endl;
+  x=(x/6);//a x, y, z les asignamos el valor de el resultado de la formula anterior entre 6
+  y=(y/6);
+  z=(z/6);
+  //cout<<"x: "<<x<<"\t"<<"y: "<<y<<"\t"<<"z: "<<z<<endl;
+  X[0]=(X[0])+(x);//se cambia la posicion inicial de x, y, z a la cual solo se le suma el valor del resultado de todos los rk
+  X[1]=(X[1])+(y);
+  X[2]=(X[2])+(z);
+
+  cout<<X[0]<<"\t"<<X[1]<<"\t"<<X[2]<<endl;//imprimimos los resultados de x, y, z
+}
+
+double fX(double X[])
+{
+  return (-X[1]-X[2]);//funcion de x
+}
+double fY(double X[])
+{
+  return (X[0]+(a*X[1]));//funcion de y
+}
+double fZ(double X[])
+{
+  return (b+(X[2]*(X[0]-c)));//funcion de z
+}
+
+
+// SisDif
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+/*h es mi tamaño de paso*/
+#define h 0.1
+/*Xi y Yi son mis condiciones iniciales*/
+#define Xi 0
+#define Yi 1
+#define Zi 1
+/*Inicio y Fin son mis limites indicados*/
+#define Inicio 0
+#define Fin 0.5
+
+double Y(double x, double y, double z);/*Funcion derivada*/
+double Z(double x, double y, double z);/*Funcion derivada*/
+
+int main(void)
+{
+  double i, x=Xi, y=Yi, z=Zi;
+  double Yp1, Yc1, Zp1, Zc1;
+
+  cout<<"X\t"<<"Yp\t"<<"Yc\t"<<"Zp\t"<<"Zc\t"<<endl;
+  cout<<Xi<<"\t"<<Yi<<"\t"<<Yi<<endl;
+  for(i=Inicio; i<Fin; i=i+h)
+    {
+      Yp1=y+(h*(Y(x, y, z)));
+      Zp1=z+(h*(Z(x, y, z)));
+
+      Yc1=y+((h/2)*((Y(x, y, z))+(Y(x+h, Yp1, z))));
+      Zc1=z+((h/2)*((Z(x, y, z))+(Z(x, Yc1, Zp1))));
+      cout<<x+h<<"\t"<<Yp1<<"\t"<<Yc1<<"\t"<<Zp1<<"\t"<<Zc1<<"\t"<<endl;
+      x=i;
+      y=Yc1;
+      z=Zc1;
+    }
+}
+
+double Y(double x, double y, double z)
+{
+  return ((4*x)-(y)+(1));
+}
+double Z(double x, double y, double z)
+{
+  return ((2*z)-(y));
+}
+
+
+// EXAMEN 1 /////////////////////////////////////////////////////7
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define F(t) ((0.2)+(25*t)-(200*t*t)+(675*t*t*t)-(900*t*t*t*t)+(400*t*t*t*t*t))
+//Funcines
+void trapecio(float a, float b, float n);
+void simpson_1(float a, float b, float n);
+void simpson_2(float a, float b, float n);
+//MAIN con llamado a las funciones
+int main(void)
+{
+  float A=0.0, B=0.0, N=0.0;
+  printf("\nIngresa el valor del limite 'a': ");
+  scanf("%f", &A);
+  printf("Ingresa el valor del limite 'b': ");
+  scanf("%f", &B);
+  printf("\n");
+
+  trapecio(A, B, N);
+  simpson_1(A, B, N);
+  simpson_2(A, B, N);
+  return 0;
+}
+
+void trapecio(float a, float b, float n)
+{
+  float resultado=0.0, i, difX, x, N2, N3, N4;
+  printf("    \t\tn=4 \t\tERROR:\n");
+  printf("Trapecio");
+  difX=0.2;
+  for(i=a; i<=(b-difX); i=i+difX)
+    resultado=resultado+((0.5)*(difX)*((F(i))+F((i+difX))));
+  printf("\tR: %f\t%f",resultado, (((resultado-1.64053)/1.64053)*100));
+}
+void simpson_1(float a, float b, float n)
+{
+  float resultado=0.0, i, difX;
+
+  difX=(b-a)/2;
+
+  resultado=F(a);
+  resultado=resultado+(F(b));
+  resultado=resultado+(4*(F((a+b)/2)));
+  resultado=resultado*(difX/3);
+  printf("\nSimpson_1/3 \tR: %f \t%f",resultado, (((resultado-1.64053)/1.64053)*100));
+}
+void simpson_2(float a, float b, float n)
+{
+  float resultado=0.0, i, difX;
+
+  difX=(b-a)/3;
+
+  resultado=F(a);
+  resultado=resultado+(F(b));
+  resultado=resultado+(3*(F(((2*a)+b)/3)));
+  resultado=resultado+(3*(F((a+(2*b))/3)));
+  resultado=resultado*((3*difX)/8);
+  printf("\nSimpson_3/8 \tR: %f \t%f",resultado, (((resultado-1.64053)/1.64053)*100));
+}
+
+
+
+// TaylorFUNC
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define F(t) (cos(t))
+#define a 0
+
+void taylor(double x, int tay);
+int fact(int num);
+
+int main()
+{
+  double x=(3.14159/4);
+  int tay;
+  cout<<"Indica hasta que numero: "<<endl;
+  scanf("%d", &tay);
+  taylor(x, tay);
+  return 0;
+}
+
+
+
+void taylor(double x, int tay)
+{
+  int i;
+  double res;
+
+  res=F(a);
+  for(i=1; i<=tay; i++)
+    {
+      res=res+(((Fcent(a, i))/fact(i))*(pow((x-a), i)));
+    }
+  cout<<"Resultado Cent: "<<res<<endl;
+
+  res=F(a);
+  for(i=1; i<=tay; i++)
+    {
+      res=res+(((Fprog(a, i))/fact(i))*(pow((x-a), i)));
+    }
+  cout<<"Resultado Prog: "<<res<<endl;
+
+  res=F(a);
+  for(i=1; i<=tay; i++)
+    {
+      res=res+(((Fregr(a, i))/fact(i))*(pow((x-a), i)));
+    }
+  cout<<"Resultado Regr: "<<res<<endl;
+}
+
+int fact(int num)
+{
+  int res;
+  if(num!=1)
+    res=fact(num-1);
+  else
+    return 1;
+  return res*(num);
+}
+
+
+
+// TaylorRECU
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define F(t) (cos(t))
+#define a 0
+
+double Fcent(double x, int der);
+double Fprog(double x, int der);
+double Fregr(double x, int der);
+void taylor(double x, int tay);
+int fact(int num);
+
+int main()
+{
+  double x=(3.14159/4);
+  int tay;
+  cout<<"Indica hasta que numero: "<<endl;
+  scanf("%d", &tay);
+  taylor(x, tay);
+  return 0;
+}
+
+double Fcent(double x, int der)
+{
+  double res;
+  double h=0.006;
+  if(der==1)
+  {
+    res=((F(x+h))-(F(x-h)))/(2*h);
+    return res;
+  }
+  else
+    {
+      res=(Fcent(x+h, der-1)-Fcent(x-h, der-1))/(2*h);
+      return res;
+    }
+}
+double Fprog(double x, int der)
+{
+  double res;
+  double h=0.006;
+  if(der==1)
+  {
+    res=((F(x+h))-(F(x)))/(h);
+    return res;
+  }
+  else
+    {
+      res=(Fprog(x+h, der-1)-Fprog(x, der-1))/(h);
+      return res;
+    }
+}
+double Fregr(double x, int der)
+{
+  double res;
+  double h=0.006;
+  if(der==1)
+  {
+    res=((F(x))-(F(x-h)))/(h);
+    return res;
+  }
+  else
+    {
+      res=(Fregr(x, der-1)-Fregr(x-h, der-1))/(h);
+      return res;
+    }
+}
+
+
+void taylor(double x, int tay)
+{
+  int i;
+  double res;
+
+  res=F(a);
+  for(i=1; i<=tay; i++)
+    {
+      res=res+(((Fcent(a, i))/fact(i))*(pow((x-a), i)));
+    }
+  cout<<"Resultado Cent: "<<res<<endl;
+
+  res=F(a);
+  for(i=1; i<=tay; i++)
+    {
+      res=res+(((Fprog(a, i))/fact(i))*(pow((x-a), i)));
+    }
+  cout<<"Resultado Prog: "<<res<<endl;
+
+  res=F(a);
+  for(i=1; i<=tay; i++)
+    {
+      res=res+(((Fregr(a, i))/fact(i))*(pow((x-a), i)));
+    }
+  cout<<"Resultado Regr: "<<res<<endl;
+}
+
+int fact(int num)
+{
+  int res;
+  if(num!=1)
+    res=fact(num-1);
+  else
+    return 1;
+  return res*(num);
+}
+
+
+
+// Tarea
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+#define h 0.006
+
+double F(double x, double y);
+double fx(double x, double y);
+double fy(double x, double y);
+
+int main()
+{
+  //double x=1, y=2, x1=1.01, y1=1.98;
+  double x=1, y=2, x1=1.03, y1=1.99;
+  double difx=x1-x, dify=y1-y;
+  double deltw, difew;
+
+  deltw=((F(x1, y1))-(F(x,y)));
+  cout<<"DeltW: "<<deltw<<endl;
+
+  difew=(((fx(x,y))*difx)+((fy(x,y)))*dify);
+  cout<<"DifeW: "<<difew<<endl;
+
+  cout<<"D fx: "<<fx(x, y)<<endl;
+  cout<<"D fy: "<<fy(x, y)<<endl;
+  return 0;
+}
+
+double fx(double x, double y)
+{
+  double res;
+  res=F(x+h, y);
+  res=res-(F(x-h, y));
+  res=res/(2*h);
+  return res;
+}
+double fy(double x, double y)
+{
+  double res;
+  res=F(x, y+h);
+  res=res-(F(x, y-h));
+  res=res/(2*h);
+  return res;
+}
+
+double F(double x, double y)
+{
+  //return ((3*x*x)-(x*y));
+  return ((x*x)-(2*x*y)+(3*y));
+}
+
+
+
+

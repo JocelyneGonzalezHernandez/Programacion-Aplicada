@@ -1,0 +1,133 @@
+
+extern void imprimirInformeLibros(char nomArch[], struct libro lis[])
+{
+  int opcion, i, j;
+
+  FILE *fp;
+
+  struct libro aux;
+
+  printf("El informe se mostrará en orden ascendente conforme al criterio que elija \n1)Autor\n2)Título\n3)Año\n");
+  printf("Su selección:");
+  scanf("%i",&opcion);
+
+  switch (opcion)
+    {
+    case 1:
+      {
+        fp=fopen(nomArch, "r");
+        if(fp == NULL)
+          {
+            printf("\nArchivo no dispobible.\n");
+            exit(1);
+          }
+        for(i=0; i<=(10-2); i++)
+          {
+            for(j=i+1; j<=(10-1); j++)
+              {
+                if ((strcmp(lis[i].autor, lis[j].autor))>0)
+                  {
+                    aux=lis[i];
+                    lis[i]=lis[j];
+                    lis[j]=aux;
+                  }
+              }
+          }
+        fclose(fp);
+      }break;
+
+    case 2:
+      {
+        fp=fopen(nomArch, "r");
+        if(fp == NULL)
+          {
+            printf("\nArchivo no dispobible.\n");
+            exit(1);
+          }
+        for(i=0; i<=(10-2); i++)
+          {
+            for(j=i+1; j<=(10-1); j++)
+              {
+                if ((strcmp(lis[i].titulo, lis[j].titulo))>0)
+                  {
+                    aux=lis[i];
+                    lis[i]=lis[j];
+                    lis[j]=aux;
+                  }
+              }
+          }
+        fclose(fp);
+
+      }break;
+
+    case 3:
+      {
+        fp=fopen(nomArch, "r");
+        if(fp == NULL)
+          {
+            printf("\nArchivo no dispobible.\n");
+            exit(1);
+          }
+        for(i=0; i<=(10-2); i++)
+          {
+            for(j=i+1; j<=(10-1); j++)
+              {
+                if (lis[i].anio > lis[j].anio)
+                  {
+                    aux=lis[i];
+                    lis[i]=lis[j];
+                    lis[j]=aux;
+                  }
+              }
+          }
+        fclose(fp);
+
+      }break;
+
+    default:
+      {
+        printf("\nOpción no válida\n");
+      }break;
+    }
+}
+
+extern void leerDatosArchivo(char nomArch[], struct libro lis[])
+{
+  FILE *fp;
+  struct libro datos;
+  int i=0;
+
+  fp = fopen(nomArch, "r");
+  if(fp == NULL)
+    {
+      printf("\nArchivo no dispobible.\n");
+      exit(1);
+    }
+  while(fscanf(fp, "%i\t",&lis[i].claveRegistro) == 1)
+    {
+      fscanf(fp, " %[^\t]",lis[i].autor);
+      fscanf(fp," %[^\t]", lis[i].titulo); //Se pudo haber hecho lis[i].nombre
+      fscanf(fp, " %[^\t]", lis[i].editorial);
+      fscanf(fp, " %[^\t]", lis[i].pais);
+      fscanf(fp, " %i\t",&lis[i].anio);
+      fscanf(fp, "%i\n",&lis[i].prestado);
+
+      i++;
+    }
+}
+
+extern void imprimirLista (struct libro lis[])
+{
+
+  for(int i=0; i<10; i++)
+    {
+      printf("Clave de Registro:%i\n", lis[i].claveRegistro);
+      printf("Autor:%s\n", lis[i].autor);
+      printf("Titulo:%s\n", lis[i].titulo);
+      printf("Editorial:%s\n", lis[i].editorial);
+      printf("País de edición:%s\n", lis[i].pais);
+      printf("Año:%i\n", lis[i].anio);
+      printf("Prestado:%i\n\n\n", lis[i].prestado);
+    }
+  return ;
+}

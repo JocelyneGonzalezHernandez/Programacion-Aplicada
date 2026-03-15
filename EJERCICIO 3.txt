@@ -1,0 +1,44 @@
+//EJERCICIO 3
+#include <stdio.h>
+#include <math.h>
+
+#define h 0.0001
+// #define f(x,y,z) ((pow(x,2)*pow(z,3)) - (3*y*pow(z,2)) + pow(x,-3) + (2*sqrt(y*z)))
+
+double f(double x, double y, double z) {
+    return pow(x,2)*pow(z,3) - 3*y*pow(z,2) + pow(x,-3) + 2*sqrt(y*z);
+}
+
+int main() {
+    //Puntos iniciales 
+    double x1 = 1.0f;
+    double x2 = 1.02f;
+    double y1 = 4.0f; 
+    double y2 = 3.97f; 
+    double z1 = 2.0f; 
+    double z2 = 1.96f;
+    
+    double delta_x = x2 - x1;
+    double delta_y = y2 - y1;
+    double delta_z = z2 - z1;
+    double delta_w = f(x2, y2, z2) - f(x1, y1, z1);
+    
+    printf("Delta W = %lf\n", delta_w);
+    
+    double dw_dx = (f(x2+h, y2, z2) - f(x2, y2, z2))/h;
+    double dw_dy = (f(x2, y2+h, z2) - f(x2, y2, z2))/h;
+    double dw_dz = (f(x2, y2, z2+h) - f(x2, y2, z2))/h;
+    double dw = dw_dx*delta_x + dw_dy*delta_y + dw_dz*delta_z;
+    printf("Derivada parcial de dw = %lf\n", dw);
+    
+    double particial_w_x = dw_dx;
+    double particial_w_y = dw_dy;
+    double particial_w_z = dw_dz;
+    double particial_w = particial_w_x*delta_x + particial_w_y*delta_y + particial_w_z*delta_z;
+    
+    printf("Parical de X = %f\n", particial_w_x);
+    printf("Parical de Y = %f\n", particial_w_y);
+    printf("Parical de Z = %f\n", particial_w_z);
+    
+    return 0;
+}

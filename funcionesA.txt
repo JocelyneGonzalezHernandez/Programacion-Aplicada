@@ -1,0 +1,192 @@
+#include "defDecTipos.h"
+
+//Se debe poner después de la definición del tipo
+void capturarLista (struct alumno lis[]);
+void ordenarListaNombre (struct alumno lis[], int num);
+void imprimirLista (struct alumno lis[], int num);
+int promedio (struct alumno lis[], float promMin);
+void leerDatosArchivo(char nomArch[], struct alumno lis[]);
+void guardarDatosAlumnos(struct alumno list[], char nomArch[], int num);
+
+int main (void)
+{
+  struct alumno lista[10];
+  char nomArchivo[50];
+  int opcion;
+  char guardar;
+
+  printf("Ingresa la opción deseada\n");
+  printf("1) Capturar Datos\n2) Leer datos de archivo\n");
+  scanf("%i",&opcion);
+  switch(opcion)
+    {
+    case 1:
+      {
+      capturarLista(lista);
+      }break;
+
+    case 2:
+      {
+        printf("\nDame el nombre del archivo:");
+        scanf("%s", nomArchivo);
+        leerDatosArchivo(nomArchivo, lista);
+      }break;
+
+    default:
+      {
+        printf("\nOpcion no valida");
+      }
+    }
+  ordenarListaNombre(lista, 5);
+  imprimirLista(lista, 5);
+  printf("\nDeseas guardar los datos en un archivo de texto? 's'|'n'\n");
+  scanf(" %c", &guardar);
+  if (guardar=='s')
+    {
+      printf("\nDame el nombre del archivo:");
+      scanf("%s", nomArchivo);
+      guardarDatosAlumnos(lista, nomArchivo, 5);
+    }
+
+  printf("\n\nLos cantidad de  alumnos que tienen un promedio mayor o igual a 7.0 son:%d\n", promedio(lista, 7.0));
+
+  return 0;
+}
+
+-------------------------------------------------------------------------------
+
+
+#include "defDecTipos.h"
+
+/**
+ * @brief Esta función imprime los datos de una lista de alumnos, previamente capturados en alumnos.c
+ * @author Jocelyne G.H
+ * @param list, es un arreglo de tipo alumno.
+ * @param num, es un entero que indica el número de impresiones.
+ * @return void.
+ */
+
+extern void imprimirLista (struct alumno lis[], int num)
+{
+  int i;
+
+  for (i=0; i<=(num-1); i++)
+    {
+      printf("Datos del alumno %i:\n", i+1);
+      printf("Número de cuenta:%i\n", lis[i].numCta);
+      printf("Dia de nacimiento:%i\n", lis[i].nacimiento.dia);
+      printf("Mes de nacimiento%i\n", lis[i].nacimiento.mes);
+      printf("Año de nacimiento%i\n", lis[i].nacimiento.anio);
+      printf("Carrera:%s\n", lis[i].carrera);
+      printf("Nombre:%s\n", lis[i].nombre);
+      printf("Promedio:%.2f\n\n\n", lis[i].promedio);
+
+
+    }
+}
+
+/**
+ * @brief Esta función ordena la lista alfabéticamente por los nombres de los alumnos.
+ * @author Jocelyne G.H
+ * @param list, es un arreglo de tipo alumno.
+ * @param num, es un entero que indica el número de impresiones.
+ * @return void.
+ */
+
+
+extern void ordenarListaNombre(struct alumno lis[], int num)
+{
+  struct alumno temp;
+  int i, j;
+
+  for(i=0; i<=(num-2); i++)
+    {
+      for(j=i+1; j<=(num-1); j++)
+        {
+          if ((strcmp(lis[i].nombre, lis[j].nombre))>0)
+            {
+              temp=lis[i];
+              lis[i]=lis[j];
+              lis[j]=temp;
+            }
+        }
+    }
+  return ;
+}
+
+/**
+ * @brief Esta función detecta cuantos alumnos cumplen con un promedio mínimo.
+ * @author Jocelyne G.H
+ * @param list, es un arreglo de tipo alumno.
+ * @param promMin, es un real que contiene el promedio mínimo requerido.
+ * @return numAlumnos, es un entero que contiene la cantidad de alumnos que cumplen con el promedio mínimo.
+ */
+
+extern int promedio (struct alumno lis[], float promMin)
+{
+  int numAlumnos=0, i;
+  for (i=0; i<5; i++)
+    {
+      if(lis[i].promedio>=promMin)
+        {
+          numAlumnos=numAlumnos+1;
+        }
+    }
+  return numAlumnos;
+}
+
+extern void leerDatosArchivo(char nomArch[], struct alumno lis[])
+{
+  FILE *fp;
+  struct alumno datos;
+  int i=0;
+
+  fp = fopen(nomArch, "r");
+  if(fp == NULL)
+  {
+    printf("\nArchivo no dispobible.\n");
+    exit(1);
+  }
+  while(fscanf(fp, "%i\t", &datos.numCta) == 1)
+  {
+    fscanf(fp, " %[^\t]", datos.nombre);
+    fscanf(fp, "%i\t", &datos.nacimiento.dia); //Se pudo haber hecho lis[i].nombre
+    fscanf(fp, "%i\t", &datos.nacimiento.mes);
+    fscanf(fp, "%i\t", &datos.nacimiento.anio);
+    fscanf(fp, " %[^\t]", datos.carrera);
+    fscanf(fp, "%f\n", &datos.promedio);
+
+    // printf("\nSe leyeron bien los datos de: %i\t%s\n", datos.numCta, datos.nombre);
+    lis[i]=datos;
+    i++;
+  }
+
+  fclose(fp);
+  return;
+}
+
+extern void guardarDatosAlumnos(struct alumno lis[], char nomArch[], int num)
+{
+  FILE *fp;
+  int  i=0;
+
+  fp=fopen(nomArch, "w");
+  if(fp==NULL)
+    {
+      printf("\nArchivo no dispobible.\n");
+      exit(1);
+    }
+
+  for(i=0; i<num; i++)
+    {
+      fprintf(fp,"%i\t", lis[i].numCta);
+      fprintf(fp,"%s\t", lis[i].nombre);
+      fprintf(fp,"%i\t", lis[i].nacimiento.dia);
+      fprintf(fp,"%i\t", lis[i].nacimiento.mes);
+      fprintf(fp,"%i\t", lis[i].nacimiento.anio);
+      fprintf(fp,"%s\t", lis[i].carrera);
+      fprintf(fp,"%f\n", lis[i].promedio);
+    }
+  fclose(fp);
+  return ;
+}

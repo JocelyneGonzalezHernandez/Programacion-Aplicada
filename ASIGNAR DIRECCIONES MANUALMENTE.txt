@@ -1,0 +1,124 @@
+ASIGNAR DIRECCIONES MANUALMENTE
+
+CONFIGURAR
+	-DIRECCIÓN IP
+	-MÁSCARA DE RED
+	-GATEWAY
+		SALIDA-RED
+	-DNS
+		
+
+
+DHCP - DYNAMIC HOST CONFIGURATION PROTOCOL -RFC 2131
+
+-PREGUNTA QUIEN ME PUEDE DAR IP, MASCARA, GATEWAY, etc.
+*PLUG AND PLAY PROTROCOL
+-FUNCIONA CON UDP
+
+
+*********************************
+ANALIZAR CONWIRESHARK 
+
+*****************
+El servidor dhcp debe ser antares
+
+MENSAJE 1  ***********************
+DHCP DISCOVER
+-Prendo la máquina
+SRC - MANDA BROADCAST AL PUERTO 67
+	CUALQUIERA QUE ESCUCHE EL PUERTO 67 TE PUEDE COTESTAR
+
+"DCHPDISCOVER" DEBE APARECER EL MENSAJE
+ID DE TRANSACCION, INCREMENTA
+
+MENSAJE 2 *************************
+
+DHCP OFFER
+-El servidor al que le haya llegado la solicitud
+-Le asigna IP y le dice a que puerto
+-Todavia tiene el broadcast
+-Le contesta con el mensaje "DHCPOFFER"
+-YIADDR, ya te ofrezco esta dirección
+-ID DEL SERVIDOR
+-SEGUNDOS DE VIDA
+
+-DEBE ESTAR DE ACUERDO 
+
+MENSAJE 3 **********************
+DHCP REQUEST
+-DAME EL REQUEST
+YIaddr del servidor
+ID crece en 1
+ID del servidor
+tiempo de vida
+
+MENSAJE 4 **********************
+DHCP ACK
+
+contesta con ack
+
+
+NMPA IP PUERTO
+
+
+
+//////////////////////// NAT /////////////////////
+
+-NETWORK ADDRESS TRASLATION
+-EL nat está en el gateway, que es donde se hace la conexión
+-Hace traslado de tablas, para que una máquina que está dentro pueda salir y le contesten.
+Routeador NAT 2 INTERFACES
+	- A LA RED
+	- A LA INTRANET
+*IP NO HOMOLOGADOS -> NO ESTÁN RESERVADOS*
+-NAT NO ES UN MECANISMO DE SEGURIDAD, pero te permite ocultar la red
+
+-SE DEFINE CUAL ES LA INTERFAZ DE RED EXTERNA E INTERNA
+
+-EL SERVIDOER DEBE HACERUN TRASLADO DEL IP INTERNO AL EXTERNO
+
+-SRC MI MÁQUINA, DESTINATION ES EL DE FUERA
+
+-PARA EL INTERNO ES EL IP NO HOMOLOGADO Y EL PUERTO QUE SE LE HAYA ASIGNADO
+
+*********IMPLICACION EN UNA ARQUIECTURA DE CAPAS***********
+
+MEZCLAR COSAS
+-LOS PUERTOS PERTENECEN A LA CAPA DE TRANSPORTE Y LAS IP A LA DE RED
+ *MEZCLAR TRANSPORTE Y RED*
+
+-LOS PUERTOS SON PARA DIRECCIONAR PROCESOS, NO DIRECCIONAR NOSAS
+
+
+
+
+//////////////////////// ICMP //////////////////////////////////
+
+PROTOCOLO DE CONTROL DE MENSAJES INTERNET 
+
+-REPORTE DE ERRORES 
+-INTERCAMBIO DE MENSAJES
+
+
+-EL ICMP manda mensajes resportando un error
+-No le envias respuesta a un mensaje de error
+-RESPUESTAS DEPENDIENDO EL TIPO DE SOLICITUD
+	EL TIPO Y EL CODIGO DICE QUÉ ONDA CON EL MENSAJE
+NO ES TCP, NI UDP
+
+ICMP NO ES DE CAPA DE TRANSPORTE, ES UNA SUBCAPA PEQUEÑA ARRIBA DE RED
+
+
+*TRACEROUTER AL ROUTER QUE NOS SALE
+
+
+
+
+
+
+
+
+
+
+
+

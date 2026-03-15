@@ -1,0 +1,212 @@
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct usuario{
+        int id;
+        int op;
+        char nombre[50];
+        struct usuario *sig;
+}dato;
+void agregar();
+void imprime();
+void guardaar();
+void elimina();
+void oprt();
+void carga();
+void menu();
+void limpial(dato **lis);
+int main(int argc, char const *argv[])
+{
+        dato *lista=NULL;
+        int d,opr=0,idt=0,no;
+        char nombre[40];
+        do{
+        menu();
+        printf("Que deseas hacer\n");
+        scanf("%d",&d);
+        if (d==1){
+                printf("Cual es el nombre\n");
+        __fpurge(stdin);
+        scanf("%[^\n]",nombre);
+        __fpurge(stdin);
+        printf("Cuanto s movomientos realizara\n");
+        scanf("%d",&no);
+        __fpurge(stdin);
+                agregar(&lista,&opr,&idt,nombre,no,0);
+        }
+        else if (d==2){
+                imprime(lista,opr);
+        }
+        else if (d==3){
+                elimina(&lista);
+        }
+        else if (d==4){
+                oprt(&lista,&opr);
+        }
+        else if (d==5){
+                guardaar(lista,opr);
+        }
+        else if (d==6){
+                carga(&lista, &opr,&idt);
+        }
+        }while(d!=7);
+        return 0;
+}
+
+void menu(){
+        printf("Que quieres hacer\n1.-Introducir cliente a fila\n2.-Listarclientes en fila\n3.-Eliminar cliente de la fila\n4.-Realizaroperacion del cliente\n5.-Guardar fila en archivo\n6.-Leer fila de archivo\n7.-Salir\n");
+}
+void limpial(dato **lis){
+        dato *temp=*lis;
+        while(temp!=NULL){
+                *lis=temp->sig;
+                free(temp);
+                temp=*lis;
+        }
+}
+void imprime(dato *lis,int opr){
+        dato *temp=lis;
+        while(temp!=NULL){
+                if (temp->sig!=NULL){
+                        printf("%d: %s %d operaciones,espera\n",temp->id,temp->nombre,temp->op );
+                }else{
+                        printf("%d: %s %d operaciones,%d operaciones realizadas\n",temp->id,temp->nombre,temp->op,opr );
+                }
+                temp=temp->sig;
+        }
+}
+void agregar(dato **lis, int *opr,int *idt, char nombreu[],int dty,int origen){
+        int op;
+        dato *temp,*temp1;
+        temp=(dato *)malloc(sizeof(dato));
+        strcpy(temp->nombre,nombreu);
+        temp->op=dty;
+        temp->sig=NULL;
+        temp->id=*idt;
+        ++(*idt);
+        if(origen==0){
+        temp->sig=*lis;
+        *lis=temp;
+        temp1=*lis;
+        }
+        else if(origen==1){
+                temp1=*lis;
+                if (*lis==NULL)
+                {
+                        temp->sig=*lis;
+                        *lis=temp;
+                }else{
+                while(temp1!=NULL){
+                temp1=temp1->sig;
+                }
+                temp->sig=temp1->sig;
+                *lis=temp;
+
+        }
+}
+
+
+}
+void elimina(dato **lis){
+        dato *temp=*lis,*temp1=*lis,*temp2,*temp4,*temp3;
+        int t,p=0,c=0;;
+        __fpurge(stdin);
+        printf("Inteoduce el id a borrar\n");
+        scanf("%d",&t);
+        __fpurge(stdin);
+        while(temp!=NULL){
+        if (temp->id!=t){
+                ++p;
+        }
+        if (temp->id==t){
+                ++c;
+                break;
+        }
+        temp=temp->sig;
+        }
+        printf("%d\n",p);
+        if (c==0){
+                printf("El numero no existe\n");
+        }else{
+                if (p==0){
+                        temp3=*lis;
+                        *lis=(*lis)->sig;
+                        free(temp3);
+                }
+                else{
+                        temp3=*lis;
+                        temp4=*lis;
+                        temp4=temp4->sig;
+                                while(temp4!=NULL && temp4->id!=t){
+                                        temp3=temp4;
+                                        temp4=temp4->sig;
+                                }
+                                if (temp4!=NULL){
+                                        temp3->sig=temp4->sig;
+                                        free(temp4);
+
+                                }
+
+        }
+}
+}
+void guardaar(dato *lis,int opr){
+        dato *temp=lis;
+        FILE *ar;
+        ar=fopen("arch","wt");
+
+        while(temp!=NULL){
+                if (temp->sig!=NULL){
+                        fprintf(ar,"%s %d\n",temp->nombre,temp->op-opr );
+                }else{
+                        fprintf(ar,"%s %d\n",temp->nombre,temp->op );
+                }
+                temp=temp->sig;
+                }
+                fclose(ar);
+}
+
+
+
+
+void carga(dato **lis, int *opr,int *idt){
+                dato *temp,*temp1;
+                char nombreu[40];
+                int dato;
+                FILE *ar;
+                ar=fopen("arch","rt");
+                if(ar!=NULL){
+                        while(fscanf(ar,"%s %d\n",nombreu,&dato)==2){
+                                agregar(lis,opr,idt,nombreu,dato,0);
+                                }
+                fclose(ar);
+                }else{
+                        printf("Archivo no existe\n");
+                }
+}
+
+
+void oprt(dato **lis,int *datou){
+        dato *temp=*lis,*temp2,*temp3,*temp4;
+        while(temp->sig!=NULL){
+                temp=temp->sig;
+        }
+        if(temp->op!=(*datou)){
+                ++(*datou);
+        }else if(temp->op==(*datou)){
+                temp3=*lis;
+                temp4=*lis;
+                temp4=temp4->sig;
+                while(temp4->sig!=NULL){
+                                        temp3=temp4;
+                                        temp4=temp4->sig;
+                                }
+                                if (temp4!=NULL){
+                                        temp3->sig=NULL;
+                                        free(temp4);
+
+                                }
+                                *datou=0;
+        }
+
+}

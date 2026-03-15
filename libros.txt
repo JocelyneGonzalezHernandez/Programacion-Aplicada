@@ -1,0 +1,10 @@
+145	Stephen King	Cell	DEBOLSILLO	Mexico	2008	0
+236	Anabel Hernandez	Emma y las otras señoras del narco	Grijalbo	Mexico	2021	0
+588	Ahemed Emin Yalman	Turkey in my time	University of Oklahoma Press	Estados Unidos	1956	1
+146	Stephen King	Mr. Mercedes	Scribner	Estados Unidos	2014	1
+240	Ildefonso Falcones	El pintor de almas	Grijalbo	España	2019	0
+209	Joseph Campbell	The mysteries:papers from Eranos yearbooks	Pantheon Books	Estados Unidos	1955	0
+211	Francisco Hinojosa	La peor señora del mundo	Fondo de Cultura Economica	Mexico	2010	0
+215	Elsa Bornemann	Puros ojos	Alfaguara	Argentina	2014	0
+225	Gabriel Garcia Marquez	Cronica de una muerte anunciada	Diana	Mexico	2015	0
+590	Roald Dahl	Matilda	Santillana	Argentina	2015	1

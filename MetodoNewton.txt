@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <math.h>
+
+#define F(t) (exp(-t)-t)
+
+float df(float ta, float h); 
+void Newton(float iteraciones[]);
+int Compara(float iteraciones[], int i);
+
+int main()
+{
+    float num[100];
+
+    Newton(num);
+    return 0;
+}
+
+float df(float ta, float h) //calcula la derivada de la función F utilizando una aproximación por diferencias 
+{
+    float t = ta + h;
+    return ((F(t)) - (F(ta))) / h; //Usando el Método de Newton
+}
+
+void Newton(float iteraciones[])
+{
+    int i = 0, sigue = 1;
+    float x1 = 1; //Se inicializa x1
+    float a, h = 0.001;
+
+    do
+    {
+        iteraciones[i] = x1 - (F(x1)) / (df(x1, h)); //se aplica la fórmula y se guarda el resultado en el arreglo
+        x1 = iteraciones[i]; //X1 toma el valor del resultado anterior
+
+        printf("%f\n", iteraciones[i]); //Imprime la raiz
+
+        if (i != 0)
+            sigue = Compara(iteraciones, i); //Hace la compración para ver si las raíces son iguales
+
+        i++;
+    } while ((i < 100) && (sigue == 1));
+}
+
+int Compara(float iteraciones[], int i) //Compara las raíces para ver las últimas son iguales
+{
+    if (iteraciones[i] != iteraciones[i - 1])
+        return 1;
+    else
+        return 0;
+}
+

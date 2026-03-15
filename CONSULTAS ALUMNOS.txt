@@ -1,0 +1,55 @@
+1. // Alumnos que no han faltado
+SELECT a.nombre FROM ej1_alumnos a LEFT JOIN ej1_ausencias using(idAlumno) WHERE idAusencias IS NULL;
+
+2. //Nombre y número de faltas de cada alumno
+SELECT a.nombre, COUNT(*) FROM ej1_alumnos a RIGHT JOIN ej1_ausencias using(idAlumno) GROUP BY a.nombre; //No salen ceros
+
+SELECT a.nombre, COUNT(idAusencias) FROM ej1_alumnos a LEFT JOIN ej1_ausencias using(idAlumno) GROUP BY a.idAlumno; //Salen alumnos con 0 ausencias
+
+3. //Número de faltas por género
+SELECT a.genero, COUNT(*) FROM ej1_alumnos a RIGHT JOIN ej1_ausencias using(idAlumno) GROUP BY a.genero;
+
+4. //Calificación Máxima, calificación mínima, promedio y número de alumnos de cada examen
+SELECT idExamen, MAX(calif), MIN(calif), avg(calif), COUNT(*) FROM ej1_calificaciones GROUP BY idExamen;
+
+5. //Cuántos nombre y mujeres hay en la base de datos
+ SELECT a.genero, COUNT(*) FROM ej1_alumnos a GROUP BY a.genero;
+
+6. //Nombre de los alumnos y su promedio
+SELECT nombre, avg(calif) as promedio FROM ej1_calificaciones RIGHT JOIN ej1_alumnos USING (idAlumno) GROUP BY idAlumno;
+
+7. //Nombre de los alumnos con el promedio más alto
+SELECT nombre, avg(calif) as promedio FROM ej1_calificaciones RIGHT JOIN ej1_alumnos USING (idAlumno) GROUP BY idAlumno ORDER BY promedio DESC LIMIT 1;
+
+8. // EXAMEN CON LA CALIFICACION MÁS ALTA
+ SELECT idExamen, fecha, nombre, calif FROM ej1_examenes  
+	RIGHT JOIN ej1_calificaciones USING(idExamen) RIGHT JOIN ej1_materias USING(idMateria) ORDER BY calif DESC LIMIT 1;
+
+9. //Examen con el promedio más bajo
+ SELECT idExamen, fecha, nombre, calif FROM ej1_examenes  
+	RIGHT JOIN ej1_calificaciones USING(idExamen) RIGHT JOIN ej1_materias USING(idMateria) ORDER BY calif DESC LIMIT 1;
+
+10. //Tipo de examen con la calificación más baja
+ SELECT idExamen, fecha, tipo, calif FROM ej1_examenes RIGHT JOIN ej1_calificaciones USING(idExamen) RIGHT JOIN ej1_tipoExamen USING(idTipo)
+	ORDER BY calif LIMIT 1;
+
+11. //Nombre de los alumnos con el promedio reprobado
+SELECT nombre, avg(calif) as promedio FROM ej1_calificaciones RIGHT JOIN ej1_alumnos USING (idAlumno) GROUP BY idAlumno HAVING promedio<7.6;
+
+12. //Promedio de exámenes por tipo de examen
+SELECT tipo, avg(calif) FROM ej1_examenes RIGHT JOIN ej1_calificaciones USING(idExamen) 
+	RIGHT JOIN ej1_tipoExamen USING(idTipo) GROUP BY tipo;
+
+13. //Número de faltas por mes
+SELECT MONTHNAME(fecha), COUNT(*) FROM  ej1_ausencias GROUP BY MONTHNAME(fecha);
+
+14. //Nombre de los alumnos que más han faltado
+SELECT a.nombre, COUNT(*) as n FROM ej1_alumnos a RIGHT JOIN ej1_ausencias using(idAlumno) 
+	GROUP BY a.nombre ORDER BY n DESC; // Alumnos con faltas en orden descendente
+
+SELECT a.nombre, COUNT(*) as n FROM ej1_alumnos a RIGHT JOIN ej1_ausencias using(idAlumno) 
+	GROUP BY a.nombre ORDER BY n DESC LIMIT 2; //Alumnos con más faltas
+
+15. //Día de la semana que más faltan alumnos
+SELECT DAYNAME(fecha) AS DIA, COUNT(*)AS FALTAS FROM  ej1_ausencias GROUP BY DAYNAME(fecha) ORDER BY FALTAS DESC LIMIT 1;
+

@@ -1,0 +1,61 @@
+BigDataEngineer Experience with Hadoop, Spark, and other Big Data technologies
+BigDataEngineer Design and build data pipelines
+BigDataEngineer Expertise in data modeling, ETL development, and data warehousing
+BigDataEngineer Experience with distributed systems and scalable data architectures
+BigDataEngineer Proficient in programming languages like Python and Java
+BigDataEngineer Experience with cloud platforms like AWS, Google Cloud Platform, or Azure
+BigDataEngineer Ability to work with large datasets and knowledge of data cleaning/wrangling
+BigDataEngineer Understanding of data visualization and reporting tools
+BigDataEngineer Experience with DevOps and containerization technologies like Kubernetes and Docker
+BigDataEngineer Strong problem-solving and analytical skills
+BigDataEngineer Knowledge of SQL and NoSQL databases
+BigDataEngineer Experience with real-time streaming applications
+BigDataEngineer Familiarity with machine learning algorithms and frameworks
+BigDataEngineer Understanding of data security and privacy best practices
+BigDataEngineer Excellent communication and collaboration skills
+dataanalyst Collect, clean, and analyze large datasets to identify trends and insights
+dataanalyst Expertise in SQL and data visualization tools like Tableau or Power BI
+dataanalyst Experience with statistical analysis and modeling techniques
+dataanalyst Ability to communicate complex data findings to non-technical stakeholders
+dataanalyst Strong attention to detail and ability to identify data quality issues
+dataanalyst Familiarity with data warehousing and ETL processes
+dataanalyst Experience with programming languages like R or Python
+dataanalyst Ability to work independently and manage multiple projects simultaneously
+dataanalyst Understanding of business operations and key performance indicators (KPIs)
+dataanalyst Experience with A/B testing and experiment design
+dataanalyst Ability to work with stakeholders to define project requirements and deliverables
+dataanalyst Knowledge of data privacy and security best practices
+dataanalyst Strong critical thinking and problem-solving skills
+InformationSecurityDataAnalyst Experience in cyber security, big data, and/or machine learning
+InformationSecurityDataAnalyst Practical experience in analytics, machine learning, or big data with a mathematics/statistical background
+InformationSecurityDataAnalyst Strong written and verbal communication skills
+InformationSecurityDataAnalyst Highly creative, motivated self-starter who can provide leadership in big data analytics
+InformationSecurityDataAnalyst Strong sense of ownership and driven to manage tasks to completion
+InformationSecurityDataAnalyst Experience in data analysis and manipulation using scripting languages like Python
+InformationSecurityDataAnalyst Familiarity with malware, host forensics, or network traffic analysis
+InformationSecurityDataAnalyst Ability to create UBA/UEBA models to identify insider risk
+InformationSecurityDataAnalyst Knowledge of threat vectors and attack methodologies focusing on both internal and external actors
+InformationSecurityDataAnalyst Experience with SIEM usage
+InformationSecurityDataAnalyst Database knowledge (SQL and/or document databases)
+InformationSecurityDataAnalyst Proficiency in statistics such as distributions, predictive modeling, data validation, statistical testing, regression
+InformationSecurityDataAnalyst Graduate degree in Computer Science or Engineering, with a strong quantitative background
+InformationSecurityDataAnalyst Experience with scalable distributed data processing, management, and visualization tools (e.g. Hadoop, Apache Spark)
+InformationSecurityDataAnalyst Expert knowledge of Python
+LeadDataEngineer manage the pipelines that move our data from multiple source systems to the Data Warehouse
+LeadDataEngineer productionizing of Machine Learning models for both batch mode and also hosts Model-as-a-Service as RESTful services
+LeadDataEngineer manage and build monitoring of technology platform components and measure metric deviations & build a culture of observability within the team
+LeadDataEngineer oversee the release, support production deployment, and build and scale API stack to serve ML model results
+LeadDataEngineer build strong partnership with Data Science to understand tools and infrastructure that can be built for model pipelines
+LeadDataEngineer manage predictive model data in the warehouse including tools and infrastructure
+MarketingDataAnalyst marketing, data analysis, business intelligence, analytics, strategy, SQL, excel, visualization, e-commerce, online travel, forecasting
+MarketingDataAnalyst market research, ROI, insights, automation, problem solving, communication, teamwork, flexibility, adaptability, critical thinking, statistical analysis
+MarketingDataAnalyst Derive insights from large amounts of customer and transactional data to develop segmentations, strategies, visualizations, reports, and recommendations for various marketing purposes.
+MarketingDataAnalyst Develop queries in SAS that create marketing campaigns to optimize profit and produce multi-channel campaign outputs.
+MarketingDataAnalyst Design and evaluate various tests and optimizations of campaigns.
+MarketingDataAnalyst Provide campaign analytics to extended team, including insights and recommendations to improve message effectiveness and campaign performance.
+MarketingDataAnalyst Build business intelligence, reports and dashboards using software like SAS, Microsoft Excel/VBA, Tableau, or SAS Visual Analytics that include segment/campaign profitability and customer behavior or trends.
+MarketingDataAnalyst Identify new business opportunities or potential risks based on data analysis on subject matters of various operations departments.
+MarketingDataAnalyst Familiarity with marketing methodologies and systems such as segmentation modeling, targeting, CRM, and ROI projections and evaluation.
+MarketingDataAnalyst Perform regular analysis and reports for distribution to senior management on customer/prospective customer data and trends.
+MarketingDataAnalyst Develop analytical reports to various departments requesting insight, supportive data or status reports to support corporate initiatives.
+unclassifed hola. adios. a. sumary. overview. summary. description. â.€.™. *. :). hi. bad bunny. bye. benefits. Â­. hello

@@ -1,0 +1,40 @@
+/* TÍTULO: Área de un rectángulo
+Desarrollado por Jocelyne González Hernández
+
+
+DESCRIPCIÓN GENERAL:
+  Se requiere un programa que calcule el área de un rectángulo. El programa debe desplegar el área obtenida en el monitor.
+
+COMPORTAMIENTO DETALLADO:
+  1. El programa despliega en la pantalla un mensaje indicando su uso.
+  2. El porgrama solicita y lee al usuario los valores de dos lados (a y b).
+  3. El programa calcula el área usando la fórmula por medio de la multiplicación de ambos lados (a*b).
+  4. El programa muestra en pantalla el área obtenida.
+
+SALIDA:
+  El área de la ecuación: area
+
+ENTRADAS:
+  Dos lados (a y b) del rectángulo.
+
+PROCESO:
+  1. Pedir lados (a y b).
+  2. Calcular área (area).
+  3. Desplegar área (area).
+
+ALCANCES:
+  El programa solo calcula áreas cuyos valores de los lados estén en le dominio de los reales.
+
+LIMITACIONES:
+  El programa no hace validaciones.
+  Si el usuario ingresa un valor negativo para uno de los lados, el programa mostrará resultados incorrectos.
+  Si el usuario ingresa valores fuera de los números reales, el programa terminará anormalmente.
+
+DISEÑO DE PANTALLAS
+  $./exp_1-area
+  Este programa calcula el área de un rectángulo.
+  Ingrese el valor de dos lados:
+  Lado a:
+  Lado b:
+  Área: 1.0000
+  $

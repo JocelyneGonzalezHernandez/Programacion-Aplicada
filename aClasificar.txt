@@ -1,0 +1,89 @@
+hola. 
+adios. 
+a. 
+sumary. 
+overview. 
+summary. 
+description. â.
+€.
+™.
+ *. 
+:). 
+hi. 
+bad bunny. 
+bye. 
+benefits. 
+Â­. 
+hello. 
+with. 
+the. 
+in. 
+1. 2. 3. 4. 5 .6.7. 8.9.0.
+Soy juan
+me gusta la pizza
+perrp
+Big Data Engineer.Design and build data pipelines
+Expertise in data modeling, ETL development, and data warehousing
+Experience with distributed systems and scalable data architectures
+Proficient in programming languages like Python and Java
+Experience with cloud platforms like AWS, Google Cloud Platform, or Azure
+Ability to work with large datasets and knowledge of data cleaning/wrangling
+ Understanding of data visualization and reporting tools
+ Experience with DevOps and containerization technologies like Kubernetes and Docker
+ Strong problem-solving and analytical skills
+ Knowledge of SQL and NoSQL databases
+ Experience with real-time streaming applications
+ Familiarity with machine learning algorithms and frameworks
+ Excellent communication and collaboration skills
+ Create data tools for analytics and data scientist team members that assist them in building and optimizing our product into an innovative industry.
+ Collect, clean, and analyze large datasets to identify trends and insights
+ Expertise in SQL and data visualization tools like Tableau or Power BI
+ Experience with statistical analysis and modeling techniques
+ Ability to communicate complex data findings to non-technical stakeholders
+ Strong attention to detail and ability to identify data quality issues
+ Familiarity with data warehousing and ETL processes
+ Experience with programming languages like R or Python
+ Ability to work independently and manage multiple projects simultaneously
+ Understanding of business operations and key performance indicators (KPIs)
+ Experience with A/B testing and experiment design
+ Ability to work with stakeholders to define project requirements and deliverables
+ Strong critical thinking and problem-solving skills. analista de datos. analisis.
+ data analysis. data manipulation. data processing. data cleansing. data validation. data integrity. database management. data reporting. analytics. 
+ business intelligence. data visualization. data mining. machine learning. statistics. excel. sql. python. r. tableau. hadoop. spark. aws. healthcare. finance.
+ supply chain management. project management. critical thinking. problem-solving. detail-oriented. strong communication skills.
+ Experience in cyber security or machine learning
+ Practical experience in analytics, machine learning, mathematics/statistical background
+ Strong written and verbal communication skills. Data security
+ Highly creative, motivated self-starter
+ Strong sense of ownership and driven to manage tasks to completion
+ Experience in data analysis and manipulation using scripting languages like Python
+ Familiarity with malware, host forensics, or network traffic analysis
+ Ability to create UBA/UEBA models to identify insider risk
+ Knowledge of threat vectors and attack methodologies focusing on both internal and external actors
+ Experience with SIEM usage
+ Database knowledge (SQL and/or document databases)
+ Proficiency in statistics such as distributions, predictive modeling, data validation, statistical testing, regression
+ Graduate degree in Computer Science or Engineering, with a strong quantitative background
+ Experience with scalable distributed data processing, management, and visualization tools (e.g. Hadoop, Apache Spark)
+ Expert knowledge of Python
+ Manage the pipelines that move our data from multiple source systems to the Data Warehouse.
+ Productionizing of Machine Learning models for both batch mode and also hosts Model-as-a-Service as RESTful services
+ Manage and build monitoring of technology platform components and measure metric deviations & build a culture of observability within the team
+ Oversee the release, support production deployment, and build and scale API stack to serve ML model results.
+ overseeing the development and maintenance of complex data pipelines and infrastructure. 
+ senior-level role that involves managing a team of data engineers.
+ Represents other Data Engineers. 
+ Build strong partnership with Data Science to understand tools and infrastructure that can be built for model pipelines
+ Manage predictive model data in the warehouse including tools and infrastructure. Lead data engineer.
+ Derive insights from large amounts of customer and transactional data to develop segmentations, strategies, visualizations, reports
+ recommendations for various marketing purposes.marketing. data analysis. business intelligence. market research. marketing data analyst
+ Develop queries in SAS that create marketing campaigns to optimize profit and produce multi-channel campaign outputs.
+ Design and evaluate various tests and optimizations of campaigns. marketing methodologies and systems such as segmentation modeling.
+ Provide campaign analytics to extended team, including insights and recommendations to improve message effectiveness and campaign performance
+ Delivery and implementation of data strategy, data layer design and tagging plans
+ Providing general guidance and expertise to our clients as a trusted advisor. Marketing
+ Experience in a consulting or client services environment
+ Marketing Automation (Marketo, Pardot, Episerver)
+ digital marketing space. channel strategies spanning web, email, social and mobile
+ facebook. instagram. telegram. email. twitter. website. customer.
+ya se quiere ir

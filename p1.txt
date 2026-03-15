@@ -1,0 +1,10 @@
+micro teslas
+el minimo 0.01 microteslas
+1. configuramos la phyphox con las siguientes especificaciones
+2. La cantidad absoluto fue de 26, 35 microteslas
+3. Buscar sensor de presion
+
+4. velocidad de rotacion 
+en una ejecucion cronometrada a 20 segundos 
+la cantidad absoluta 
+el angulo de rotacion de a tierra varia en 0.001 rad/s

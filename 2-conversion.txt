@@ -1,0 +1,39 @@
+/* TÍTULO: Conversión de kilogramos a libras.
+Desarrollado por Jocelyne González Hernández
+
+
+DESCRIPCIÓN GENERAL:
+   Se requiere un programa que convierta unidades de medida de peso, específicamente, de kilogramos a libras.
+
+COMPORTAMIENTO DETALLADO:
+   1. El programa muestra en pantalla un mensaje indicando su uso.
+   2. El programa solicita al usuario y lee la cantidad de kilogramos (kg) a convertir.
+   3. El programa convierte la cantidad de kilogramos (kg) a libras (lb) por medio de una multiplicación (kg*2.2046)
+   4. El programa despliega la cantidad de libras.
+
+SALIDA:
+   Cantidad en libras (lb).
+
+ENTRADA:
+   Cantidad de kilogramos (kg) a convertir.
+
+PROCESO:
+   1. Pedir cantidad de kilogramos (kg).
+   2. Convertir a libras (lb).
+   3. Desplegar cantidad en libras (lb).
+
+ALCANCE:
+   El programa convierte cantidades que estén dentro del dominio de los números reales.
+
+LIMITACIONES:
+   El programa no hace ningún tipo de validaciones.
+   Si el usuario ingresa valores que estén fuera de los números reales, el programa entregará resultados incorrectos o terminará anormalmente.
+
+DISEÑO DE PANTALLAS:
+   $./esp_2-conversion
+   Este programa convierte kilogramos a libras.
+   Introduzca la cantidad de kilogramos a convertir:
+   Kg:
+   Libras: 1.000
+   $
+*/

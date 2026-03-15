@@ -1,0 +1,90 @@
+int contarConsonantes(char *archivo1)
+{
+  FILE *fp;
+  int i;
+  char a;
+
+  fp=fopen(archivo1, "r");
+
+  if(fp==NULL)
+    {
+      printf("Archivo no disponible\n");
+      exit(1);
+    }
+  while((a=getc(fp))!=EOF)
+    {
+      if(a!= 'a'&& a!='e'&& a!='i'&& a!='o'&& a!='u'&& a!=' ')
+        {
+          i++;
+        }
+    }
+  //Cerrar archivo
+  fclose(fp);
+  return i-1;
+}
+int contarVocales(char *archivo1)
+{
+  FILE *fp;
+  int i;
+  char a;
+
+  fp=fopen(archivo1, "r");
+
+  if(fp==NULL)
+    {
+      printf("Archivo no disponible\n");
+      exit(1);
+    }
+  while((a=getc(fp))!=EOF)
+    {
+      if(a== 'a'||a=='e'||a=='i'||a=='o'||a=='u')
+        {
+          i++;
+        }
+    }
+  //Cerrar archivo
+  fclose(fp);
+  return i;
+}
+int contarCaracteres(char *archivo1)
+{
+  char a;
+  FILE *fp;
+  int i=0;
+
+  fp=fopen(archivo1, "r");
+  if(fp == NULL)
+    {
+      printf("Su archivo no se encuentra disponible por ahora\n");
+      exit(1);
+    }
+  while((a=getc(fp))!=EOF)
+  {
+    i++;
+  }
+
+  fclose(fp);
+return i-1;
+}
+int contarEspacios(char *archivo1)
+{
+  char a;
+  FILE *fp;
+  int i=0;
+fp=fopen(archivo1, "r");
+  if(fp == NULL)
+    {
+      printf("Su archivo no se encuentra disponible por ahora\n");
+      exit(1);
+    }
+  while((a=getc(fp)) != EOF)
+    {
+      if(a == ' ')
+        {
+          i++;
+        }
+    }
+  fclose(fp);
+
+  return i;
+}

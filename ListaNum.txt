@@ -1,0 +1,110 @@
+ListaNum:  principal.o modulo1.o
+        gcc -o ListaNum principal.o modulo1.o
+
+principal.o: principal.c
+        gcc -c principal.c
+
+modulo1.o: modulo1.c
+        gcc -c modulo1.c
+
+clean:
+        rm *.o
+
+//local.h
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct datos_numeros
+{
+  int *numeros;
+  struct lista *sig;
+}lista;
+
+
+//principal.c
+#include"local.h"
+
+extern int crearlista(lista **inicio,lista **aux,int n);
+extern int ordenar(lista *inicio);
+extern int recorrer(lista *inicio);
+extern void libera(lista *inicio);
+
+int main(int argc,char *argv[])
+{
+  lista *inicio,*aux;
+  int n=0,*numeros;
+  char c;
+  FILE *archivo;
+  inicio = NULL;
+  if(argc != 2)
+    {
+      printf("datos de más ingresados\n");
+      exit(1);
+    }
+  archivo=fopen(argv[1],"r");
+  if(archivo != NULL)
+    {
+      while((c=getc(archivo))!=EOF)
+        {
+          crearlista(&inicio,&aux,n);
+          ordenar(inicio);
+          n++;
+        }
+    }
+  fclose(archivo);
+  recorrer(inicio);
+  libera(inicio);
+}
+
+//modulo1.c
+#include"local.h"
+
+int crearlista(lista **inicio,lista **aux,int n)
+{
+  lista *nodo;
+  int numero;
+  nodo->numeros=0;
+  nodo=malloc(sizeof(lista));
+  //nodo->numeros=malloc(n*sizeof(int));
+  if(nodo==NULL)
+    {
+      printf("No hay memoria\n");
+      exit(1);
+    }
+  numero=nodo->numeros;
+  //nodo->numeros = nodo->numeros;
+  if(*inicio==NULL)
+    *inicio=nodo;
+  else
+    (*aux)->sig=nodo;
+  *aux=nodo;
+  nodo->sig=NULL;
+  return numero;
+}
+int ordenar(lista *inicio)
+{
+  printf("hola\n");
+}
+int recorrer(lista *inicio)
+{
+  lista *aux,*nodo;
+  int num;
+  aux = inicio;
+  while(aux != NULL)
+    {
+      num=atoi(aux->numeros);
+      printf("%d",num);
+      aux = aux->sig;
+    }
+}
+void libera(lista *inicio)
+{
+  lista *aux;
+  aux = inicio;
+  while(aux != NULL)
+    {
+      inicio=aux->sig;
+      free(aux);
+      aux=inicio;
+    }
+}

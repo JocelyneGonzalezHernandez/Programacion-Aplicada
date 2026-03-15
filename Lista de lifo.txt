@@ -1,0 +1,63 @@
+#include "local.h"
+
+extern void crearLista(lista **inicio,char c);
+extern void recorreLista(lista *inicio);
+extern void liberarEspacio(lista *inicio);
+
+void crearLista(lista **inicio,char c)
+{
+  lista *nodo;
+
+  nodo=malloc(sizeof(lista));
+
+  //1.-Crear el espacio
+  if(nodo == NULL)
+    {
+      printf("No hay memoria\n");
+      exit(1);
+    }
+  //2.-Llenar informacion
+
+  nodo->letra=c;
+
+  //3.-Encadenamieto(lista LIFO)
+
+  if(*inicio==NULL)
+    {
+      nodo->sig=NULL;
+    }
+  else
+    {
+      nodo->sig=*inicio;
+    }
+  *inicio=nodo;
+
+}
+
+void recorreLista(lista *inicio)
+{
+  lista *aux;
+
+  aux=inicio;
+
+  while(aux!=NULL)
+    {
+      ("%c",aux->letra);
+      aux=aux->sig;
+    }
+
+}
+
+void liberarEspacio(lista *inicio)
+{
+  lista *aux;
+
+  aux=inicio;
+
+  while(aux!=NULL)
+    {
+      aux=aux->sig;
+      free(inicio);
+      inicio=aux;
+    }
+}

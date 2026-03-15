@@ -1,0 +1,792 @@
+/**************************************************************************
+ * Código Práctica 2
+ *
+ * Estructuras de datos y bibliotecas necesarias, “local.h”
+ *
+ * Autor(es): Carlos Cruz, Monica Vergara, Jazmin Villegas
+ * Universidad Iberoamericana
+ * Programación Aplicada
+ * Otoño 2020
+ *
+ **************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct acompanante{
+        char nombre[30];
+        char carrera[30];
+        char direccion[50];
+        struct acompanante *ab;
+}ACOMPANANTE;
+
+typedef struct datos{
+        char nombre[30];
+        char carrera[30];
+        char inicioViaje[25];
+        char finViaje[25];
+        int lugares;
+                int lugaresTot;
+        struct datos *ant;
+        struct datos *sig;
+        ACOMPANANTE *inicio;
+}CONDUCTORES;
+
+*************************************************************************************/
+# Makefile para la práctica2
+
+practica2.out: practica2.o funcionesConductor.o funcionesAcompanantes.o
+        gcc -o practica2.out practica2.o funcionesConductor.o funcionesAcompanantes.o
+
+practica2.o: practica2.c
+        gcc -c practica2.c
+
+funcionesConductor.o: funcionesConductor.c
+        gcc -c funcionesConductor.c
+
+funcionesAcompanantes.o: funcionesConductor.c
+        gcc -c funcionesAcompanantes.c
+
+clean:
+        rm *.o
+/***************************************************************************************/
+/**************************************************************************
+ * Código Práctica 2
+ *
+ * Programa principal
+ *
+ * Autor(es): Carlos Cruz, Monica Vergara, Jazmín Villegas
+ * Universidad Iberoamericana
+ * Programación Aplicada
+ * Otoño 2020
+ *
+ **************************************************************************/
+
+#include "local.h"
+
+extern void leerArchivoConductores(CONDUCTORES **inicio, CONDUCTORES **aux);
+extern void crearListaConductores(CONDUCTORES **inicio,CONDUCTORES  **aux);
+extern void guardarArchivoConductores(CONDUCTORES *inicio);
+extern void limpiarListas(CONDUCTORES *inicioCon);
+extern void recorrerListaConductores(CONDUCTORES *inicio);
+extern void buscarConductor(CONDUCTORES *inicioCon);
+extern void borrarConductor(CONDUCTORES **inicio, CONDUCTORES **aux);
+extern void leerArchivoAcompanante(CONDUCTORES *inicioCon);
+extern void crearListaAcompanante(CONDUCTORES *inicioCon);
+extern void guardarArchivoAcompanante(CONDUCTORES *inicioCon);
+extern void borrarAcompanante(CONDUCTORES *inicioCon);
+
+int main(void)
+{
+        int opcion=0;
+        CONDUCTORES *inicioCon, *auxCon, *nodoCon;
+
+        inicioCon=NULL;
+
+        leerArchivoConductores(&inicioCon, &auxCon);
+        leerArchivoAcompanante(inicioCon);
+
+        while(opcion!=6)
+        {
+                printf("\n*********************************");
+        printf("\n Menú de opciones:");
+        printf("\n 1. Agregar un conductor.");
+        printf("\n 2. Agregar un acompañante.");
+        printf("\n 3. Buscar conductor.");
+        printf("\n 4. Borrar conductor.");
+                printf("\n 5. Borrar acompañante");
+                printf("\n 6. Salir");
+                printf("\n*********************************");
+        printf("\n Ingresa una opcion del menú:");
+        scanf(" %i", &opcion);
+
+                        if(opcion==1)
+                        {
+                                printf("Usted ha escogido la opción de agregar conductor\n");
+                                crearListaConductores(&inicioCon, &auxCon);
+                                guardarArchivoConductores(inicioCon);
+
+                        }
+            else if(opcion==2)
+                        {
+                                printf("Usted ha escogido la opción de agregar acompañante\n");
+                                crearListaAcompanante(inicioCon);
+                                guardarArchivoAcompanante(inicioCon);
+                                guardarArchivoConductores(inicioCon);
+                        }
+                        else if(opcion==3)
+                        {
+                                printf("Usted ha escogido la opción de buscar conductor\n");
+                                buscarConductor(inicioCon);
+                        }
+                        else if(opcion==4)
+                        {
+                                printf("Usted ha escogido la opción de borrar conductor\n");
+                                borrarConductor(&inicioCon, &auxCon);
+                                guardarArchivoConductores(inicioCon);
+                                guardarArchivoAcompanante(inicioCon);
+                        }
+                        else if(opcion==5)
+                        {
+                                printf("Usted ha escogido la opción de borrar acompañante\n");
+                                borrarAcompanante(inicioCon);
+                                guardarArchivoAcompanante(inicioCon);
+                                guardarArchivoConductores(inicioCon);
+                        }
+        }
+        limpiarListas(inicioCon);
+}
+/*******************************************************************************************************/
+
+/**************************************************************************
+ * Código Práctica 2
+ *
+ * Módulo 2: FuncionesAcompanantes
+ *
+ * Autor(es): Carlos Cruz, Monica Vergara, Jazmin Villegas
+ * Universidad Iberoamericana
+ * Programación Aplicada
+ * Otoño 2020
+ *
+ **************************************************************************/
+
+#include "local.h"
+
+/********************************************************************
+ *
+ * Función  crearListaAcompanante
+ * Descripción: Agrega acompañante(s) a un conductor, en caso
+ *              de que el conductor no tenga espacios disponibles
+ *              o no exista, no añade acompañante
+ * Recibe: inicioCon nodoAcom, ,inicioAcom, auxAcom,nodoCom
+ * Regresa: no regresa ningœn valor
+ *
+ *********************************************************************/
+void crearListaAcompanante(CONDUCTORES *inicioCon)
+{
+    ACOMPANANTE *nodoAcom, *inicioAcom, *auxAcom;
+    CONDUCTORES *nodoCon;
+    char nombreCon[30];
+    int encontrado=0;
+
+    nodoCon=inicioCon;
+
+    nodoAcom=malloc(sizeof(ACOMPANANTE));
+    if(nodoAcom == NULL){
+        printf("No hay memoria\n");
+        exit(1);
+    }
+
+    printf("Ingrese el nombre del conductor al que desea agregar un acompañante\n");
+    fflush(stdin);
+    getchar();
+    scanf("%[^\n]s", nombreCon);
+
+    while(nodoCon!=NULL)
+    {
+        if(strcmp(nodoCon->nombre, nombreCon)==0)
+        {
+            if(nodoCon->lugares!=0)//Verifica si el conductor aún tiene lugares disponibles
+            {
+                encontrado=1;
+                printf("¿Cuál es el nombre del acompañante?\n");
+                fflush(stdin);
+                getchar();
+                scanf("%[^\n]s", nodoAcom->nombre);
+                fflush(stdin);
+                getchar();
+                printf("¿Qué carrera estudia?\n");
+                scanf("%[^\n]s", nodoAcom->carrera);
+                fflush(stdin);
+                getchar();
+                printf("¿Cuál es su dirección?\n");
+                scanf("%[^\n]s", nodoAcom->direccion);
+                fflush(stdin);
+                getchar();
+
+                if(nodoCon->inicio == NULL){
+                    nodoCon->inicio=nodoAcom;
+                }
+                else{
+                    auxAcom=nodoCon->inicio;
+                    inicioAcom=auxAcom;
+
+                    while(auxAcom->ab!=NULL)
+                    {
+                        auxAcom=auxAcom->ab;
+                    }
+                    inicioAcom=auxAcom;
+                    inicioAcom->ab=nodoAcom;
+                }
+            nodoAcom->ab = NULL;
+            nodoCon->lugares=(nodoCon->lugares)-1;//Se le resta un lugares al número de lugares disponibles
+            }
+            else{
+                printf("Este conductor no tiene lugares disponibles\n");
+                encontrado=1;
+            }
+        }
+        nodoCon=nodoCon->sig;
+    }
+    if(encontrado!=1)
+    {
+        printf("No se encontró ningún conductor con ese nombre\n");
+    }
+}
+
+
+/********************************************************************
+ *
+ * Función   leerArchivoAcompanante
+ * Descripción: Lee los datos de acompañantes desde un archivo
+ *              binaro
+ * Recibe: inicioCon,nodoCon,nodoAcom, inicioAcom, auxAcom
+ * Regresa: no regresa ningœn valor
+ *
+ *********************************************************************/
+void leerArchivoAcompanante(CONDUCTORES *inicioCon)
+{
+    CONDUCTORES *nodoCon;
+    ACOMPANANTE *nodoAcom, *inicioAcom, *auxAcom;
+    FILE *fp;
+    int lugares;
+
+    nodoCon=inicioCon;
+    fp = fopen("datosAcompanantes.bin", "rb");
+    if(fp != NULL){//Verifica si existe un archivo con el registro de acompañantes
+                  //En caso de que el archvio tenga datos, se agregarán a las listas simples de acompañantes
+                nodoAcom = malloc(sizeof(ACOMPANANTE));
+        if(nodoAcom == NULL){
+            printf("No hay memoria\n");
+            exit(1);
+        }
+
+        while(nodoCon!=NULL)
+        {
+            lugares=(nodoCon->lugaresTot)-(nodoCon->lugares);//Con esta variable se sabe cuántos acompañantes se van a encadenar a cada conductor
+            while(lugares!=0)//Cuando sea 0, significa que no se tiene que encadenar ningún nodo
+            {
+                fread(nodoAcom, sizeof(ACOMPANANTE), 1, fp);
+                if(nodoCon->inicio == NULL){
+                    nodoCon->inicio=nodoAcom;
+                }
+                else
+                {
+                    auxAcom=nodoCon->inicio;
+                    while(auxAcom->ab!=NULL)
+                    {
+                        auxAcom=auxAcom->ab;
+                    }
+                    inicioAcom=auxAcom;
+                    inicioAcom->ab=nodoAcom;
+                }
+
+                nodoAcom->ab = NULL;
+                nodoAcom=malloc(sizeof(ACOMPANANTE));
+                if(nodoAcom==NULL)
+                {
+                    printf("No hay memoria\n");
+                    exit(1);
+                }
+                lugares=lugares-1;
+            }
+            nodoCon=nodoCon->sig;
+        }
+        fclose(fp);
+    }
+}
+
+/********************************************************************
+ *
+ * Función  guardarArchivoAcompanante
+ * Descripción: Guarda los datos de acompañantes de la lista
+ *              a el archivo binario
+ * Recibe: inicioCon , nodoCon ,nodoAcom, inicioAcom
+ * Regresa: no regresa ningœn valor
+ *
+ *********************************************************************/
+void guardarArchivoAcompanante(CONDUCTORES *inicioCon)
+{
+    CONDUCTORES *nodoCon;
+    ACOMPANANTE *nodoAcom, *inicioAcom;
+    FILE *fp;
+
+    fp = fopen("datosAcompanantes.bin", "wb");
+
+    nodoCon = inicioCon;
+    while(nodoCon != NULL){
+        if(nodoCon->inicio!=NULL)
+        {
+            inicioAcom=nodoCon->inicio;
+            nodoAcom=inicioAcom;
+            while(nodoAcom!=NULL)
+            {
+            fwrite(nodoAcom, sizeof(ACOMPANANTE), 1, fp);
+            nodoAcom=nodoAcom->ab;
+            }
+        }
+        nodoCon = nodoCon->sig;
+    }
+
+    fclose(fp);
+}
+
+/********************************************************************
+ *
+ * Funcion   borrarAcompanante
+ * Descripcion :
+ * Recibe: inicioCon,nodoCon,nodoAcom, inicioAcom, auxAcom
+ * Regresa: no regresa ningún valor
+ *
+ *********************************************************************/
+void borrarAcompanante(CONDUCTORES *inicioCon)
+{
+    CONDUCTORES *nodoCon;
+    ACOMPANANTE *nodoAcom, *inicioAcom, *auxAcom;
+    char nombreCon[30];
+    char nombreAcom[30];
+    int encontradoCon=0;
+    int encontradoAcom=0;
+    int borrado=0;
+
+    nodoCon=inicioCon;
+
+    printf("¿Cuál es nombre del conductor con quien se encuentra el acompañante?\n");
+    fflush(stdin);
+    getchar();
+    scanf("%[^\n]s", nombreCon);
+
+    while(nodoCon != NULL)
+    {
+        if(strcmp(nodoCon->nombre, nombreCon)==0)//Busca el nombre del conductor
+        {
+            encontradoCon=1;
+            if(nodoCon->inicio!=NULL)
+            {
+                inicioAcom=nodoCon->inicio;
+                nodoAcom=inicioAcom;
+                printf("¿Cuál es el nombre del acompañante que desea borrar?\n");
+                fflush(stdin);
+                getchar();
+                scanf("%[^\n]s", nombreAcom);
+
+                if(strcmp(nodoAcom->nombre, nombreAcom)==0)//Entrará sólo si el acompañante que se desea borrar es el primero de la lista
+                {
+                    encontradoAcom=1;
+                    inicioAcom=inicioAcom->ab;
+                    nodoCon->inicio=inicioAcom;
+                    free(nodoAcom);
+                    borrado=1;
+                    nodoCon->lugares=(nodoCon->lugares+1);
+                }
+                else
+                {
+                    while(nodoAcom!=NULL)
+                    {
+                        if(strcmp(nodoAcom->nombre, nombreAcom)==0)
+                        {
+                            encontradoAcom=1;
+                            while(inicioAcom->ab!=nodoAcom)
+                            {
+                                inicioAcom=inicioAcom->ab;
+                            }
+                            auxAcom=nodoAcom->ab;
+                            inicioAcom->ab=auxAcom;
+                            free(nodoAcom);
+                            borrado=1;
+                            nodoCon->lugares=(nodoCon->lugares+1);
+                        }
+                        nodoAcom=nodoAcom->ab;
+                    }
+                }
+            }
+            else
+            {
+                printf("Este conductor no tiene acompañantes\n");
+            }
+        }
+        nodoCon = nodoCon->sig;
+    }
+    if(encontradoCon!=1)
+    {
+        printf("No se encontró ningún conductor con ese nombre\n");
+    }
+    else
+    {
+        if(encontradoAcom!=1)
+        {
+            printf("No se encontró ningún acompañante con ese nombre\n");
+        }
+        if(borrado==1);
+        {
+            printf("Se ha borrado al acompañante\n");
+        }
+    }
+}
+/************************************************************************************************/
+/**************************************************************************
+ * Código Práctica 2
+ *
+ * Módulo 1: FuncionesConductor
+ *
+ * Autor(es): Carlos Cruz, Monica Vergara, Jazmin Villegas
+ * Universidad Iberoamericana
+ * Programación Aplicada
+ * Otoño 2020
+ *
+ **************************************************************************/
+
+#include "local.h"
+
+/********************************************************************
+ *
+ * Función leerArchivoConductores
+ * Descripción: Obtiene los datos de los conductores del archivo
+ *                       binario y los importa a una lista.
+ * Recibe: inicio ,aux, nodo
+ * Regresa: no regresa ningœn valor
+ *
+ *********************************************************************/
+void leerArchivoConductores(CONDUCTORES **inicio, CONDUCTORES **aux)
+{
+    CONDUCTORES *nodo;
+    FILE *fp;
+
+    fp = fopen("datosConductores.bin", "rb");
+    if(fp != NULL){  //Verifica si existe un archivo con el registro de conductores
+                    //En caso de que el archvio tenga datos, se agregarán a la lista doblemente encadenada
+        nodo = malloc(sizeof(CONDUCTORES));
+        if(nodo == NULL){
+            printf("No hay memoria\n");
+            exit(1);
+        }
+
+        while(fread(nodo, sizeof(CONDUCTORES), 1, fp) != NULL){
+
+            if(*inicio == NULL){
+                *inicio = nodo;
+                nodo-> ant = NULL;
+            }
+            else{
+                (*aux)->sig = nodo;
+                nodo->ant = *aux;
+            }
+            *aux = nodo;
+            nodo->sig = NULL;
+            nodo->inicio=NULL;
+
+            nodo = malloc(sizeof(CONDUCTORES));
+            if(nodo == NULL){
+                printf("No hay memoria\n");
+                exit(1);
+            }
+        }
+
+        fclose(fp);
+    }
+}
+
+
+/********************************************************************
+ *
+ * Función crearListaConductores
+ * Descripción: Crea los nodos de una lista doblemente encadenada
+ * Recibe: inicio, aux, nodo
+ * Regresa: no regresa ningún valor
+ *
+ *********************************************************************/
+void crearListaConductores(CONDUCTORES **inicio, CONDUCTORES **aux)
+{
+    CONDUCTORES *nodo;
+
+    nodo = malloc(sizeof(CONDUCTORES));
+    if(nodo == NULL){
+        printf("No hay memoria\n");
+        exit(1);
+    }
+
+    printf("¿Cuál es el nombre del conductor que desea agregar?\n");//Pide los datos del nuevo conductor
+    fflush(stdin);
+    getchar();
+    scanf("%[^\n]s", nodo->nombre);
+    fflush(stdin);
+    getchar();
+    printf("¿Qué carrera estudia?\n");
+    scanf("%[^\n]s", nodo->carrera);
+    fflush(stdin);
+    getchar();
+    printf("¿Dónde es el inicio de su viaje?\n");
+    scanf("%[^\n]s", nodo->inicioViaje);
+    fflush(stdin);
+    getchar();
+    printf("¿Dónde es el final de su viaje?\n");
+    scanf("%[^\n]s", nodo->finViaje);
+    fflush(stdin);
+    getchar();
+    printf("¿Cuántos lugares tiene disponible\n");
+    scanf("%i", &nodo->lugares);
+
+    nodo->lugaresTot=nodo->lugares;//lugaresTot será el número de lugares que se quedará de manera permanente
+
+    if(*inicio == NULL){ //Encadenamiento en caso de que sea el primer conductor agregado
+        *inicio = nodo;
+        nodo->ant = NULL;
+    }
+    else{
+        (*aux)->sig = nodo;//Encadenamiento en caso de que ya haya conductores en la lista
+        nodo->ant = *aux;
+    }
+    *aux = nodo;
+    nodo->sig = NULL;
+    nodo->inicio=NULL;
+}
+
+/********************************************************************
+ *
+ * Función recorrerLista
+ * Descripción: Recorre la lista creada para imprimir los
+ *              datos del conductor
+ * Recibe: inicio
+ * Regresa: no regresa ningœn valor
+ *
+ *********************************************************************/
+/*void recorrerListaConductores(CONDUCTORES *inicio) //Función creada en caso de que se requiera verificar la lista de conductores
+{
+    CONDUCTORES *nodo;
+
+    nodo = inicio;
+    while(nodo != NULL){
+        printf("******************\n");
+        printf("%s\n", nodo->nombre);
+        printf("%s\n", nodo->carrera);
+        printf("%s\n", nodo->inicioViaje);
+        printf("%s\n", nodo->finViaje);
+        printf("%i\n", nodo->lugares);
+        printf("\n******************\n");
+
+        nodo = nodo->sig;
+    }
+}*/
+
+/********************************************************************
+ *
+ * Función guardarArchivoConductores
+ * Descripción: Recorre los datos de la lista y los guarda en el
+ *              archivo binario
+ * Recibe: inicio
+ * Regresa: no regresa ningún valor
+ *
+ *********************************************************************/
+void guardarArchivoConductores(CONDUCTORES *inicio)
+{
+    CONDUCTORES *nodo;
+    FILE *fp;
+
+    fp = fopen("datosConductores.bin", "wb");
+
+    nodo = inicio;
+    while(nodo != NULL){
+        fwrite(nodo, sizeof(CONDUCTORES), 1, fp); //Reescribe los datos en el archivo binario
+        nodo = nodo->sig;
+    }
+
+    fclose(fp);
+}
+
+/********************************************************************
+ *
+ * Función buscarConductor
+ * Descripción: Recorre la lista de conductores, busca el nombre
+ *              del conductor, si aparece muestra sus datos y el de
+ *              sus acompañantes, sino envía mensaje de error
+ * Recibe: inicioCon,nodoCon ,nodoAcom
+ * Regresa: no regresa ningún valor
+ *
+ *********************************************************************/
+void buscarConductor(CONDUCTORES *inicioCon)
+{
+    char nombre1[30];
+    int encontrado=0;
+    CONDUCTORES *nodoCon;
+    ACOMPANANTE *nodoAcom;
+
+    nodoCon=inicioCon;
+
+    printf("Nombre del conductor que desea buscar:\n");
+    fflush(stdin);
+    getchar();
+    scanf("%[^\n]s", nombre1);
+
+    while(nodoCon != NULL){
+        if(strcmp(nodoCon->nombre, nombre1)==0)
+        {
+            nodoAcom=nodoCon->inicio;
+            printf("\nSe encontró al conductor. Sus datos son los siguientes: \n");
+            printf("Nombre: %s\n", nodoCon->nombre);
+            printf("Carrera: %s\n", nodoCon->carrera);
+            printf("Incio de Viaje: %s\n", nodoCon->inicioViaje);
+            printf("Fin de Viaje: %s\n", nodoCon->finViaje);
+            printf("Lugares disponibles: %i\n", nodoCon->lugares);
+            printf("\n********************************************\n");
+            printf("Acompañantes:\n");
+            if(nodoAcom==NULL)//Verifica que el conductor tenga acompañantes
+            {
+                printf("Este conductor no tiene acompañantes\n");
+            }
+            while(nodoAcom!=NULL)
+            {
+                printf("Nombre: %s\n", nodoAcom->nombre);
+                printf("Carrera: %s\n", nodoAcom->carrera);
+                printf("Dirección: %s\n", nodoAcom->direccion);
+                nodoAcom=nodoAcom->ab;
+            }
+            printf("\n********************************************\n");
+            encontrado=1;
+        }
+        nodoCon = nodoCon->sig;
+    }
+    if(encontrado!=1)//
+    {
+        printf("No se encontró ningún conductor con ese nombre\n");
+    }
+}
+
+/********************************************************************
+ *
+ * Función   borrarConductor
+ * Descripción: Elimina un conductor de la lista en caso de que exista
+ * Recibe: inicio ,aux
+ * Regresa: no regresa ningún valor
+ *
+ *********************************************************************/
+void borrarConductor(CONDUCTORES **inicio, CONDUCTORES **aux)
+{
+    char nombreCon[30];
+    int encontrado=0;
+    CONDUCTORES *nodo;
+    ACOMPANANTE *nodoAcom, *inicioAcom;
+
+    nodo=*inicio;
+
+    printf("Nombre del conductor que desea borrar:\n");
+    fflush(stdin);
+    getchar();
+    scanf("%[^\n]s", nombreCon);
+
+    if(strcmp((*inicio)->nombre, nombreCon)==0)//Sólo se entrará en caso de que el conductor que se quiera borrar sea el primero de la lista
+    {
+        encontrado=1;
+        if((*inicio)->inicio!=NULL)//Verifica si el conductor tiene acompañantes
+        {
+            inicioAcom=nodo->inicio;
+            nodoAcom=inicioAcom;
+            while(nodoAcom!=NULL)
+            {
+                inicioAcom=nodoAcom->ab;
+                free(nodoAcom);
+                nodoAcom=inicioAcom;
+            }
+        }
+        *inicio=nodo->sig;
+        free(nodo);
+    }
+
+    else//En caso de que el conductor que se quiera borrar no sea el primero de la lista
+    {
+        while(nodo != NULL)
+        {
+            if(nodo==*aux)
+            {
+                if(strcmp(nodo->nombre, nombreCon)==0)
+                {
+                    if(nodo->inicio!=NULL)
+                    {
+                        inicioAcom=nodo->inicio;
+                        nodoAcom=inicioAcom;
+
+                        while(nodoAcom!=NULL)
+                        {
+                            inicioAcom=nodoAcom->ab;
+                            free(nodoAcom);
+                            nodoAcom=inicioAcom;
+                        }
+                    }
+                    *aux=nodo->ant;
+                    (*aux)->sig=NULL;
+                    free(nodo);
+                    encontrado=1;
+                }
+            }
+
+            if(strcmp(nodo->nombre, nombreCon)==0)
+            {
+                if(nodo->inicio!=NULL)
+                {
+                    inicioAcom=nodo->inicio;
+                    nodoAcom=inicioAcom;
+
+                    while(nodoAcom!=NULL)
+                    {
+                        inicioAcom=nodoAcom->ab;
+                        free(nodoAcom);
+                        nodoAcom=inicioAcom;
+                    }
+                }
+                nodo->ant->sig=nodo->sig;
+                nodo->sig->ant=nodo->ant;
+                free(nodo);
+                encontrado=1;
+            }
+            nodo = nodo->sig;
+        }
+    }
+    if(encontrado!=1)
+    {
+        printf("No se encontró ningún conductor con ese nombre\n");
+    }
+    else
+    {
+        printf("Se ha borrado al conductor\n");
+    }
+
+}
+
+/********************************************************************
+ *
+ * Función limpiarListas
+ * Descripción: Recorre las listas creadas para liberar el espacio
+ *              de memoria utilizada
+ * Recibe: inicioCon, nodoCon ,nodoAcom ,inicioAcom.
+ * Regresa: no regresa ningœn valor
+ *
+ *********************************************************************/
+void limpiarListas(CONDUCTORES *inicioCon)
+{
+    CONDUCTORES *nodoCon;
+    ACOMPANANTE *nodoAcom, *inicioAcom;
+
+    nodoCon = inicioCon;
+    if(inicioCon!=NULL)//Sólo entrará si la lista tiene algún conductor
+    {
+        while(nodoCon != NULL)
+        {
+            if(nodoCon->inicio!=NULL)//Verifica si se tienen acompañantes
+            {
+                inicioAcom=nodoCon->inicio;
+                nodoAcom=inicioAcom;
+
+                while(nodoAcom!=NULL)
+                {
+                    inicioAcom=nodoAcom->ab;
+                    free(nodoAcom);
+                    nodoAcom=inicioAcom;
+                }
+            }
+            inicioCon = nodoCon->sig;
+            free(nodoCon);
+
+            nodoCon = inicioCon;
+        }
+    }
+}
+/*************************************************************************************************************/PRACTICA2/

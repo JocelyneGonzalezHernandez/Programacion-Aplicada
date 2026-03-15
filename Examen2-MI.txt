@@ -1,0 +1,154 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+typedef struct datos{  //Estructura que se utilizara para guardar los datos de los trabajos
+  char nombre [50];  //Nombre del trabajo
+  int n_hojas;  //Numero de hojas del trabajo
+  struct datos *sig;
+}DATOS;
+
+/************************************************************************************************************/
+#Makefile del examen 2
+
+colaImpresion: principal.o modulo1.o modulo3.o
+        gcc -o colaImpresion principal.o modulo1.o modulo3.o
+
+principal.o: principal.c
+        gcc -c principal.c
+
+modulo1.o: modulo1.c
+        gcc -c modulo1.c
+
+modulo3.o: modulo3.c
+        gcc -c modulo3.c
+
+clean:
+        rm *.o
+/**********************************************************************************************************/
+/*En este modulo se verifica la opcion elegida por el usuario en la funcion menu del modulo 2*/
+
+#include "estructura.h"  //Estructura con los datos del archivo
+extern int menu (void);  //Funcion del menu principal, modulo 2
+extern void agregar_trabajo (DATOS **inicio,DATOS *nodo,DATOS **aux,char *nombre,int *n_hojas);  //Funcion de agregar trabajo, modulo 2
+extern void imprimir (DATOS **inicio, DATOS *nodo, DATOS *aux); //Funcion de imprimir trabajo, modulo 2
+extern void cola_impresion (DATOS *inicio,DATOS *aux);  //Funcion de ver la cola de impresion, modulo 2
+extern void liberar (DATOS *inicio, DATOS *nodo);  //Funcion de liberar el espacio de la lista, modulo 2
+int main (void){
+  int n_hojas,opc;
+  char nombre [50];
+  DATOS *inicio,*nodo,*aux;
+  inicio=NULL;
+  do{  //Hazlo mientras la opcion elegida sea diferente de 4
+    do{  //Hazlo mientras la opcion elegida sea menor o igual a 0 o mayor o igual a 5
+      opc=menu ();
+      if (opc <= 0 || opc >=6){
+        printf ("Ingrese una opcion correcta.\n");
+      }
+    }while (opc <= 0 || opc >= 6);
+    if (opc == 1) {
+      agregar_trabajo (&inicio,nodo,&aux,nombre,&n_hojas);
+    }
+    else if (opc == 3){
+      imprimir (&inicio,nodo,aux);
+    }
+    else if (opc == 4){
+      cola_impresion (inicio,aux);
+      printf("\n \n");
+    }
+  }while (opc != 5);
+  liberar (inicio,nodo);
+  exit(1);
+}
+/******************************************************************************************************************/
+#include "estructura.h"
+
+void agregar_trabajo (DATOS **inicio,DATOS *nodo, DATOS **aux, char *nombre, int *n_hojas){  //Funcion para agregar la informacion de un trabajo a la lista FIFO
+  FILE *fp;
+  fp=fopen ("Archivos.txt","at");
+  //Pedir la informacion
+  printf ("Ingrese el nombre del archivo: ");
+  scanf ("%s",nombre);
+  printf ("Ingrese el numero de hojas del archivo: ");
+  scanf ("%d",n_hojas);
+  fprintf (fp,"%s \t\t",nombre);  //Guardar en el archivo el nombre del tabajo
+  fprintf (fp,"%d \n",*n_hojas);  //Guardar en el archivo el numero de hojas del trabajo
+  fclose (fp);  //Cierra el archivo
+  //Crear el espacio
+  nodo=malloc (sizeof (DATOS));
+  //Llenar la informacion
+  strcpy (nodo->nombre,nombre);
+  nodo->n_hojas=(*n_hojas);
+  //Encadenar
+  if (*inicio==NULL){
+    *inicio=nodo;
+  }
+  else{
+    (*aux)->sig=nodo;
+  }
+  (*aux)=nodo;
+  nodo->sig=NULL;
+
+}//Fin de la funcion agregar_trabajo
+
+
+void liberar (DATOS *inicio, DATOS *nodo){  //Funcion para liberar el espacio al salir del programa
+  nodo=inicio;
+  while (nodo != NULL){
+    inicio=inicio->sig;
+    free (nodo);
+    nodo=inicio;
+  }
+}//Fin de la funcion liberar
+/**********************************************************************************************************************/
+#include "estructura.h"
+int menu (void){  //Menu principal con el que el usuario podra elejir si agregar o imprimir un trabajo, ademas de ver la cola de impresion o salir del programa
+  int opc;
+  printf ("**********************************\n");
+  printf ("1.Agregar trabajo de impresion.\n");
+  printf ("3.Imprimir.\n");
+  printf ("4.Ver cola de impresion.\n");
+  printf ("5.Salir.\n");
+  printf ("**********************************\n");
+  printf ("Elija una de las opciones anteriores: ");
+  scanf ("%d",&opc);
+  return opc;
+}
+
+void imprimir (DATOS **inicio, DATOS *nodo, DATOS *aux){  //Funcion para imprimir el primer trabajo pendiente (primer trabajo de la lista FIFO)
+  //Abre el archivo para guardar la informacion del trabajo
+  aux=(*inicio);
+  (*inicio)=aux->sig;
+  free (aux);  //Elimina el primer trabajo de la lista FIFO
+  aux=(*inicio);
+  printf ("Trabajo impreso correctamente.\n");
+}//Fin de la funcion imprimir
+
+void cola_impresion (DATOS *inicio,DATOS *aux){  //Funcion para mostrar todos los trabajos que estan pendientes de imprimirse (trabajos que estan en la lista FIFO)
+  printf("\n \n");
+  printf ("\t La cola de impresion es la siguiente:\n");
+  aux=inicio;
+  printf ("Nombre del archivo \t");
+  printf ("Hojas\n");
+  while (aux != NULL){
+    printf ("%s \t\t",aux->nombre);  //Imprimir el nombre del tabajo
+    printf ("%d\n",aux->n_hojas);  //Imprimir el numero de hojas del trabajo
+    aux=aux->sig;
+  }
+}//Fin de la funcion cola_impresion
+/*********************************************************************************************************************/
+arch2           4
+archivo                 1
+imprimir                1
+geografia               5
+historia                5
+geografia               5
+historia                3
+artes           2
+arch            3
+arch2           4
+Uno             4
+Archivo                 5
+archivo                 2
+Archivo1                5
+Archivo2                8
+5               5

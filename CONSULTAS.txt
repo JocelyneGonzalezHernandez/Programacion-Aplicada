@@ -1,0 +1,51 @@
+1. //ARTISTAS QUE NO TIENEN DISCOS 
+SELECT * FROM d_discos RIGHT JOIN d_artistas using(idArtista) WHERE isbn IS NULL;
+SELECT d_artistas.nombre FROM d_discos RIGHT JOIN d_artistas using(idArtista) WHERE isbn IS NULL;
+SELECT a.nombre FROM d_discos RIGHT JOIN d_artistas a using(idArtista) WHERE isbn IS NULL;
+
+2. //DISQUERAS QUE NO TIENEN DISCOS
+ SELECT * from d_disqueras LEFT JOIN d_discos using(idDisquera) WHERE isbn IS NULL;
+SELECT d.nombre from d_disqueras d LEFT JOIN d_discos using(idDisquera) WHERE isbn IS NULL; //Con nombre de disquera
+
+3. //PAISES QUE NO TIENEN ARTISTAS
+SELECT * FROM d_artistas RIGHT JOIN d_pais using(idPais) WHERE idArtista IS NULL;
+SELECT pais FROM d_artistas RIGHT JOIN d_pais using(idPais) WHERE idArtista IS NULL; //Con Nombre de los paises
+
+4. //PAISES QUE NO TIENEN DISQUERAS
+SELECT * FROM d_disqueras RIGHT JOIN d_pais using(idPais) WHERE idDisquera IS NULL;
+SELECT pais FROM d_disqueras RIGHT JOIN d_pais using(idPais) WHERE idDisquera IS NULL;
+
+5. //NOMBRE DEL DISCO Y NÚMERO DE PISTAS
+SELECT (COUNT(isbn)) FROM d_discos RIGHT JOIN d_pistas using(isbn) GROUP BY isbn; // SOLO DICE EL NÚMERO DE PISTAS
+SELECT d.nombre, (COUNT(isbn)) FROM d_discos d RIGHT JOIN d_pistas using(isbn) GROUP BY isbn; //DICE EL NÚMERO DE PISTAS Y NOMBRE DEL DISCO
+
+6. // DISCOS CON MÁS PISTAS (1 DISCO)
+SELECT (COUNT(isbn)) as n FROM d_discos RIGHT JOIN d_pistas using(isbn) GROUP BY isbn ORDER BY n DESC; //NÚMERO DE PISTAS DESC
+SELECT (COUNT(isbn)) as n FROM d_discos RIGHT JOIN d_pistas using(isbn) GROUP BY isbn ORDER BY n DESC LIMIT 1; //Mayor número de pistas
+ SELECT d_discos.nombre, (COUNT(isbn)) as n FROM d_discos RIGHT JOIN d_pistas using(isbn) GROUP BY isbn HAVING n = (SELECT (COUNT(isbn)) as n
+FROM d_discos RIGHT JOIN d_pistas using(isbn) GROUP BY isbn ORDER BY n DESC LIMIT 1) //Nombre y número de pistas que tienen el álbum con más discos.
+
+7. // ARTISTAS CON MÁS DISCOS (1 ARTISTA)
+ SELECT (COUNT(idArtista)) as n, idArtista FROM d_discos LEFT JOIN d_artistas using(idArtista) GROUP BY idArtista ORDER BY n desc; //NUM DE DISCOS DESC Y IDARTISTA
+ SELECT d_artistas.nombre, (COUNT(idArtista)) as n FROM d_discos RIGHT JOIN d_artistas using(idArtista) GROUP BY idArtista HAVING n = (SELECT
+(COUNT(idArtista)) as n FROM d_discos RIGHT JOIN d_artistas using(idArtista) GROUP BY idArtista ORDER BY n DESC LIMIT 1); //Nombre y número de discos del artista
+
+8. //ARTISTAS QUE TENGAN MÁS DE 2 DISCOS
+SELECT (COUNT(idArtista)) as n, idArtista FROM d_discos LEFT JOIN d_artistas using(idArtista) GROUP BY idArtista  HAVING n > 2 ORDER BY n desc; //idArtista no nombres
+SELECT (COUNT(idArtista)) as n, d_artistas.nombre FROM d_discos LEFT JOIN d_artistas using(idArtista) GROUP BY idArtista  HAVING n > 2 ORDER
+BY n desc;
+
+9. // ARTISTA, PAÍS DEL ARTISTA, DISQUERA Y PAÍS DE LA DISQUERA
+
+SELECT DISTINCT (a.nombre) artista, pa.pais, di.nombre disquera, pd.pais FROM d_artistas a LEFT JOIN d_pais pa USING(idPais) 
+RIGHT JOIN d_discos USING (idArtista) LEFT JOIN d_disqueras di USING(idDisquera) 
+LEFT JOIN d_pais pd ON di.idPais = pd.idPais ORDER BY artista
+
+10. // NOMBRE DEL ARTISTA, DISQUERA Y NÚMERO DE DISCOS
+
+SELECT a.nombre as artistq, di.nombre as disquera, COUNT(isbn) as discos FROM d_artistas a LEFT JOIN d_discos USING(idArtista) 
+LEFT JOIN d_disqueras di USING (idDisquera) GROUP BY idArtista
+
+11. // NOMBRE DEL ARTISTA, NOMBRE DE LA DISQUERA, NÚMERO DE DISCOS Y NÚMERO DE PISTAS
+
+

@@ -1,0 +1,311 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct def_nac
+{
+  int dia,mes,anio;
+
+}tipofecha;
+
+typedef struct def_empleado
+{
+  char nombre_a[20];
+  char numero_e[15];
+  char numero_cel[20];
+  int dd2,mm2,aa2;
+  int id;
+
+  tipofecha fecha_nac;
+
+  struct def_empleado *sig;
+  struct def_empleado *ant;
+
+}tipoempleado;
+
+void altaEmpleado(tipoempleado **Inicio,int *cuantos);
+void mostrarEmpleados(tipoempleado *Inicio,int cuantos);
+void modificarEmpleado(tipoempleado **Inicio,int cuantos);
+void borrarEmpleado(tipoempleado **Inicio);
+void guardarArchivo(tipoempleado **Inicio,int cuantos);
+void cargarArchivo(tipoempleado *Inicio,int *cuantos);
+void liberar(tipoempleado *Inicio);
+void insertaInicio(tipoempleado **Inicio,int cuantos);
+void insertaFin(tipoempleado **Inicio,int cuantos);
+void menu(void);
+
+
+int main(void)
+{
+  int opc,cuantos;
+  tipoempleado *primero=NULL;
+  cuantos=0;
+  do
+    {
+      menu();
+      scanf("%d",&opc);
+      switch(opc)
+        {
+        case 1:
+          {
+            altaEmpleado(&primero,&cuantos);
+          }
+          break;
+        case 2:
+          {
+            mostrarEmpleados(primero,cuantos);
+          }
+          break;
+        case 3:
+          {
+            modificarEmpleado(&primero,cuantos);
+          }
+          break;
+        case 4:
+          {
+            borrarEmpleado(&primero);
+          }
+          break;
+        case 5:
+          {
+            guardarArchivo(&primero,cuantos);
+          }
+          break;
+        case 6:
+          {
+            cargarArchivo(primero,&cuantos);
+          }
+          break;
+        }
+    }while( opc != 7);
+  liberar(primero);
+  printf("\n\nFIN\n\n");
+}
+void menu(void)
+{
+  printf("1 para dar de alta a un empleado\n");
+  printf("2 para mostrar a un empleado\n");
+  printf("3 para modificar la informacion de un empleado\n");
+  printf("4 para borrar a un empleado\n");
+  printf("5 para guardar en un archivo\n");
+  printf("6 para abrir un archivo\n");
+  printf("7 para salir\n");
+  printf("Tu opcion es: ");
+}
+void altaEmpleado(tipoempleado **Inicio,int *cuantos)
+{
+  tipoempleado *temp,*temp2;
+  int x;
+  temp=(tipoempleado *)malloc(sizeof(tipoempleado));
+  temp2 = *Inicio;
+
+  //printf("Cuantos empleados daras de alta: ");
+  //__fpurge(stdin);
+  //scanf("%d",&cuantos);
+  //for(x=0;x<cuantos;x++)
+    //{
+    //temp2 = *Inicio;
+
+    printf("Nombre del empleado: ");
+    __fpurge(stdin);
+    gets((*temp).nombre_a);
+
+    printf("Numero de empleado: ");
+    __fpurge(stdin);
+    gets((*temp).numero_e);
+
+    printf("Numero de telefono: ");
+    __fpurge(stdin);
+    gets((*temp).numero_cel);
+
+    printf("Fecha de nacimiento(dd,mm,aa): ");
+    __fpurge(stdin);
+    scanf("%d,%d,%d",&(*temp).fecha_nac.dia,&(*temp).fecha_nac.mes,&(*temp).fecha_nac.anio);
+
+    printf("Fecha de inicio laboral(dd,mm,aa): ");
+    __fpurge(stdin);
+    scanf("%d,%d,%d",&(*temp).dd2,&(*temp).mm2,&(*temp).aa2);
+
+    if ( temp2 == NULL )
+      {
+        *Inicio = temp;
+        (*temp).sig = *Inicio;
+        (*temp).ant = *Inicio;
+      }
+    else
+      {
+        temp2 = (*Inicio)->ant;
+        (*Inicio)->ant = temp;
+        (*temp).sig= *Inicio;
+        (*temp).ant= temp2;
+        (*temp2).sig= temp;
+      }
+    //}
+    cuantos++;
+  system("clear");
+}
+void mostrarEmpleados(tipoempleado *Inicio,int cuantos)
+{
+  tipoempleado *temp;
+  int x;
+  temp=Inicio;
+  do
+    {
+      printf("Nombre: ");
+      puts((*temp).nombre_a);
+      printf("Numero de empleado: ");
+      puts((*temp).numero_e);
+      printf("Numero de celular: ");
+      puts((*temp).numero_cel);
+      printf("Dia de nacimiento: ");
+      printf("%d/%d/%d\n",(*temp).fecha_nac.dia,(*temp).fecha_nac.mes,(*temp).fecha_nac.anio);
+      printf("Dia de inicio laboral: ");
+      printf("%d/%d/%d\n",(*temp).dd2,(*temp).mm2,(*temp).aa2);
+      temp=(*temp).sig;
+    }while(temp != Inicio);
+}
+void modificarEmpleado(tipoempleado **Inicio,int cuantos)
+{
+  tipoempleado *temp;
+  int x,opc,nuevo;
+  char empleado_modificado[20],nuevo_c[20];
+
+  temp=*Inicio;
+   printf("Que empleado quieres modificar: ");
+  __fpurge(stdin);
+  gets(empleado_modificado);
+  while((strcmp((*temp).numero_e,empleado_modificado)!=0) && (temp != NULL) )
+    temp=(*temp).sig;
+  if(((*temp).numero_e,empleado_modificado)!=0)
+    {
+      printf("Que quieres modificar(\n1 nombre\n2 telefono\n3 fecha de nacimiento\n4 fecha de inicio laboral): ");
+      __fpurge(stdin);
+      scanf("%d",&opc);
+      switch(opc)
+        {
+        case 1:
+          {
+            printf("Dame el nuevo nombre: ");
+            __fpurge(stdin);
+            gets((*temp).nombre_a);
+          }
+          break;
+        case 2:
+          {
+            printf("Dame el nuevo numero de telefono: ");
+            __fpurge(stdin);
+            gets((*temp).numero_cel);
+          }
+          break;
+        case 3:
+          {
+            printf("Dame la nueva fecha de nacimiento: ");
+            __fpurge(stdin);
+            scanf("%d,%d,%d",&(*temp).fecha_nac.dia,&(*temp).fecha_nac.mes,&(*temp).fecha_nac.anio);
+          }
+          break;
+        case 4:
+          {
+            printf("Dame la nueva fecha de incio laboral: ");
+            __fpurge(stdin);
+            scanf("%d,%d,%d",&(*temp).dd2,&(*temp).mm2,&(*temp).aa2);
+          }
+          break;
+        default:
+          {
+            printf("\nERROR, caracter invalido\n");
+          }
+        }
+    }
+  system("clear");
+}
+void borrarEmpleado(tipoempleado **Inicio)
+{
+  //tipoempleado *temp, *temp2;
+
+
+}
+void guardarArchivo(tipoempleado **Inicio,int cuantos)
+{
+  FILE *archivo;
+  char nombre[20];
+  tipoempleado *temp;
+  temp=*Inicio;
+   printf("Como quieres llamar el archivo (con extension): ");
+  __fpurge(stdin);
+  gets(nombre);
+  archivo=fopen(nombre,"wb");
+  while(temp!=NULL)
+  {
+    fwrite(temp,sizeof(tipoempleado),cuantos,archivo);
+  }
+}
+void cargarArchivo(tipoempleado *Inicio,int *cuantos)
+{
+  FILE *archivo;
+  char nombre[20];
+  tipoempleado *temp;
+  long int numero_bytes;
+
+  printf("Que archivo quieres abrir(con extensio): ");
+  __fpurge(stdin);
+  gets(nombre);
+  archivo=fopen(nombre,"rb");
+
+  if(archivo != NULL)
+    {
+      fseek(archivo,0L,SEEK_END);
+      numero_bytes=ftell(archivo);
+      *cuantos=numero_bytes/sizeof(tipoempleado);
+      fseek(archivo,0L,SEEK_SET);
+      fread(Inicio,sizeof(tipoempleado),*cuantos,archivo);
+      fclose(archivo);
+    }
+  else
+    {
+      printf("\nNo se encontro el archivo\n");
+    }
+}
+void liberar(tipoempleado *Inicio)
+{
+
+}
+void insertaInicio(tipoempleado **Inicio,int cuantos)
+{
+  tipoempleado *temp;
+
+  temp=(tipoempleado *)malloc(sizeof(tipoempleado));
+  (*temp).id=cuantos;
+  (*temp).ant=NULL;
+  (*temp).sig=*Inicio;
+  if(*Inicio != NULL)
+    {
+      (*Inicio)->ant=temp;
+    }
+  *Inicio=temp;
+}
+void insertaFin(tipoempleado **Inicio,int cuantos)
+{
+  tipoempleado *temp, *ultimo;
+  int valor1=0;
+  temp=(tipoempleado *)malloc(sizeof(tipoempleado));
+  (*temp).id=cuantos;
+  (*temp).id=cuantos;
+  (*temp).sig=NULL;
+  if(*Inicio != NULL)
+    {
+      ultimo=*Inicio;
+      while((*ultimo).sig != NULL)
+        {
+          ultimo = (*ultimo).sig;
+          valor1=valor1+1;
+        }
+      (*ultimo).sig = temp;
+      (*temp).ant=ultimo;
+    }
+  else
+    {
+      (*temp).ant=NULL;
+      *Inicio=temp;
+    }
+}

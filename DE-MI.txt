@@ -1,0 +1,146 @@
+File Edit Options Buffers Tools C Help
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct datos{
+        char letra;
+        struct datos *sig;
+        struct datos *ant;
+}DATO
+/*****************************************/
+ejercicio: principal.o funciones.o
+        gcc -o ejercicio principal.o funciones.o
+
+principal.o: principal.c
+        gcc -c principal.c
+
+funciones.o: funciones.c
+        gcc -c funciones.c
+
+clean:
+        rm *.o
+/************************************/
+/********************************************************************************
+*
+* Prgorgrama que despliega
+* Autor: Monica Ivette Vergara Mendoza
+* Programación Aplicada Otoño 2020
+* Descripción: Progra que lee un archivo caracter por caracter y
+*                                                        lo guarda en una lista. Posteriormente recorre la lista
+*                                                        e imprime cada uno de los caracteres en pantalla. La lista
+*                                                        se puede recorrer de derecha a izquierda o de izquierda a derecha.
+*
+********************************************************************************/
+
+#include "local.h"
+
+extern void crearLista(DATOS **inicio,DATOS **aux, DATOS, char c);
+extern void recorrerLista(DATOS *inicio);//Declaramos así incio porque no vamos a modificar su contenido
+extern void liberarEspacio(DATOS *inicio);
+
+/*
+*Funcion principal
+*/
+int main(int argc, char *argv[])
+{
+  DATOS *inicio, *aux;
+  FILE *fp;
+        char c;
+
+        inicio = NULL;
+
+        if(argc != 3){
+                printf("Error al ejecutar el programa");
+                exit(1);
+        }
+
+        if((argv[2] < 1) || (argv[2] > 2)){
+                printf("Error al ejecutar el programa. El segundo argumento está mal.\n ");
+                exit(1);
+        }
+
+        fp = fopen(argv[1], "r"); //abrir archivo
+        if(fp == NULL){
+                printf("El archivo no existe");
+                exit(1);
+        }
+
+        //Leemos archivo caracter por caractere
+        while((c = getc(fp)) != EOF){
+                crearLista(&inicio, &aux,c);
+        }
+
+  fclose(fp);   //Cerrar archivo
+
+        if(argv[2][0] == '1'){ //si el ususario escribe 1
+                recorrerLista(&inicio,argv[2][0]); //reecorremos de dera izq
+        }
+        else{
+                recorrerLista
+        }
+
+  recorre_lista(inicio,argv[2]);//llamada a funcion externa
+  printf("\n");
+
+  libera_espacio(inicio);//llamada funcion externa
+
+}
+/*********************************************************/
+/*
+* Modulo funciones.c
+* Incluye las funciones del programa despliega:
+*       crearLista, recorrerLista, liberarEspacio
+*
+*/
+
+void crearLista(DATOS **inicio,DATOS **aux, DATOS, char c){
+        DATOS *nodo;
+
+        //1.- Crear el espacio
+        nodo = malloc(sizeof(DATOS));
+        if(nodo == NULL){
+                printf("No hay memoria\n");
+                exit(1);
+        }
+
+        //2.- Llenar información
+        nodo->letra = c;
+
+        //3.- Encadenar
+        if(*inicio == NULL){
+                *inicio=nodo;
+                nodo->ant = NULL;
+        }
+        else{
+                nodo->ant = *aux;
+                aux->sig = nodo;
+        }
+        nodo->sig = NULL;
+        (*aux)->ant = nodo;
+}
+
+/*
+* Función recorrerLista
+* Parámetrso; inicio
+* Recorre
+*
+*/
+void recorrerLista(DATOS **inicio){
+        DATOS *nodo;
+
+        nodo = inicio;
+        whilr(nodo != NULL){
+                printf("%c",nodo->letra);
+
+                if(recorrido == '1'){
+                        nodo = nodo->sig;
+                }
+                else{
+                        nodo = nodo->ant;
+                }
+        }
+}
+
+void liberarEspacio(){
+        DATOS *nodo;
+}

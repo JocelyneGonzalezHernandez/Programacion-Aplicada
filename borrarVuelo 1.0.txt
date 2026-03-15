@@ -1,0 +1,85 @@
+
+void liberarEspacioV(lista **inicio, VUELO contenido)
+{
+  lista *aux, *temp;
+  lista *nodo=*inicio;
+  FILE *fp;
+  char busca[7];
+
+  fp=fopen("datos.bin", "rb");
+
+  printf("Cual es el vuelo que desea buscar?\n");
+  scanf("%s", busca);
+
+  if (fp != NULL)
+    {
+      while(fread(&contenido, sizeof(VUELO),1,fp)!=0)
+        {
+          if(strcmp(busca, contenido.numVuelo)==0)
+            {
+              printf("1\n");
+              //if (strcmp(*inicio->numVuelo, contenido.numVuelo)==0)
+              /*aux = inicio;
+
+                while(aux != NULL)
+                {
+                printf("----------------------------------\n");
+                printf("%s\n", aux->contenido.claveAP);
+                printf("%s\n", aux->contenido.numVuelo);
+                printf("%s\n", aux->contenido.aerolinea);
+                printf("%s\n", aux->contenido.origen);
+                printf("%s\n", aux->contenido.fechaLlegada);
+                printf("%s\n", aux->contenido.horaLlegada);
+                printf("----------------------------------\n");
+
+          //aux = aux->sig; //Se mantiene, se usa para ir al sig elemento, aumentamos el valor de aux para que vaya al siguiente nodo
+          }*/
+              if (strcmp((*inicio)->contenido.numVuelo, busca)==0)
+                {
+                  printf("2.1\n");
+                  temp=*inicio;
+                  *inicio=(*inicio) -> sig;
+                  free(temp);
+                  printf("2.2\n");
+                  }
+              else
+              {
+                  printf("3\n");
+                  while(nodo->sig != NULL)
+                    {
+                      printf("4\n");
+                      if(strcmp(nodo->sig->contenido.numVuelo, busca)==0)
+                        {
+                          printf("5\n");
+                          temp=nodo->sig;
+                          nodo->sig=nodo -> sig -> sig;
+                          free (temp);
+                          printf("5\n");
+                        }
+                      else
+                        {
+                          printf("6\n");
+                          nodo = nodo -> sig;
+                        }
+                    }
+                  //}
+            }
+
+          //printf("Liberando espacio...\n");
+
+          /*aux = inicio;
+
+            while (aux != NULL)
+            {
+            aux = aux -> sig;
+            free(inicio);
+            inicio = aux;
+            }
+            printf("Liberando espacio...\n");*/
+
+        }
+    }
+  fclose(fp);
+}
+
+ic21jrc@antares.dci.uia.mx

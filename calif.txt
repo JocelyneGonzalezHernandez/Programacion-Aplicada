@@ -1,0 +1,5 @@
+FUNCION PRINCIPAL (|)
+INICIO
+          Calificación -> ENTERO;
+           Pedir_Calificación ( | &Calificación);
+           IF ( Calificación < 0 );

@@ -1,0 +1,172 @@
+letras: principal.o modulo1.o modulo2.o
+        gcc -o letras principal.o modulo1.o modulo2.o
+
+principal.o: principal.c
+        gcc -c principal.c
+
+modulo1.o: modulo1.c
+        gcc -c modulo1.c
+
+modulo2.o: modulo2.c
+        gcc -c modulo2.c
+
+clean:
+        rm *.o
+
+---------------------------------------------------
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct def_alumn
+{
+  char palabra[30];
+  char letra;
+  int longitud;
+}elementos;
+
+typedef struct datos
+{
+  elementos contenido;
+  struct datos *sig;
+  struct datos *ant;
+}lista;
+
+---------------------------------------------------------
+#include "local.h"
+
+extern void crearlista(lista **incio,lista **aux,elementos contenido);
+extern void recorrelistaD(lista *inicio);
+extern void recorrelistaR(lista *inicio,lista *aux);
+extern void guardainfoBin(char *argv[],lista *inicio,elementos contenido);
+extern void liberalista(lista *inicio);
+
+int main(int argc,char *argv[])
+{
+  int opc,longi,opc2;
+  char palabra[30];
+  lista *inicio,*aux;
+  elementos contenido;
+  FILE *archivo;
+
+  inicio=NULL;
+  archivo=fopen(argv[1],"rb");
+  if(archivo!=NULL)
+    {
+      while(fread(&contenido,sizeof(elementos),1,archivo)!=0)
+        {
+          crearlista(&inicio,&aux,contenido);
+        }
+      fclose(archivo);
+    }
+  do
+    {
+      printf("1.- Agrega una palabra\n2 para salir\nCual es tu opcion: ");
+      scanf("%d",&opc);
+      if(opc==1)
+        {
+          printf("Dame la palabra: ");
+          scanf("%s",palabra);
+          strcpy(contenido.palabra,palabra);
+          contenido.longitud=strlen(palabra);
+          crearlista(&inicio,&aux,contenido);
+          printf("\n\n");
+        }
+      else if(opc<2)
+        printf("opcion no valida\n");
+    }while(opc!=2);
+  do
+    {
+      printf("\tDe que manera quieres recorrer la lista\n1.- Principio a fin\n2.- Fin a principio\n Dame tu opcion: ");
+      scanf("%d",&opc2);
+      if(opc2==1)
+        recorrelistaD(inicio);
+      else if(opc2==2)
+        recorrelistaR(inicio,aux);
+      else
+        {
+          printf("Opcion no valida, intenta de nuevo\n");
+        }
+    }while(opc2<1 || opc2>2);
+  guardainfoBin(argv,inicio,contenido);
+  liberalista(inicio);
+}
+---------------------------------------------------------------------------------M1
+#include "local.h"
+
+void recorrelistaD(lista *inicio)
+{
+  lista *nodo,*aux;
+  char c;
+  nodo=inicio;
+  while(nodo!=NULL)
+    {
+      printf("%s------> ",nodo->contenido.palabra);
+      printf("%d\n",nodo->contenido.longitud);
+      nodo=nodo->sig;
+    }
+}
+void recorrelistaR(lista *inicio,lista *aux)
+{
+  lista *nodo;
+  char c;
+  nodo=aux;
+  while(nodo!=NULL)
+    {
+      printf("%s------> ",nodo->contenido.palabra);
+      printf("%d\n",nodo->contenido.longitud);
+      nodo=nodo->ant;
+    }
+}
+---------------------------------------------------------------------------------M2
+#include"local.h"
+
+void crearlista(lista **inicio,lista **aux,elementos contenido)
+{
+  lista *nodo;
+  nodo=malloc(sizeof(lista));
+  if(nodo==NULL)
+    {
+      printf("No hay memoria\n");
+      exit(1);
+    }
+  nodo->contenido=contenido;
+
+  if(*inicio==NULL)
+    {
+      *inicio=nodo;
+      nodo->ant=NULL;
+    }
+  else
+    {
+      nodo->ant=*aux;
+      (*aux)->sig=nodo;
+    }
+  *aux=nodo;
+  nodo->sig=NULL;
+}
+void guardainfoBin(char *argv[],lista *inicio,elementos contenido)
+{
+  lista *aux;
+  FILE *archivo;
+  archivo=fopen(argv[2],"wb");
+  aux=inicio;
+  while(aux!=NULL)
+    {
+      fwrite(&aux->contenido,sizeof(elementos),1,archivo);
+      aux=aux->sig;
+    }
+  fclose(archivo);
+}
+void liberalista(lista *inicio)
+{
+  lista *nodo;
+  nodo=inicio;
+  while(nodo != NULL)
+    {
+      inicio=nodo->sig;
+      free(nodo);
+      nodo=inicio;
+    }
+}
+---------------------------------------------------------------------

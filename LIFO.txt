@@ -1,0 +1,128 @@
+/**********************************************************************
+/Esta es la libreria local,
+//contiene la estructura para principal_lifo y funciones_lifo
+Por: Monica Ivette Vergara Mendoza            Fecha: 30-09-2020
+**********************************************************************/
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct archivo{
+    char letra;
+    struct archivo *sig;
+}DATOS;
+
+/******************************************************************/
+#       Makefile para programa Ejercicio LIFO
+#Por: Monica Ivette Vergara Mendoza            Fecha: 30-09-2020
+
+imprimir_lifo: principal_lifo.o funciones_lifo.o
+        gcc -o imprimir_lifo principal_lifo.o funciones_lifo.o
+
+principal_lifo.o: principal_lifo.c
+                gcc -c principal_lifo.c
+
+funciones_lifo.o: funciones_lifo.c
+        gcc -c funciones_lifo.c
+
+clean:
+        rm *.o
+/****************************************************************************/
+/****************************************************************************
+Ejercicio LISTAS LIFO
+Programa que reciba desde la línea de comandos el nombre de un archivo de texto.
+Dicho archivo se deberá leer letra por letra y cada una de las letras del archivo
+se deberá almacenar en un nodo de una lista tipo LIFO. Una vez que se termine de
+leer el archivo, se deberá recorrer la lista creada e imprimir en pantalla
+cada una de las letras que están en cada nodo.
+Por último, el programa deberá liberar el espacio de memoria utilizado para crear la lista.
+
+Por: Monica Ivette Vergara Mendoza            Fecha: 30-09-2020
+****************************************************************************/
+#include "local.h" //Libreria local (contiene estructura)
+
+extern void crear_lista(char letr,DATOS **inicio);
+extern void recorre_lista(DATOS *inicio);
+extern void libera_espacio(DATOS *inicio);
+
+int main(int argc, char *argv[])
+{
+  DATOS *inicio;
+  char letr;
+  FILE *fp;
+  /****************************
+    Inicio de Validaciones
+  ****************************/
+  if(argc != 2){//Validar que la entrada de argumentos sea correcta
+    printf("Error al correr el programa, faltan argumentos.\n");
+    exit(1);//código de error
+  }//fin de validacion
+  fp = fopen(argv[1],"r"); //Se abre en modo lectura, tipo binario para validar que exista el archivo
+  if(fp == NULL){ //Validar que exista el archivo
+    printf("El archivo %s no existe.\n",argv[1]);
+    fclose(fp);
+    exit(2);//codigo de error
+  }//fin de validacion
+  /****************************
+    Fin de Validaciones
+  *******************************/
+  inicio = NULL;
+  fp=fopen(argv[1],"r");    //Abrimos archivo para extraer datos
+  while((letr = getc(fp)) != EOF){  //Creamos lista
+    crear_lista(letr,&inicio);
+  }
+  fclose(fp);   //CErrar archivo
+  recorre_lista(inicio);//llamada a funcion externa
+  printf("\n");
+
+  libera_espacio(inicio);//llamada funcion externa
+}
+/******************************************************************************************/
+/****************************************************************************
+Función que lee un archivo de texto, letra por letra (cada caracter se guarda en lista LIFO)
+Funcion que libera espacio de la memoria (liberando lista)
+Regresa Lista Lifo, para imprimir en pantalla & Libera la lista
+
+Por: Monica Ivette Vergara Mendoza            Fecha: 30-09-2020
+****************************************************************************/
+#include "local.h" //Libreria local (contiene estructura)
+
+void crear_lista(char letr, DATOS **inicio) //Funcion que crea lista LIFO
+{
+  DATOS *nodo;
+  nodo = malloc(sizeof(DATOS));   //1. Crear espacios
+  if(nodo == NULL){  //Validamos que
+    printf("No hay espacio de memoria\n");
+    exit(3);//Codigo de error
+  }
+  nodo->letra=letr;            //2. LLenar información
+  if(*inicio == NULL){           //3. Encadenar
+    *inicio = nodo;
+  }
+  else{
+    nodo->sig = *inicio;
+  }
+  (*inicio)=nodo;
+}
+
+void recorre_lista(DATOS *inicio)   //Funcion recorrer e imprimir lista LIFO
+{
+  DATOS *nodo;
+  nodo = inicio;
+  printf("Al revés...\n");
+  while(nodo!=NULL){ //Imprimimos la lista
+    printf("%c", nodo->letra);
+    nodo = nodo->sig;
+  }
+}
+
+void libera_espacio(DATOS *inicio)    //Funcion para liberar espacio (limpiar lista)
+{
+  DATOS *nodo;
+  nodo = inicio;
+  while(nodo != NULL){
+    inicio = inicio->sig;
+    free(nodo);
+    nodo = inicio;
+  }
+}
+/***************************************************************************/

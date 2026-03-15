@@ -1,0 +1,690 @@
+calculadora: principal.o modulo1.o
+        gcc -Wall -o calculadora principal.o modulo1.o `pkg-config --cflags gtk+-2.0`
+
+principal.o: principal.c
+        gcc -Wall -c principal.c `pkg-config --cflags gtk+-2.0`
+
+modulo1.o: modulo1.c
+        gcc -Wall -c modulo1.c `pkg-config --cflags gtk+-2.0`
+
+clean:
+        rm *.o
+
+/*********principal.c****************************************************************************************************/
+#include<gtk-2.0/gtk/gtk.h>
+#include<stdio.h>
+#include<string.h>
+#include<time.h>
+
+typedef struct info
+{
+  GtkWidget *window;
+  GtkWidget *entry;
+}Teclas;
+
+extern void salir (GtkWidget *widget, gpointer info);
+extern gboolean deleteEventHandler (GtkWidget *widget, GdkEvent *event, gpointer info);
+extern void limpieza(GtkWidget *widget, gpointer info);
+extern void operacion(GtkWidget *widget, gpointer info);
+extern void clickboton(GtkWidget *widget, gpointer info);
+extern void botones0(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones1(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones2(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones3(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones4(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones5(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones6(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones7(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones8(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones9(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones10(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones11(GtkWidget *widget, gpointer info,Teclas *valores, float res);
+extern void botones12(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones13(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones14(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones15(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones16(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones17(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones18(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones19(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void botones20(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void Acercade(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void factorial(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void potencia(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void manual(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void borrar(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void cerrar(GtkWidget *widget, gpointer info,Teclas *valores);
+extern void abrir(GtkWidget *widget, gpointer info,Teclas *valores);
+
+gint main(gint argc,gchar *argv[])
+{
+  int x;
+  GtkWidget *ventana,*cajavertical,*menuBar,*boton[23],*tabla,*menu,*menuItem,*menuItem2,*menuItem3,*menuItem4,*menuItem5,*menuAyuda,*menuAyuda2,*menuAyuda3,*menuH,*menuH2,*menuH3,*menu2,*menu3;
+  gint renglones=5, columnas=5;
+  //gint izq=0,der=1,sup=0,inf=1,aux=1;
+  const gchar *etiqueta[23]={"c","/","*","-","7","8","9","+","4","5","6","=","1","2","3",".","0","M+","M-","MR","MS","MC"};
+  Teclas *valores;
+  //1.-Inicio del ambiente
+  gtk_init(&argc,&argv);
+
+  valores = malloc(sizeof(Teclas));
+  //2.1.-crear Widgets
+  ventana = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  menuBar = gtk_menu_bar_new();
+
+  //crear cajas verticales
+  cajavertical = gtk_vbox_new(FALSE, 5);
+
+
+  tabla = gtk_table_new(renglones, columnas, TRUE);
+
+  //archivo menu
+  menu = gtk_menu_new();
+  menu2 = gtk_menu_new();
+  menu3 = gtk_menu_new();
+
+  menuItem =gtk_menu_item_new_with_label("Archivo");
+  menuItem2 = gtk_menu_item_new_with_label("Abrir");
+  menuItem3 = gtk_menu_item_new_with_label("Cerrar");
+  menuItem4 = gtk_menu_item_new_with_label("Borrar");
+  menuItem5 = gtk_menu_item_new_with_label("Salir");
+
+  menuAyuda = gtk_menu_item_new_with_label("Ayuda");
+  menuAyuda2 = gtk_menu_item_new_with_label("Manual");
+  menuAyuda3 = gtk_menu_item_new_with_label("Acerca de");
+
+  menuH = gtk_menu_item_new_with_label("Herramienta");
+  menuH2 = gtk_menu_item_new_with_label("Factorial");
+  menuH3 = gtk_menu_item_new_with_label("Potencial");
+
+  valores->entry = gtk_entry_new();
+  for(x=0;x<22;x++)
+    boton[x] = gtk_button_new_with_label(etiqueta[x]);
+
+  //atributos
+  gtk_window_set_title(GTK_WINDOW(ventana),"calculadora");
+  //3.- Resgitrar llamadas de funcion
+  g_signal_connect(G_OBJECT(boton[0]),"clicked",G_CALLBACK(botones0),valores);
+  g_signal_connect(G_OBJECT(boton[1]),"clicked",G_CALLBACK(botones1),valores);
+  g_signal_connect(G_OBJECT(boton[2]),"clicked",G_CALLBACK(botones2),valores);
+  g_signal_connect(G_OBJECT(boton[3]),"clicked",G_CALLBACK(botones3),valores);
+  g_signal_connect(G_OBJECT(boton[4]),"clicked",G_CALLBACK(botones4),valores);
+  g_signal_connect(G_OBJECT(boton[5]),"clicked",G_CALLBACK(botones5),valores);
+  g_signal_connect(G_OBJECT(boton[6]),"clicked",G_CALLBACK(botones6),valores);
+  g_signal_connect(G_OBJECT(boton[7]),"clicked",G_CALLBACK(botones7),valores);
+  g_signal_connect(G_OBJECT(boton[8]),"clicked",G_CALLBACK(botones8),valores);
+  g_signal_connect(G_OBJECT(boton[9]),"clicked",G_CALLBACK(botones9),valores);
+  g_signal_connect(G_OBJECT(boton[10]),"clicked",G_CALLBACK(botones10),valores);
+  g_signal_connect(G_OBJECT(boton[11]),"clicked",G_CALLBACK(botones11),valores);
+  g_signal_connect(G_OBJECT(boton[12]),"clicked",G_CALLBACK(botones12),valores);
+  g_signal_connect(G_OBJECT(boton[13]),"clicked",G_CALLBACK(botones13),valores);
+  g_signal_connect(G_OBJECT(boton[14]),"clicked",G_CALLBACK(botones14),valores);
+  g_signal_connect(G_OBJECT(boton[15]),"clicked",G_CALLBACK(botones15),valores);
+  g_signal_connect(G_OBJECT(boton[16]),"clicked",G_CALLBACK(botones16),valores);
+  g_signal_connect(G_OBJECT(boton[17]),"clicked",G_CALLBACK(botones17),valores);
+  g_signal_connect(G_OBJECT(boton[18]),"clicked",G_CALLBACK(botones18),valores);
+  g_signal_connect(G_OBJECT(boton[19]),"clicked",G_CALLBACK(botones19),valores);
+  g_signal_connect(G_OBJECT(boton[20]),"clicked",G_CALLBACK(botones20),valores);
+
+  g_signal_connect(G_OBJECT(ventana), "destroy",G_CALLBACK(salir),NULL);
+  g_signal_connect(G_OBJECT(menuBar),"activate",G_CALLBACK(salir),NULL);
+
+  g_signal_connect(G_OBJECT(menuItem2),"activate",G_CALLBACK(abrir),valores);
+
+  g_signal_connect(G_OBJECT(menuItem3),"activate",G_CALLBACK(cerrar),valores);
+
+  g_signal_connect(G_OBJECT(menuItem4),"activate",G_CALLBACK(borrar),valores);
+
+  g_signal_connect(G_OBJECT(menuItem5),"activate",G_CALLBACK(deleteEventHandler),valores);
+  g_signal_connect(G_OBJECT(menuItem5),"activate",G_CALLBACK(salir),valores);
+
+  g_signal_connect(G_OBJECT(menuAyuda2),"activate",G_CALLBACK(manual),valores);
+
+  g_signal_connect(G_OBJECT(menuH2),"activate",G_CALLBACK(factorial),valores);
+
+  g_signal_connect(G_OBJECT(menuH3),"activate",G_CALLBACK(potencia),valores);
+
+  g_signal_connect(G_OBJECT(menuAyuda3),"activate",G_CALLBACK(Acercade),valores);
+
+
+  //llamar la funcioon para el submenu
+  //4.- Definir las jerarquias del programa
+
+  /*for(z = 0; z < 17; z++)
+    {
+      gtk_table_attach_defaults(GTK_TABLE(tabla),boton[z],izq,der,sup,inf);
+      if(aux==4)
+        {
+          sup++;
+          inf++;
+          izq=0;
+          der=1;
+          aux=1;
+        }
+      else
+        {
+          aux++;
+          der++;
+          izq++;
+        }
+
+        }*/
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[0], 0,1,4,5);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[1], 4,5,1,2);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[2], 4,5,2,3);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[3], 4,5,3,4);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[4], 1,2,1,2);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[5], 2,3,1,2);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[6], 3,4,1,2);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[7], 3,4,4,5);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[8], 1,2,2,3);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[9], 2,3,2,3);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[10], 3,4,2,3);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[11], 4,5,4,5);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[12], 1,2,3,4);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[13], 2,3,3,4);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[14], 3,4,3,4);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[15], 2,3,4,5);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[16], 1,2,4,5);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[17], 0,1,0,1);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[18], 0,1,1,2);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[19], 0,1,2,3);
+  gtk_table_attach_defaults(GTK_TABLE(tabla),boton[20], 0,1,3,4);
+
+  gtk_box_pack_start_defaults(GTK_BOX(cajavertical), menuBar);
+  gtk_box_pack_start_defaults(GTK_BOX(cajavertical),valores->entry);
+  gtk_box_pack_start_defaults(GTK_BOX(cajavertical),tabla);
+
+  gtk_menu_bar_append(GTK_MENU_BAR(menuBar),menuItem);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuItem),menu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu),menuItem2);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu),menuItem3);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu),menuItem4);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu),menuItem5);
+
+
+  gtk_menu_bar_append(GTK_MENU_BAR(menuBar),menuAyuda);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuAyuda),menu2);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu2), menuAyuda2);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu2), menuAyuda3); //acerca de
+
+  gtk_menu_bar_append(GTK_MENU_BAR(menuBar),menuH);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuH),menu3);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu3), menuH2);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu3), menuH3);
+
+
+
+  gtk_container_add(GTK_CONTAINER(ventana),cajavertical);
+  //5.-mostrar todo junto
+  gtk_widget_show_all(ventana);
+
+  //6.-procesar señales y eventos
+  gtk_main();
+
+  return 0;
+}
+
+/***modulo1.c********************************************************************************************************/
+#include<gtk-2.0/gtk/gtk.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+typedef struct info
+{
+  GtkWidget *window;
+  GtkWidget *entry;
+}Teclas;
+
+void salir (GtkWidget *widget, gpointer info)
+{
+  gtk_main_quit();
+}
+gboolean deleteEventHandler (GtkWidget *widget, GdkEvent *event, gpointer info)
+{
+  return FALSE;
+}
+void botones0(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_set_text(GTK_ENTRY(valor->entry),"");
+}
+void botones1(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"/");
+}
+void botones2(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"*");
+}
+void botones3(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"-");
+}
+void botones4(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"7");
+}
+void botones5(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"8");
+}
+void botones6(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"9");
+}
+void botones7(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"+");
+}
+void botones8(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"4");
+}
+void botones9(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"5");
+}
+void botones10(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"6");
+}
+void botones11(GtkWidget *widget,gpointer info,Teclas *valores, float res)
+{
+  Teclas *valor = (Teclas *)info;
+  const gchar *operacion;
+  float n1,n2,resultado=1;
+  int x;
+  FILE *archivo;
+  FILE *archivo2;
+  char signo,cantidad[50],fecha[50];
+  time_t tiempo=time(NULL);
+  struct tm *localt = localtime(&tiempo);
+
+  
+  operacion = gtk_entry_get_text(GTK_ENTRY(valor->entry));
+
+  sscanf(operacion,"%f %c %f",&n1,&signo,&n2);
+
+  if(signo == '+')
+    resultado = n1+n2;
+  else if(signo == '-')
+    resultado = n1-n2;
+  else if(signo == '/')
+    resultado = n1/n2;
+  else if(signo == '*')
+    resultado = n1*n2;
+  else if(signo == 'P'){
+    
+    for(x = 0; x < n2; x++){
+      resultado = n1*resultado;
+    }
+    
+  }
+  sprintf(cantidad,"%0.2f",resultado);
+  gtk_entry_set_text(GTK_ENTRY(valor->entry),cantidad);
+  strftime(fecha,50,"%d/%m/%y %H:%M:%S\n",localt);
+
+  archivo = fopen("Historial.txt", "a");
+  fprintf(archivo,"Fecha de la operacion: %s",fecha);
+  fprintf(archivo,"Operacion: %0.2f %c %0.2f\n",n1,signo,n2);
+  fprintf(archivo,"Resultado: %0.2f\n",resultado);
+
+  archivo2 = fopen("Memoria.txt", "a");
+  fprintf(archivo2,"%0.2f\n", resultado);
+  fclose(archivo);
+  fclose(archivo2);
+}
+void botones12(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"1");
+}
+void botones13(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"2");
+}
+void botones14(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"3");
+}
+void botones15(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),".");
+}
+void botones16(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"0");
+}
+void botones17(GtkWidget *widget,gpointer info,Teclas *valores, float res)
+{
+  //M+
+  Teclas *valor = (Teclas *)info;
+  float result, n1;
+  char cantidad[50];
+  const gchar *operacion;
+  FILE *archivo;
+  archivo = fopen("Memoria.txt","r");
+  operacion = gtk_entry_get_text(GTK_ENTRY(valor->entry));
+
+  sscanf(operacion,"%f",&n1);
+  
+  while(fscanf(archivo,"%f",&result)==1){
+    if(result == res){
+      gtk_entry_append_text(GTK_ENTRY(valor->entry),cantidad);
+    }
+  }
+  sprintf(cantidad,"%0.2f",result);
+  gtk_entry_set_text(GTK_ENTRY(valor->entry),cantidad);
+  gtk_entry_append_text(GTK_ENTRY(valor->entry)," +");
+}
+void botones18(GtkWidget *widget,gpointer info,Teclas *valores,float res)
+{
+  //M-
+  Teclas *valor = (Teclas *)info;
+  float result, n1;
+  char cantidad[50];
+  const gchar *operacion;
+  FILE *archivo;
+  archivo = fopen("Memoria.txt","r");
+  operacion = gtk_entry_get_text(GTK_ENTRY(valor->entry));
+
+  sscanf(operacion,"%f",&n1);
+  
+  while(fscanf(archivo,"%f",&result)==1){
+    if(result == res){
+      gtk_entry_append_text(GTK_ENTRY(valor->entry),cantidad);
+    }
+  }
+  sprintf(cantidad,"%0.2f",result);
+  gtk_entry_set_text(GTK_ENTRY(valor->entry),cantidad);
+  gtk_entry_append_text(GTK_ENTRY(valor->entry)," -");
+  fclose(archivo);
+}
+void botones19(GtkWidget *widget,gpointer info,Teclas *valores,float res)
+{
+  //MR
+  /* Teclas *valor = (Teclas *)info;
+  float result, n1;
+  char cantidad[50];
+  const gchar *operacion;
+  FILE *archivo;
+  archivo = fopen("Memoria.txt","r");
+  operacion = gtk_entry_get_text(GTK_ENTRY(valor->entry));
+
+  sscanf(operacion,"%f",&n1);
+  while(fscanf(archivo,"%f",&result)==1)
+    {
+	gtk_entry_append_text(GTK_ENTRY(valor->entry),cantidad);
+    }
+  sprintf(cantidad,"%0.2f",result-1);
+  gtk_entry_set_text(GTK_ENTRY(valor->entry),cantidad);
+  fclose(archivo);*/
+}
+void botones20(GtkWidget *widget,gpointer info,Teclas *valores)
+{
+  //MS
+  /* GtkWidget *ver,*ventana,*vertical,*hori,*boton;
+  GtkTextBuffer *contenido;
+  
+  Teclas *valor=(Teclas *)info;
+  FILE *archivo;
+  archivo = fopen("Historial.txt","r");
+  ventana = gtk_dialog_new();
+  vertical = gtk_dialog_get_content_area(GTK_DIALOG(ventana));
+  hori = gtk_dialog_get_action_area(GTK_DIALOG(ventana));
+  boton = gtk_button_new_with_label("close");
+  contenido = gtk_text_buffer_new(NULL);
+  
+  gtk_text_buffer_set_text(contenido,"No hay nada que borrar",22);
+  
+  ver = gtk_text_view_new_with_buffer(contenido);
+  
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+  
+  g_signal_connect_swapped(G_OBJECT(boton), "clicked",G_CALLBACK(gtk_widget_hide), ventana);
+  
+  gtk_box_pack_start_defaults(GTK_BOX(vertical), ver);
+  gtk_box_pack_start_defaults(GTK_BOX(hori), boton);
+  
+  gtk_widget_show_all(ventana);
+  
+   */
+}
+
+void Acercade(GtkWidget *widget, gpointer info,Teclas *valores)
+{
+  GtkWidget *ver,*vertical,*mensaje;
+  GtkTextBuffer *contenido;
+
+  mensaje = gtk_about_dialog_new();
+
+  vertical = gtk_dialog_get_content_area(GTK_DIALOG(mensaje));
+  contenido = gtk_text_buffer_new(NULL);
+
+  gtk_text_buffer_set_text(contenido,"Pablo Josue Soto Uribe A223591-4\nJose Antonio Reyes Cardoso A222703-9\n",70);
+
+  ver = gtk_text_view_new_with_buffer(contenido);
+
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+
+  g_signal_connect_swapped(GTK_OBJECT(mensaje),"response",G_CALLBACK(gtk_widget_destroy),mensaje);
+
+  gtk_box_pack_start_defaults(GTK_BOX(vertical),ver);
+  gtk_widget_show_all(mensaje);
+}
+void potencia(GtkWidget *widget, gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+
+  gtk_entry_append_text(GTK_ENTRY(valor->entry),"P");
+  /*const gchar *operacion;
+  int x;
+  char cantidad[50];
+  float n1,n2,resultado;
+  operacion = gtk_entry_get_text(GTK_ENTRY(valor->entry));
+
+  sscanf(operacion,"%f" "%f",&n1, &n2);
+  for(x = 0; x < n2; x++)
+    resultado = n1*n1;
+  sprintf(cantidad,"%0.2f",resultado);
+  gtk_entry_set_text(GTK_ENTRY(valor->entry),cantidad);*/
+}
+void factorial(GtkWidget *widget, gpointer info,Teclas *valores)
+{
+  Teclas *valor = (Teclas *)info;
+  const gchar *operacion;
+  int x;
+  char cantidad[50];
+  float n1,resultado=1;
+  operacion = gtk_entry_get_text(GTK_ENTRY(valor->entry));
+
+  sscanf(operacion,"%f",&n1);
+  for(x = 1; x <= n1; x++)
+    resultado = resultado*x;
+  sprintf(cantidad,"%0.2f",resultado);
+  gtk_entry_set_text(GTK_ENTRY(valor->entry),cantidad);
+}
+void manual(GtkWidget *widget, gpointer info,Teclas *valores)
+{
+  GtkWidget *ver,*ventana,*vertical,*hori,*boton;
+  GtkTextBuffer *contenido;
+
+  ventana = gtk_dialog_new();
+  vertical = gtk_dialog_get_content_area(GTK_DIALOG(ventana));
+  hori = gtk_dialog_get_action_area(GTK_DIALOG(ventana));
+  boton = gtk_button_new_with_label("close");
+  contenido = gtk_text_buffer_new(NULL);
+
+  gtk_text_buffer_set_text(contenido,"Manual de ayuda\nComo usar\npodra ingresar la cantidad deseada presionando los botones que requiera la operacion a realizar en las cuales se encuentran:\n\tSuma\n\tResta\n\tMultiplicacion\n\tDivision\nComo restricciones tiene las siguientes\n\tNO PONER MAS DE UN SIGNO OPERACIONAL SEGUIDO AL IGUAL QUE EL PUNTO\n\tNO HACER MAS DE UNA OPERACION\n\tEn el apartado de archivo tiene las siguientes opciones:\n\tAbrir: Abrira el registro de operaciones que se ha llevado a cabo.\n\tCerrar: Cerrara el registro del historial de operaciones.\n\tBorrar: esta opcion borrará el archivo de texto con el registro de las operaciones realizadas.\n\tSalir: esta opción permitirá salir del programa.",662);
+
+  ver = gtk_text_view_new_with_buffer(contenido);
+
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+
+  g_signal_connect_swapped(G_OBJECT(boton), "clicked",G_CALLBACK(gtk_widget_destroy), ventana);
+
+  gtk_box_pack_start_defaults(GTK_BOX(vertical), ver);
+  gtk_box_pack_start_defaults(GTK_BOX(hori), boton);
+
+  gtk_widget_show_all(ventana);
+  
+}
+void cerrar(GtkWidget *widget, gpointer info,Teclas *valores)
+{
+  Teclas *valor=(Teclas *)info;
+  GtkWidget *ver,*vertical,*hori,*boton,*ventana;
+  GtkTextBuffer *contenido;
+  ventana = gtk_dialog_new();
+  vertical = gtk_dialog_get_content_area(GTK_DIALOG(ventana));
+  hori = gtk_dialog_get_action_area(GTK_DIALOG(ventana));
+  boton = gtk_button_new_with_label("close");
+  contenido = gtk_text_buffer_new(NULL);
+  
+  if(valor->window != NULL)
+    gtk_widget_hide(valor->window);
+  else if(valor->window == NULL)
+    {
+      gtk_text_buffer_set_text(contenido,"No hay ningun archivo abierto",30);
+      
+      ver = gtk_text_view_new_with_buffer(contenido);
+      
+      gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+      
+      g_signal_connect_swapped(G_OBJECT(boton), "clicked",G_CALLBACK(gtk_widget_hide),ventana);
+      
+      gtk_box_pack_start_defaults(GTK_BOX(vertical), ver);
+      gtk_box_pack_start_defaults(GTK_BOX(hori), boton);
+      
+      gtk_widget_show_all(ventana);
+    }
+}
+void abrir(GtkWidget *widget, gpointer info,Teclas *valores)
+{
+  Teclas *valor=(Teclas *)info;
+  FILE *archivo;
+  char mensaje[50];
+  GtkWidget *ver,*vertical,*hori,*boton,*ventana;
+  GtkTextBuffer *contenido;
+  archivo = fopen("Historial.txt", "r");
+  if(archivo != NULL)
+    {
+      valor->window = gtk_dialog_new();
+      vertical = gtk_dialog_get_content_area(GTK_DIALOG(valor->window));
+      
+      hori = gtk_dialog_get_action_area(GTK_DIALOG(valor->window));
+      
+      boton = gtk_button_new_with_label("Okey");
+      gtk_window_set_title(GTK_WINDOW(valor->window),"Historial.txt");
+      contenido = gtk_text_buffer_new(NULL);
+      
+     
+      while(fgets(mensaje,50,archivo) != NULL)
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(contenido),mensaje,strlen(mensaje));
+      fclose(archivo);
+      
+      ver = gtk_text_view_new_with_buffer(contenido);
+      
+      gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+      
+      g_signal_connect_swapped(G_OBJECT(boton), "clicked",G_CALLBACK(gtk_widget_destroy),valor->window);
+      
+      gtk_box_pack_start_defaults(GTK_BOX(vertical), ver);
+      gtk_box_pack_start_defaults(GTK_BOX(hori), boton);
+      
+      gtk_widget_show_all(valor->window);
+    }
+  else
+    {
+       ventana = gtk_dialog_new();
+       vertical = gtk_dialog_get_content_area(GTK_DIALOG(ventana));
+       hori = gtk_dialog_get_action_area(GTK_DIALOG(ventana));
+       boton = gtk_button_new_with_label("close");
+       contenido = gtk_text_buffer_new(NULL);
+       
+       gtk_text_buffer_set_text(contenido,"No existe ningun archivo",24);
+
+       ver = gtk_text_view_new_with_buffer(contenido);
+       
+       gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+       
+       g_signal_connect_swapped(G_OBJECT(boton), "clicked",G_CALLBACK(gtk_widget_destroy), ventana);
+       
+       gtk_box_pack_start_defaults(GTK_BOX(vertical), ver);
+       gtk_box_pack_start_defaults(GTK_BOX(hori), boton);
+       
+       gtk_widget_show_all(ventana);
+    }
+}
+void borrar(GtkWidget *widget, gpointer info,Teclas *valores)
+{
+  GtkWidget *ver,*ventana,*vertical,*hori,*boton;
+  GtkTextBuffer *contenido;
+  
+  Teclas *valor=(Teclas *)info;
+  FILE *archivo;
+  archivo = fopen("Historial.txt","r");
+  if(archivo != NULL)
+    {
+      valor->window = NULL;
+      free(valor);
+      remove("Historial.txt");
+      fclose(archivo);
+      
+      ventana = gtk_dialog_new();
+      vertical = gtk_dialog_get_content_area(GTK_DIALOG(ventana));
+      hori = gtk_dialog_get_action_area(GTK_DIALOG(ventana));
+      boton = gtk_button_new_with_label("close");
+      contenido = gtk_text_buffer_new(NULL);
+      
+      gtk_text_buffer_set_text(contenido,"Se borro exitosamente",21);
+      
+      ver = gtk_text_view_new_with_buffer(contenido);
+      
+      gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+      
+      g_signal_connect_swapped(G_OBJECT(boton), "clicked",G_CALLBACK(gtk_widget_destroy), ventana);
+      
+      gtk_box_pack_start_defaults(GTK_BOX(vertical), ver);
+      gtk_box_pack_start_defaults(GTK_BOX(hori), boton);
+      
+      gtk_widget_show_all(ventana);
+    }
+  else
+    {
+      ventana = gtk_dialog_new();
+      vertical = gtk_dialog_get_content_area(GTK_DIALOG(ventana));
+      hori = gtk_dialog_get_action_area(GTK_DIALOG(ventana));
+      boton = gtk_button_new_with_label("close");
+      contenido = gtk_text_buffer_new(NULL);
+      
+      gtk_text_buffer_set_text(contenido,"No hay nada que borrar",22);
+       
+      ver = gtk_text_view_new_with_buffer(contenido);
+      
+      gtk_text_view_set_editable(GTK_TEXT_VIEW(ver), FALSE);
+      
+      g_signal_connect_swapped(G_OBJECT(boton), "clicked",G_CALLBACK(gtk_widget_destroy), ventana);
+      
+      gtk_box_pack_start_defaults(GTK_BOX(vertical), ver);
+      gtk_box_pack_start_defaults(GTK_BOX(hori), boton);
+      
+      gtk_widget_show_all(ventana);
+       
+    } 
+}

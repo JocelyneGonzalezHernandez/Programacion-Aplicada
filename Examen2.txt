@@ -1,0 +1,167 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct nodo{
+        char l[40];
+        int freq;
+        struct nodo *izq,*der;
+};
+void agrega(struct nodo **raz, char caract[100]);
+
+int imprimir();
+int borra();
+int busca();
+
+int main(int argc, char const *argv[]){
+        FILE *arc;
+        struct nodo *raiz;
+        raiz=NULL;
+        int d,nh=0,nn=0,h=0,a=0,t=0,c=0, ter=0;
+        char archivo[50], temp='a',palabra[60],busq[100];
+        do{
+        printf("Introduce el nombre del archivo \n");
+        gets(archivo);
+        __fpurge(stdin);
+        arc=fopen(archivo,"rt");
+        if (arc!=NULL){
+                while(fscanf(arc,"%c",&temp)!=EOF){
+                        t=0;
+                        palabra[t]=temp;
+                        ++t;
+                        while(temp!=' ' && temp!='\n' && temp!='\0' && fscanf(arc,"%c",&temp)!=EOF){
+                                if(temp!=' ' && temp!='\n'){
+                                        palabra[t]=temp;}
+                                ++t;
+                                printf(" %c",temp);
+                        }
+                        palabra[t]='\0';
+                        if (strcmp(palabra,"\0")!=0){
+                                agrega(&raiz,palabra);
+                                printf("entre\n");
+                                strcpy(palabra,"\0");
+                        }
+                }
+                a=1;
+                fclose(arc);
+        }
+        else{
+                printf("Nombre no valido\n");
+
+        }
+}while(a!=1);
+
+        do{
+        t=0;
+        printf("Puedes\n 1.-Imprimir\n2.-Buscar palabra\n3.-Salir\n");
+        scanf("%d",&d);
+        __fpurge(stdin);
+        switch(d){
+                case 1:
+                imprimir(raiz);
+                getchar();
+                __fpurge(stdin);
+                system("clear");
+                break;
+                case 2:
+                printf("Introduce la palabra a buscar\n");
+                scanf("%[^\n]",busq);
+                __fpurge(stdin);
+                busca(raiz,busq,c);
+                getchar();
+                __fpurge(stdin);
+                system("clear");
+                break;
+
+        }
+        }while(d!=3);
+        borra(raiz);
+
+        return 0;
+}
+
+void agrega(struct nodo **raz, char caract[100]){
+                struct nodo *av,*new;
+                int r=0;
+                av=*raz;
+                if ((new=(struct nodo*)malloc(sizeof(struct nodo)))==NULL){
+                        printf("No hay memoria\n");
+                        exit(1);
+                        }
+                strcpy(new->l,caract);
+                new->freq=1;
+                new->izq=NULL;
+                new->der=NULL;
+
+                while(av !=NULL && r==0){
+                        if(strcmp(caract,av->l)>0){
+                                if(strcmp(caract,av->l)!=0){
+                                        if (av->der!=NULL){
+                                                        av=av->der;
+                                                }
+                                                else{
+                                                        av->der=new;
+                                                        return;
+                                                }}
+                                                else{
+                                                r=1;
+                                                av->freq=av->freq+1;
+                                                }
+                        }
+                        if(strcmp(caract,av->l)<=0){
+                                if(strcmp(caract,av->l)!=0){
+                                        if (av->izq!=NULL){
+                                                        av=av->izq;
+                                                }
+                                                else{
+                                                        av->izq=new;
+                                                        return;
+                                                }
+                                        }
+                                                else{
+                                                r=1;
+                                                av->freq=av->freq+1;
+                                                }
+                }
+
+                }
+                if(r==0){
+                        av=new;
+                        *raz=av;
+                }
+}
+int imprimir(struct nodo *t){
+        if(t!=NULL){
+                imprimir(t->izq);
+                printf("%s aparece %d veces \n",t->l,t->freq);
+                imprimir(t->der);
+        }
+
+}
+
+int busca(struct nodo *t,char pal[100],int c){
+
+        if(t!=NULL){
+                busca(t->izq,pal,++c);
+                if (strcmp(t->l,++pal)==0){
+                        printf("%s aparece %d veces en la posicion %d\n",t->l,t->freq,c);
+                        return 0;
+                }
+                if (t->izq!=NULL || t->der!=NULL){
+                        ++c;
+                }
+                busca(t->der,pal,c++);
+        }
+
+}
+
+int borra(struct nodo *t){
+        if(t!=NULL){
+                borra(t->izq);
+                borra(t->der);
+                free(t);
+        }
+}
+
+
+//CREAR EL ARCHIVO DE TEXTO//
